@@ -25,7 +25,7 @@ public class TransactionRunner {
 				transactionNumberAndValueByType(scanner);
 				break;
 			case 3:
-				
+				transactionNumberAndValueByState(scanner);
 				break;
 		}
 
@@ -58,7 +58,7 @@ public class TransactionRunner {
 		TransactionDAO tDao = new TransactionDAO();
 //		String transaction_type = typePrompt(scanner);
 		String transaction_type = Prompter.staging("type").outputString;
-		System.out.println(transaction_type);
+//		System.out.println(transaction_type);
 		
 		System.out.println(
 				tDao.getTransactionTotalValForType(transaction_type)
@@ -66,10 +66,11 @@ public class TransactionRunner {
 		
 	}
 ////	3) To display the number and total values of transactions for branches in a given state 
-//	public static void transactionNumberAndValueByState(Scanner scanner) {
-//		TransactionDAO tDao = new TransactionDAO();
+	public static void transactionNumberAndValueByState(Scanner scanner) {
+		TransactionDAO tDao = new TransactionDAO();
 //		String state_abbr = statePrompt(scanner);
-//		System.out.println(tDao.getStateTransactionCountAndVal(state_abbr));
-//		
-//	}
+		String state_abbr = Prompter.staging("state").outputString;
+		System.out.println(tDao.getStateTransactionCountAndVal(state_abbr));
+		
+	}
 }

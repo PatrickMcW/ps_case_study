@@ -28,6 +28,10 @@ public class StateTranCountVal {
 	public void setVal(double val) {
 		this.val = val;
 	}
+	@Override
+	public String toString() {
+		return "StateTranCountVal [state=" + state + ", count=" + count + ", val=" + val + "]";
+	}
 	
 	
 
