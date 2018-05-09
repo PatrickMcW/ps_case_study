@@ -3,13 +3,13 @@ package com.cdw.runner;
 import java.util.Scanner;
 
 import com.cdw.dao.TransactionDAO;
-import com.cdw.model.Transaction;
+//import com.cdw.model.Transaction;
 import com.cdw.resources.Prompter;
 
 public class TransactionRunner {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner (System.in);
-		System.out.println("Which transaction query would you like to run?");
+		System.out.println("Which transaction report would you like to run?");
 		System.out.println("1. Transactions by customer, for a given zip code, month and year");
 		System.out.println("2. Transaction number and value for a given type");
 		System.out.println("3. Trasaction number and value for a given state");
@@ -27,6 +27,8 @@ public class TransactionRunner {
 			case 3:
 				transactionNumberAndValueByState(scanner);
 				break;
+			default:
+				System.out.println("Somehow reached default case in transaction runner switch");
 		}
 
 		

@@ -2,8 +2,7 @@ package com.cdw.resources;
 
 public class Queries {
 	private Queries() {}; //since this is private, a constructor can never be invoked
-	//@int input
-	public final static String GET_CUST_BY_SSN = "SELECT * FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
+
 	
 	//Customer has a compound key, may need to adjust the above string and it's using method to account for that
 	//@int input
@@ -35,4 +34,16 @@ public class Queries {
 			"		INNER JOIN cdw_sapp_creditcard t ON b.BRANCH_CODE=t.BRANCH_CODE" + 
 			"	WHERE b.BRANCH_STATE = ?" + 
 			"	GROUP BY 1";
+	
+	//1) To check the existing account details of a customer.
+	//@int input
+	public final static String GET_CUST_BY_SSN = "SELECT * FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
+
+	//2) To modify the existing account details of a customer  
+	//3) To generate monthly bill for a credit card number for a given month and year. 
+	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
+
 }
+
+ 
+
