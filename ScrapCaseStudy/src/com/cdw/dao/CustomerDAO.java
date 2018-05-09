@@ -1,0 +1,88 @@
+package com.cdw.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.cdw.model.Customer;
+import com.cdw.resources.Queries;
+
+public class CustomerDAO extends AbstractDAO {
+	
+//	public static void main(String[] args) {
+//		System.out.println(conn);
+//		
+//	}
+	
+	public List<Customer> getAllCustomers() {
+		List<Customer> list = null;
+		
+		
+		
+		return list;
+	}
+	
+	
+	// get a customer by some identified (to be determined later)
+	public Customer getCustomerBySsn(int ssn) /*throws Exception*/{
+		Customer cust = null;
+		String sql = Queries.GET_CUST_BY_SSN; //not obvious what you need here without looking at the Queries class
+		establishConnection();
+		//		PreparedStatement 
+		try {
+			
+//			System.out.println(conn + "why null");
+//			System.out.println(sql); //returns query string from Queries
+//			conn.getWarnings();
+			stmt=conn.prepareStatement(sql);
+//			System.out.println(stmt);
+			stmt.setInt(1, ssn);
+			rs = stmt.executeQuery();
+//			System.out.println(rs);
+			if( rs.next() ) {
+				//variable for column indexes
+				String fName = rs.getString(1);
+				String mName = rs.getString(2);
+				String lName = rs.getString(3);
+//				int ssn = rs.getInt(4); //we already hav ssn from above
+				String ccn = rs.getString(5);
+				String aptN = rs.getString(6);
+				String streetN = rs.getString(7);
+				String custCity = rs.getString(8);
+				String custState = rs.getString(9);
+				String custCounty = rs.getString(10);
+				String custZip = rs.getString(11);
+				int custPhone = rs.getInt(12);
+				String custEmail = rs.getString(13);
+				
+//				System.out.println(fName);
+				cust = new Customer();
+//				System.out.println(rs.getString(1));
+				cust.setFirst_name( fName);
+				cust.setMiddle_name( mName);
+				cust.setLast_name( lName);
+				cust.setSsn( ssn);
+				cust.setCredit_card_no( ccn);
+				cust.setApt_num( aptN	);
+				cust.setStreet_name( streetN );
+				cust.setCust_city( custCity);
+				cust.setCust_state( custState);
+				cust.setCust_country( custCounty);
+				cust.setCust_zip( custZip);
+				cust.setCust_email( custEmail);
+				
+				
+				cust.setCust_phone( custPhone);
+				cust.toString();
+			}
+//			while( rs.next() ) {
+//				
+//			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cust;
+	}
+
+}
