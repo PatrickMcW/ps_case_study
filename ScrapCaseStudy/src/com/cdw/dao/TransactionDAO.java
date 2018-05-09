@@ -3,7 +3,7 @@ package com.cdw.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 
 import com.cdw.model.Transaction;
@@ -56,21 +56,7 @@ public class TransactionDAO extends AbstractDAO{
 			rs = stmt.executeQuery();
 
 			if( rs.next() ) {
-				
-				trans = formTransFromResults(rs);
-//				 int t_id 					= id;
-//				 int d 						= rs.getInt(2);
-//				 int m 						= rs.getInt(3);
-//				 int y 						= rs.getInt(3);
-//				 int ccn					= rs.getInt(4);
-//				 int c_ssn					= rs.getInt(5);
-//				 int branch					= rs.getInt(6);
-//				 String transaction_type	= rs.getString(7);
-//				 double transaction_value	= rs.getDouble(8);
-				 
-				 //call transaction constructor
-//				 trans = new Transaction(t_id, d, m, y, ccn, c_ssn, branch, transaction_type, transaction_value);
-				
+				trans = formTransFromResults(rs);			
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -82,9 +68,8 @@ public class TransactionDAO extends AbstractDAO{
 	//Order by day in descending order. 
 	public List<Transaction> getTransByZipMonthYear(int z, int m, int y){
 		List<Transaction> list = new ArrayList<Transaction>();
-//		Transaction trans = null; //don't need to have it here, since this method is concerned with returning a list
 		String sql = Queries.GET_TRANSACTION_LIST_BY_ZIP_MONTH_YEAR;
-		System.out.println("before connection in getTransByZipMonthYear");
+//		System.out.println("before connection in getTransByZipMonthYear");
 		establishConnection();
 		
 		try {
@@ -92,30 +77,14 @@ public class TransactionDAO extends AbstractDAO{
 			stmt.setInt(1, z);
 			stmt.setInt(2, m);
 			stmt.setInt(3, y);
-//			stmt.setInt(4, d);
 			rs = stmt.executeQuery();
 			if( rs.next() ) {
 				Transaction trans = formTransFromResults(rs);
-				list.add(trans);
-//				 int t_id 					= rs.getInt(1);
-////				 int d 	//param				= rs.getInt(2);
-////				 int m 	//param					
-////				 int y 	//param					
-//				 int ccn					= rs.getInt(4);
-//				 int c_ssn					= rs.getInt(5);
-//				 int branch					= rs.getInt(6);
-//				 String transaction_type	= rs.getString(7);
-//				 double transaction_value	= rs.getDouble(8);
-//				 Transaction trans = new Transaction(t_id, d, m, y, ccn, c_ssn, branch, transaction_type, transaction_value);
-				 
-				
-				 
+				list.add(trans); 
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
 		}
-		System.out.println("after query in getTransByZipMonthYear");
-		
 		list.toString();
 		return list;
 	}
@@ -131,13 +100,14 @@ public class TransactionDAO extends AbstractDAO{
 //	} //java does not have square bracket var notation, so this won't work.
 	public TranTypeValCount getTransactionTotalValForType(String transaction_type){
 		TranTypeValCount result = null;
-
+//		System.out.println("getTransactionTotalValForType called");
 		//acceptable inputs
-		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas","Bills","Test","Healthcare" };
+//		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas","Bills","Test","Healthcare" };
 		
-		if(!Arrays.asList(valids).contains(transaction_type)) {
-			//if the transaction_type is not a valid type, reject it.
-		} else {
+//		if(!Arrays.asList(valids).contains(transaction_type)) {
+//			//if the transaction_type is not a valid type, reject it.
+//			//TODO: this will probably be validated in the runner and not needed here
+//		} else {
 			
 			String sql = Queries.GET_TRANSACTION_TOTAL_VALUE_BY_TYPE;
 			
@@ -156,19 +126,13 @@ public class TransactionDAO extends AbstractDAO{
 					String type = rs.getString(1);
 					int count 	= rs.getInt(2);
 					double val 	= rs.getDouble(3);
-					result = new TranTypeValCount(type, count, val);
-					
-					//create model for this result type?
-					//just sysout the data?
-					
-				}
-				
-				
+					result = new TranTypeValCount(type, count, val);					
+				}		
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+//		}
 		
 		
 		
