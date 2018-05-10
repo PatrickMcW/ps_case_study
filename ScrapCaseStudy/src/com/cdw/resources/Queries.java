@@ -36,11 +36,16 @@ public class Queries {
 			"	GROUP BY 1";
 	
 	//1) To check the existing account details of a customer.
-	//@int input
+	//@int ssn
 	public final static String GET_CUST_BY_SSN = "SELECT * FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
 
-	//2) To modify the existing account details of a customer  
+	//2) To modify the existing account details of a customer 
+	// @string table_name, @string column_name, @string/@int (depending) new_value, @int ssn
+	public final static String UPDATE_CUST_BY_SSN = "UPDATE ? SET ? = ? WHERE ssn = ?";
+	
 	//3) To generate monthly bill for a credit card number for a given month and year. 
+	public final static String 
+	
 	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
 
 }

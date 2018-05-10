@@ -1,5 +1,6 @@
 package com.cdw.dao;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +15,34 @@ public class CustomerDAO extends AbstractDAO {
 		
 		
 		return list;
+	}
+	
+	public Customer formCustFromResults(ResultSet rs) {
+		Customer cust = null;
+		
+		try {
+			String fName		= rs.getString(1);
+			String mName		= rs.getString(2);
+			String lName		= rs.getString(3);
+			int ssn				= rs.getInt(4);
+			String ccn			= rs.getString(5);
+			String aptN			= rs.getString(6);
+			String streetN		= rs.getString(7);
+			String custCity		= rs.getString(8);
+			String custState	= rs.getString(9);
+			String custCountry	= rs.getString(10);
+			String custZip		= rs.getString(11);
+			int custPhone		= rs.getInt(12);
+			String custEmail	= rs.getString(13);
+			
+			cust = new Customer(fName, mName, lName, ssn, ccn, aptN, streetN, custCity, custState, custCountry, custZip, custPhone, custEmail);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return cust;
 	}
 	
 	// get a customer by some identified (to be determined later)
@@ -32,23 +61,10 @@ public class CustomerDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 //			System.out.println(rs);
 			if( rs.next() ) {
-				//variables for column indexes
-				String fName = rs.getString(1);
-				String mName = rs.getString(2);
-				String lName = rs.getString(3);
-//				int ssn = rs.getInt(4); //we already hav ssn from above
-				String ccn = rs.getString(5);
-				String aptN = rs.getString(6);
-				String streetN = rs.getString(7);
-				String custCity = rs.getString(8);
-				String custState = rs.getString(9);
-				String custCountry = rs.getString(10);
-				String custZip = rs.getString(11);
-				int custPhone = rs.getInt(12);
-				String custEmail = rs.getString(13);
+
 				
-				cust = new Customer(fName, mName, lName, ssn, ccn, aptN, streetN, custCity, custState, custCountry, custZip, custPhone, custEmail);
-				cust.toString();
+				cust = formCustFromResults(rs);
+//				cust.toString(); //print to console
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

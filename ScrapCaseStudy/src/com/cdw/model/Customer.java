@@ -92,8 +92,8 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [fName=" + fName + ", mName=" + mName + ", lName=" + lName + ", ssn=" + ssn + ", ccn=" + ccn
-				+ ", aptN=" + aptN + ", streetN=" + streetN + ", custCity=" + custCity + ", custState=" + custState
-				+ ", custCountry=" + custCountry + ", custZip=" + custZip + ", custPhone=" + custPhone + ", custEmail="
+				+ ", aptN=" + aptN + ",\n streetN=" + streetN + ", custCity=" + custCity + ", custState=" + custState
+				+ ", custCountry=" + custCountry + ",\n custZip=" + custZip + ", custPhone=" + custPhone + ", custEmail="
 				+ custEmail + "]";
 	}
 

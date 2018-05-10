@@ -2,6 +2,9 @@ package com.cdw.runner;
 
 import java.util.Scanner;
 
+import com.cdw.dao.CustomerDAO;
+import com.cdw.resources.Prompter;
+
 public class CustomerRunner {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner (System.in);
@@ -17,11 +20,11 @@ public class CustomerRunner {
 		int input = scanner.nextInt();
 		switch (input) {
 			case 1: {
-				
+				getCustomerBySsn(scanner);
 			}
 			break;
 			case 2: {
-				
+				updateCustomerInfoBySsn(scanner);
 			}
 			break;
 			case 3: {
@@ -36,5 +39,25 @@ public class CustomerRunner {
 				System.out.println("Somehow reached default case in customer runner switch");
 			}
 		}
+	}
+	public static void getCustomerBySsn(Scanner scanner) {
+		
+		CustomerDAO cDao = new CustomerDAO();
+		//1) To check the existing account details of a customer.
+		//@int ssn
+		int ssn = Prompter.staging("getCust").outputInt;
+		
+		System.out.println(
+				cDao.getCustomerBySsn(ssn)
+				);
+		
+	}
+	public static void updateCustomerInfoBySsn(Scanner scanner) {
+		CustomerDAO cDao = new CustomerDAO();
+		//2) To modify the existing account details of a customer 
+		// @string table_name, @string column_name, @string/@int (depending) new_value, @int ssn
+		String t_name, c_name;
+		System.out.println("determine what field they're chaning and what var type to use there");
+		//take input as string, and then convert later?
 	}
 }

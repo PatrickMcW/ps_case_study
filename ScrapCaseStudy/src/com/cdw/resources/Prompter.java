@@ -22,6 +22,9 @@ public final class Prompter {
 
 	private static final String typePrompt = "type criteria";
 	private static final String typeTestEntry = "Bills"; //case insensitive
+	
+	private static final String getCustPrompt = "customer ssn";
+	private static final String  getCustTestEntry = "123456100"; 
 
 	
 	public static Output staging(String type/*, Scanner scanner*/) {
@@ -76,7 +79,7 @@ public final class Prompter {
 				//get and validate entry
 				intIn = scanner.nextInt();
 				if( yearValidCheck(intIn, invalid)) {
-					output = new Output(intIn, null);
+					output = new Output(intIn, null); //outputs int intIn, null string
 				}
 				
 				break;
@@ -94,7 +97,7 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if( stateValidCheck(stringIn, invalid)) {
-					output = new Output(-1, stringIn); //-1 placeholder value
+					output = new Output(-1, stringIn); //-1 placeholder value for int, stringIn for string
 				}
 				break;
 			}
@@ -111,16 +114,48 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if( typeValidCheck(stringIn, invalid)) {
-					output = new Output(-1, stringIn); //-1 placeholder value
+					output = new Output(-1, stringIn); //-1 placeholder value for int, stringIn for string
 				}
 				break;
 			}
+			case "getCust": {
+				//set string values
+				prompt = openPrompt + getCustPrompt +": ";
+				test = getCustTestEntry;
+				invalid = invalidOpen + getCustPrompt + invalidClose;
+				
+				//show prompt
+				System.out.println(prompt);
+				System.out.println(test);
+				
+				//get and validate entry
+				stringIn = scanner.next();
+				if( custSsnValidCheck(stringIn, invalid) ) {
+					output = new Output(Integer.parseInt(stringIn), stringIn); //outputs int version of stringIn, stringIn string(but probably dont need to)
+				}
+				
+				break;
+			}
+			
 			default: {
 				System.out.println("Somehow reached default case in staging switch");
 			}
 
 		}
 		return output;
+	}
+	
+	private static boolean custSsnValidCheck(String sIn, String invalid) {
+		if(!(sIn.length()==9 &&
+				Integer.valueOf(sIn) instanceof Integer //this may allow too many kinds of entries, but good enough for now
+			 )
+			) {
+			System.out.println(invalid);
+			staging("custSsn");
+		}
+			
+		
+		return true;
 	}
 
 	private static boolean zipValidCheck(String zIn, String invalid) {
