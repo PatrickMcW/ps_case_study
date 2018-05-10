@@ -23,8 +23,14 @@ public final class Prompter {
 	private static final String typePrompt = "type criteria";
 	private static final String typeTestEntry = "Bills"; //case insensitive
 	
-	private static final String getCustPrompt = "customer ssn";
-	private static final String  getCustTestEntry = "123456100"; 
+	private static final String getSsnPrompt = "customer ssn";
+	private static final String  getSsnTestEntry = "123456100"; 
+	
+	private static final String getCcnPrompt = "credit card number";
+	private static final String  getCcnTestEntry = "4210653349028689"; 
+	
+	private static final String dayPrompt = "day criteria";
+	private static final String  dayTestEntry = ""; 
 
 	
 	public static Output staging(String type/*, Scanner scanner*/) {
@@ -118,11 +124,11 @@ public final class Prompter {
 				}
 				break;
 			}
-			case "getCust": {
+			case "getSsn": {
 				//set string values
-				prompt = openPrompt + getCustPrompt +": ";
-				test = getCustTestEntry;
-				invalid = invalidOpen + getCustPrompt + invalidClose;
+				prompt = openPrompt + getSsnPrompt +": ";
+				test = getSsnTestEntry;
+				invalid = invalidOpen + getSsnPrompt + invalidClose;
 				
 				//show prompt
 				System.out.println(prompt);
@@ -136,6 +142,40 @@ public final class Prompter {
 				
 				break;
 			}
+			case "ccn": {
+				//set string values
+				prompt = openPrompt + getCcnPrompt +": ";
+				test = getCcnTestEntry;
+				invalid = invalidOpen + getCcnPrompt + invalidClose;
+				
+				//show prompt
+				System.out.println(prompt);
+				System.out.println(test);
+				
+				//get and validate entry
+				stringIn = scanner.next();
+				if( ccnValidCheck(stringIn, invalid) ) {
+					output = new Output(-1, stringIn);//-1 placeholder value for int, stringIn for string
+				}
+				
+				break;
+			}
+			case "day": {
+				// set string values
+				prompt = openPrompt + dayPrompt +": ";
+				test = dayTestEntry;
+				invalid = invalidOpen + dayPrompt + invalidClose;
+				//show prompt
+				System.out.println(prompt);
+				System.out.println(test);
+				//get and validate entry
+				intIn = scanner.nextInt();
+				if( yearValidCheck(intIn, invalid)) {
+					output = new Output(intIn, null); //outputs int intIn, null string
+				}
+				
+				break;
+			}
 			
 			default: {
 				System.out.println("Somehow reached default case in staging switch");
@@ -145,6 +185,15 @@ public final class Prompter {
 		return output;
 	}
 	
+	private static boolean ccnValidCheck(String cIn, String invalid) {
+		if(! ( cIn.length()==16 && cIn.matches("[0-9]+") ) ) {
+			System.out.println(invalid);
+			staging("ccn");
+		}
+			
+		
+		return true;
+	}
 	private static boolean custSsnValidCheck(String sIn, String invalid) {
 		if(!(sIn.length()==9 &&
 				Integer.valueOf(sIn) instanceof Integer //this may allow too many kinds of entries, but good enough for now

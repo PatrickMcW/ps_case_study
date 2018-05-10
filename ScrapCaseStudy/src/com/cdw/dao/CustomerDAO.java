@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.cdw.model.Customer;
+import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Queries;
 
 public class CustomerDAO extends AbstractDAO {
@@ -72,6 +73,35 @@ public class CustomerDAO extends AbstractDAO {
 		}
 		
 		return cust;
+	}
+	
+	public MonthInvoice getBillByMonthAndYearForCcn(int m, int y, String ccn) {
+		// @int month, @int year, @string ccn
+		MonthInvoice bill = null;
+		String sql = Queries.MONTH_YEAR_BALANCE_DUE_BY_CCN;
+		establishConnection();
+		
+		try {
+			stmt=conn.prepareStatement(sql);
+			stmt.setInt(1, m);
+			stmt.setInt(2, y);
+			stmt.setString(3, ccn);
+			rs=stmt.executeQuery();
+			
+			if(rs.next()) {
+				//balance, fName
+				double balance 	= rs.getDouble(1);
+				String fName 	= rs.getString(2);
+				String lName 	= rs.getString(3);
+				int id 			= rs.getInt(4);
+				bill = new MonthInvoice(balance, fName, lName, id);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return bill;
 	}
 
 }

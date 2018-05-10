@@ -44,7 +44,13 @@ public class Queries {
 	public final static String UPDATE_CUST_BY_SSN = "UPDATE ? SET ? = ? WHERE ssn = ?";
 	
 	//3) To generate monthly bill for a credit card number for a given month and year. 
-	public final static String 
+	// @int month, @int year, @string ccn
+	public final static String MONTH_YEAR_BALANCE_DUE_BY_CCN = "SELECT SUM(cc.TRANSACTION_VALUE) 'Balance Due', c.FIRST_NAME 'First Name', c.LAST_NAME 'Last Name', c.SSN 'Identifier' " + 
+			"	From cdw_sapp_creditcard cc " + 
+			"		INNER JOIN cdw_sapp_customer c on cc.CREDIT_CARD_NO=c.CREDIT_CARD_NO " + 
+			"    WHERE cc.month = ? " + 
+			"		AND cc.year = ? " + 
+			"        AND cc.CREDIT_CARD_NO = ?";
 	
 	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
 

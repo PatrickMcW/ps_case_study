@@ -20,15 +20,16 @@ public class CustomerRunner {
 		int input = scanner.nextInt();
 		switch (input) {
 			case 1: {
-				getCustomerBySsn(scanner);
+				getCustomerBySsn();
 			}
 			break;
 			case 2: {
-				updateCustomerInfoBySsn(scanner);
+				updateCustomerInfoBySsn();
 			}
 			break;
 			case 3: {
-				
+//				generateBillByMonthYearForCcn(scanner);
+				generateBillByMonthYearForCcn();
 			}
 			break;
 			case 4: {
@@ -40,7 +41,7 @@ public class CustomerRunner {
 			}
 		}
 	}
-	public static void getCustomerBySsn(Scanner scanner) {
+	public static void getCustomerBySsn() {
 		
 		CustomerDAO cDao = new CustomerDAO();
 		//1) To check the existing account details of a customer.
@@ -52,12 +53,35 @@ public class CustomerRunner {
 				);
 		
 	}
-	public static void updateCustomerInfoBySsn(Scanner scanner) {
+	public static void updateCustomerInfoBySsn() {
 		CustomerDAO cDao = new CustomerDAO();
 		//2) To modify the existing account details of a customer 
 		// @string table_name, @string column_name, @string/@int (depending) new_value, @int ssn
 		String t_name, c_name;
 		System.out.println("determine what field they're chaning and what var type to use there");
 		//take input as string, and then convert later?
+	}
+	
+	public static void generateBillByMonthYearForCcn(/*Scanner scanner*/) {
+		CustomerDAO cDao = new CustomerDAO();
+		// @int month, @int year, @string ccn
+		int m = Prompter.staging("month").outputInt;
+		int y = Prompter.staging("year").outputInt;
+		String ccn = Prompter.staging("ccn").outputString;
+		System.out.println();
+		
+		System.out.println(
+				cDao.getBillByMonthAndYearForCcn(m, y, ccn)
+				);
+		
+		
+	}
+//	4) To display the transactions made by a customer between two dates. 
+	//Order by year, month, and day in descending order
+	// note: this may not account for the fact that a single customer could have more than 
+	// one cc since the customer table has a compound primary key of ssn and ccn, unless we're
+	// specifically looking for all transactions rather than transactions on a given card
+	public static void custTransBetweenTwoDates() {
+		CustomerDAO cDao = new CustomerDAO();
 	}
 }

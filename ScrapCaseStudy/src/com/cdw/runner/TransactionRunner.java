@@ -17,15 +17,15 @@ public class TransactionRunner {
 		switch (input) {
 //		1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
 			case 1:
-				transactionsForZipByMonthAndYear(scanner);
+				transactionsForZipByMonthAndYear();
 				break;
 //		2) To display the number and total values of transactions for a given type. 
 			case 2: 
 //				System.out.println("case 2");
-				transactionNumberAndValueByType(scanner);
+				transactionNumberAndValueByType();
 				break;
 			case 3:
-				transactionNumberAndValueByState(scanner);
+				transactionNumberAndValueByState();
 				break;
 			default:
 				System.out.println("Somehow reached default case in transaction runner switch");
@@ -36,7 +36,7 @@ public class TransactionRunner {
 	}
 	
 //	1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
-	public static void transactionsForZipByMonthAndYear(Scanner scanner) {
+	public static void transactionsForZipByMonthAndYear() {
 		TransactionDAO tDao = new TransactionDAO();
 //		int z = zipPrompt(scanner);
 //		System.out.println(Prompter.staging("zip")); //seems to be return null?
@@ -55,7 +55,7 @@ public class TransactionRunner {
 		
 	}
 ////	2) To display the number and total values of transactions for a given type. 
-	public static void transactionNumberAndValueByType(Scanner scanner) {
+	public static void transactionNumberAndValueByType() {
 //		System.out.println("transactionNumerAndValueByType called");
 		TransactionDAO tDao = new TransactionDAO();
 //		String transaction_type = typePrompt(scanner);
@@ -68,7 +68,7 @@ public class TransactionRunner {
 		
 	}
 ////	3) To display the number and total values of transactions for branches in a given state 
-	public static void transactionNumberAndValueByState(Scanner scanner) {
+	public static void transactionNumberAndValueByState() {
 		TransactionDAO tDao = new TransactionDAO();
 //		String state_abbr = statePrompt(scanner);
 		String state_abbr = Prompter.staging("state").outputString;
