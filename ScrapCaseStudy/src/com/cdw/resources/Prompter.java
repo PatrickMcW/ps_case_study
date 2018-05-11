@@ -54,7 +54,7 @@ public final class Prompter {
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if ( zipValidCheck(stringIn, invalid) ) {
+				if ( Validator.zipValidCheck(stringIn, invalid) ) {
 					output = new Output(Integer.parseInt(stringIn),null);
 				}
 				break;
@@ -69,7 +69,7 @@ public final class Prompter {
 				System.out.println(test);
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( monthValidCheck(intIn, invalid)) {
+				if( Validator.monthValidCheck(intIn, invalid)) {
 					output = new Output(intIn, null);
 				}
 				break;
@@ -84,7 +84,7 @@ public final class Prompter {
 				System.out.println(test);
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( yearValidCheck(intIn, invalid)) {
+				if( Validator.yearValidCheck(intIn, invalid)) {
 					output = new Output(intIn, null); //outputs int intIn, null string
 				}
 				
@@ -102,7 +102,7 @@ public final class Prompter {
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( stateValidCheck(stringIn, invalid)) {
+				if( Validator.stateValidCheck(stringIn, invalid)) {
 					output = new Output(-1, stringIn); //-1 placeholder value for int, stringIn for string
 				}
 				break;
@@ -119,7 +119,7 @@ public final class Prompter {
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( typeValidCheck(stringIn, invalid)) {
+				if( Validator.typeValidCheck(stringIn, invalid)) {
 					output = new Output(-1, stringIn); //-1 placeholder value for int, stringIn for string
 				}
 				break;
@@ -136,7 +136,7 @@ public final class Prompter {
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( custSsnValidCheck(stringIn, invalid) ) {
+				if( Validator.custSsnValidCheck(stringIn, invalid) ) {
 					output = new Output(Integer.parseInt(stringIn), stringIn); //outputs int version of stringIn, stringIn string(but probably dont need to)
 				}
 				
@@ -154,7 +154,7 @@ public final class Prompter {
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( ccnValidCheck(stringIn, invalid) ) {
+				if( Validator.ccnValidCheck(stringIn, invalid) ) {
 					output = new Output(-1, stringIn);//-1 placeholder value for int, stringIn for string
 				}
 				
@@ -170,7 +170,7 @@ public final class Prompter {
 				System.out.println(test);
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( yearValidCheck(intIn, invalid)) {
+				if( Validator.yearValidCheck(intIn, invalid)) {
 					output = new Output(intIn, null); //outputs int intIn, null string
 				}
 				
@@ -185,81 +185,5 @@ public final class Prompter {
 		return output;
 	}
 	
-	private static boolean ccnValidCheck(String cIn, String invalid) {
-		if(! ( cIn.length()==16 && cIn.matches("[0-9]+") ) ) {
-			System.out.println(invalid);
-			staging("ccn");
-		}
-			
-		
-		return true;
-	}
-	private static boolean custSsnValidCheck(String sIn, String invalid) {
-		if(!(sIn.length()==9 &&
-				Integer.valueOf(sIn) instanceof Integer //this may allow too many kinds of entries, but good enough for now
-			 )
-			) {
-			System.out.println(invalid);
-			staging("custSsn");
-		}
-			
-		
-		return true;
-	}
-
-	private static boolean zipValidCheck(String zIn, String invalid) {
-		if(zIn.length()!=5) {
-			System.out.println(invalid);
-			staging("zip");
-		}	
-		return true; //should only be reached if the above if the zIn length is 5
-	}
-	private static boolean monthValidCheck(int mIn, String invalid) {
-		if( mIn<1 || mIn>12 ) {
-			System.out.println(invalid);
-			staging("month");
-		}
-		return true; //reachable only if month valid??
-	}
-	private static boolean yearValidCheck(int yIn, String invalid) {
-		if( yIn!=2018 ) {
-			System.out.println(invalid);
-			System.out.println("The only year in this dataset is 2018"); 
-			//I could probably just not prompt for a year input but the reqs are the reqs
-			staging("year");
-		}
-		return true; //reachable only if valid year entered
-	}
-	private static boolean typeValidCheck(String sIn, String invalid) {
-		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas","Bills","Test","Healthcare" };
-		
-		if(!Arrays.asList(valids).contains(sIn)) {
-			//if the transaction_type is not a valid type, reject it.
-			System.out.println(invalid);
-			System.out.println("Valid types are: ");
-			for(String v:valids) {
-				System.out.print(v+" ");
-			}
-			System.out.println();
-			staging("type");
-		} 
-		return true; //reachable only if valid type entered
-	}
-	private static boolean stateValidCheck(String state_abbr, String invalid) {
-		String[] valids = new String[] {"MN","IL","NY","FL","PA","NJ","CT","OH","MI","KY","MD","WA","CA","TX","NC","VA","GA","MT","AR","MS","WI","IN","SC","MA","IA","AL"};
-//		"MN","IL","NY","FL","PA","NJ","CT","OH","MI","KY","MD","WA","CA","TX","NC","VA","GA","MT","AR","MS","WI","IN","SC","MA","IA","AL"
-
-		if(!Arrays.asList(valids).contains(state_abbr)) {
-			//if the transaction_type is not a valid type, reject it.
-			System.out.println(invalid);
-			System.out.println("Valid states are: ");
-			for(String v:valids) {
-				System.out.print(v+" ");
-			}
-			System.out.println();
-			staging("state");
-		} 
-		
-		return true;
-	}
+	
 }
