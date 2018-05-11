@@ -33,7 +33,7 @@ public class CustomerRunner {
 			}
 			break;
 			case 4: {
-				
+				custTransBetweenTwoDates();
 			}
 			break;
 			default: {
@@ -83,5 +83,26 @@ public class CustomerRunner {
 	// specifically looking for all transactions rather than transactions on a given card
 	public static void custTransBetweenTwoDates() {
 		CustomerDAO cDao = new CustomerDAO();
+		//@int ssn, @String/date dateOne, @String/date dateTwo
+		int ssn = Prompter.staging("ssn").outputInt;
+		
+		//dateOne, need a prompter?
+		int m = Prompter.staging("month").outputInt;
+		int d = Prompter.staging("date").outputInt;
+		//might need to combine these two into a "date of month" stager to validate max day of month vals
+		int y = Prompter.staging("year").outputInt;
+		String dateOne = y+"-"+m+"-"+d;
+		System.out.println(dateOne+ " was date in custTransBetweenTwoDates in cust runn");
+		//dateTwo, need a prompter?
+		m = Prompter.staging("month").outputInt;
+		d = Prompter.staging("date").outputInt;
+		y = Prompter.staging("year").outputInt;
+		String dateTwo = y+"-"+m+"-"+d;
+		System.out.println(dateTwo+ " was date in custTransBetweenTwoDates in cust runn");
+		
+		System.out.println(
+				cDao.getCustTransBetweenDatesBySsn(ssn, dateOne, dateTwo)
+				);
+		
 	}
 }

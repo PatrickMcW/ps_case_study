@@ -90,4 +90,10 @@ public class Validator {
 		
 		return true;
 	}
+	public static boolean dateValidCheck(int d, String invalid) {
+		
+		
+		//a check for day+month validity is needed i.e. no 30th of feb allowed
+		return true;
+	}
 }

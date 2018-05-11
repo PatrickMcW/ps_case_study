@@ -2,9 +2,11 @@ package com.cdw.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cdw.model.Customer;
+import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Queries;
 
@@ -102,6 +104,41 @@ public class CustomerDAO extends AbstractDAO {
 		}
 		
 		return bill;
+	}
+	
+	public List<CustTransBetweenDates> getCustTransBetweenDatesBySsn(int ssn, String dateOne, String dateTwo) {
+		//the date strings could probably be Date objs, but im lazy
+		List<CustTransBetweenDates> list = new ArrayList<CustTransBetweenDates>();
+		String sql = Queries.GET_TRANS_BY_CUST_BETWEEN_TWO_DATES;
+		establishConnection();
+		try {
+			stmt=conn.prepareStatement(sql);
+			stmt.setInt(1, ssn);
+			stmt.setString(2, dateOne);
+			stmt.setString(3, dateTwo);
+			rs=stmt.executeQuery();
+			
+			while( rs.next() ) {
+				String fName 			= rs.getString(1);
+				String mName 			= rs.getString(2);
+				int d 					= rs.getInt(3);
+				int m 					= rs.getInt(4);
+				int y 					= rs.getInt(5);
+				String ccn 				= rs.getString(6);
+				int branch 				= rs.getInt(7);
+				String transaction_type  = rs.getString(8);
+				double transaction_value = rs.getDouble(9);
+				CustTransBetweenDates info = new CustTransBetweenDates(fName, mName, d, m, y, ccn, branch, transaction_type, transaction_value);
+				
+				list.add(info);
+				System.out.println(info);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 }

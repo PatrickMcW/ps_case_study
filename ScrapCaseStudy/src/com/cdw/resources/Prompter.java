@@ -12,7 +12,7 @@ public final class Prompter {
 	private static final String zipTestEntry = "06109";
 	
 	private static final String monthPrompt = "month (as integer) criteria ";
-	private static final String monthTestEntry = "2";
+	private static final String monthTestEntry = "2 or 11";
 	
 	private static final String yearPrompt = "year criteria";
 	private static final String yearTestEntry = "2018"; //only year in records
@@ -23,14 +23,14 @@ public final class Prompter {
 	private static final String typePrompt = "type criteria";
 	private static final String typeTestEntry = "Bills"; //case insensitive
 	
-	private static final String getSsnPrompt = "customer ssn";
-	private static final String  getSsnTestEntry = "123456100"; 
+	private static final String ssnPrompt = "customer ssn";
+	private static final String  ssnTestEntry = "123456100"; 
 	
 	private static final String getCcnPrompt = "credit card number";
 	private static final String  getCcnTestEntry = "4210653349028689"; 
 	
-	private static final String dayPrompt = "day criteria";
-	private static final String  dayTestEntry = ""; 
+	private static final String dayPrompt = "date (of month) criteria";
+	private static final String  dayTestEntry = "1 or 23 or 24"; 
 
 	
 	public static Output staging(String type/*, Scanner scanner*/) {
@@ -124,11 +124,11 @@ public final class Prompter {
 				}
 				break;
 			}
-			case "getSsn": {
+			case "ssn": {
 				//set string values
-				prompt = openPrompt + getSsnPrompt +": ";
-				test = getSsnTestEntry;
-				invalid = invalidOpen + getSsnPrompt + invalidClose;
+				prompt = openPrompt + ssnPrompt +": ";
+				test = ssnTestEntry;
+				invalid = invalidOpen + ssnPrompt + invalidClose;
 				
 				//show prompt
 				System.out.println(prompt);
@@ -160,7 +160,7 @@ public final class Prompter {
 				
 				break;
 			}
-			case "day": {
+			case "date": {
 				// set string values
 				prompt = openPrompt + dayPrompt +": ";
 				test = dayTestEntry;
@@ -170,7 +170,7 @@ public final class Prompter {
 				System.out.println(test);
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( Validator.yearValidCheck(intIn, invalid)) {
+				if( Validator.dateValidCheck(intIn, invalid)) {
 					output = new Output(intIn, null); //outputs int intIn, null string
 				}
 				
