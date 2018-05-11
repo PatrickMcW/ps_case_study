@@ -88,7 +88,7 @@ public class CustomerDAO extends AbstractDAO {
 			stmt.setString(3, ccn);
 			rs=stmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				//balance, fName
 				double balance 	= rs.getDouble(1);
 				String fName 	= rs.getString(2);
