@@ -6,7 +6,7 @@ public class Queries {
 	
 	//Customer has a compound key, may need to adjust the above string and it's using method to account for that
 	//@int input
-	public final static String GET_TRANSACTION_BY_T_ID = "SELECT * FROM CDW_SAPP_CREDITCARD WHERE transaction_id = ?";
+	public final static String GET_TRANSACTION_BY_T_ID = "SELECT transaction_id, day, month, year, credit_card_no, cust_ssn, branch_code, transaction_type, transaction_value FROM CDW_SAPP_CREDITCARD WHERE transaction_id = ?";
 	
 //	1) To display the transactions made by customers living in a given zipcode for a given month and year. 
 	//Order by day in descending order.

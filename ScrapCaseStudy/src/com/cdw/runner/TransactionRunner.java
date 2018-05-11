@@ -3,6 +3,7 @@ package com.cdw.runner;
 import java.util.Scanner;
 
 import com.cdw.dao.TransactionDAO;
+import com.cdw.model.Transaction;
 //import com.cdw.model.Transaction;
 import com.cdw.resources.Prompter;
 
@@ -47,9 +48,11 @@ public class TransactionRunner {
 		int y = Prompter.staging("year").outputInt;
 		
 		
-		System.out.println(
-				tDao.getTransByZipMonthYear(z, m, y)
-				);
+		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
+			System.out.println(t);
+			t.toString();
+//			System.out.println("blabla");
+		}
 		
 		
 		

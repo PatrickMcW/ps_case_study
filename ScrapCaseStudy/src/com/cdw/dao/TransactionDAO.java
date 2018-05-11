@@ -25,8 +25,14 @@ public class TransactionDAO extends AbstractDAO{
 		//The ResultSet interface provides getter methods (getBoolean, getLong, and so on) 
 		// for retrieving column values from the current row.
 		Transaction trans = null;
-		 try {
-			 System.out.println(rs.toString());
+//		System.out.println("formTransFromResults was called");
+//		System.out.println(rs);
+//		System.out.println(" was rs");
+		
+		 try { //this try is maybe not happening?
+//			 System.out.println(rs.toString());
+//			 System.out.println("was rs.toString()"); //nothing
+//			 System.out.println(rs.getInt(1) + " was rs.getInt(1)");
 			 int t_id 					= rs.getInt(1);
 			 int d 						= rs.getInt(2);
 			 int m 						= rs.getInt(3);
@@ -38,10 +44,19 @@ public class TransactionDAO extends AbstractDAO{
 			 String transaction_type	= rs.getString(8);
 			 double transaction_value	= rs.getDouble(9);
 			 trans = new Transaction(t_id, d, m, y, ccn, c_ssn, branch, transaction_type, transaction_value);
-		} catch (SQLException e) {
+//			 trans.toString();
+//			 System.out.println(trans);
+//			 if(trans == null) {
+//				 System.out.println("trans is null");
+//			 }
+		 } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		System.out.println(trans);
+//		System.out.println("was trans print");
+//		trans.toString();
+//		System.out.println("was trans.toString()");
 		return trans;
 	}
 	
@@ -77,15 +92,27 @@ public class TransactionDAO extends AbstractDAO{
 			stmt.setInt(1, z);
 			stmt.setInt(2, m);
 			stmt.setInt(3, y);
+//			System.out.println(z+ " "+m + " " +y+ " was zmy");
 			rs = stmt.executeQuery();
-			if( rs.next() ) {
+//			System.out.println(rs.getMetaData());
+			while( rs.next() ) {
 				Transaction trans = formTransFromResults(rs);
+//				System.out.println("Transaction trans = formTransFromResults(rs);");
+//				trans.toString();
+//				System.out.println("was trans in getTransByZipMonthYear before adding to list");
 				list.add(trans); 
+//				System.out.println(list.toArray().length);
+				;
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
 		}
-		list.toString();
+//		list.toString();
+//		System.out.println(list.toArray().length);
+//		for(Transaction t:list) {
+//			System.out.println(t);
+//			System.out.println("was t");
+//		}
 		return list;
 	}
 //	2) To display the number and total values of transactions for a given type. 
@@ -120,7 +147,7 @@ public class TransactionDAO extends AbstractDAO{
 				stmt.setString(1, transaction_type);
 				rs = stmt.executeQuery();
 				
-				if( rs.next() ) {
+				while( rs.next() ) {
 					//full transaction lines are not the result here. 
 					// Type, Count, Total Value are column names/order
 					String type = rs.getString(1);
@@ -150,7 +177,7 @@ public class TransactionDAO extends AbstractDAO{
 			stmt.setString(1, state_abbr);
 			rs = stmt.executeQuery();
 			
-			if( rs.next() ) {
+			while( rs.next() ) {
 				
 				String state = rs.getString(1);
 				int count 	= rs.getInt(2);
