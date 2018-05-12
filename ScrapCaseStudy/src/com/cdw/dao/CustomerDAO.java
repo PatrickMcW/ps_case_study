@@ -110,9 +110,15 @@ public class CustomerDAO extends AbstractDAO {
 		//the date strings could probably be Date objs, but im lazy
 		List<CustTransBetweenDates> list = new ArrayList<CustTransBetweenDates>();
 		String sql = Queries.GET_TRANS_BY_CUST_BETWEEN_TWO_DATES;
+//		System.out.println("sql in getCustTransBetweenDatesBySsn " + sql);
+//		System.out.println(dateOne + " dateOne");
+//		System.out.println(dateTwo + " dateTwo");
+//		ParameterMetaData pmd = null;
 		establishConnection();
 		try {
 			stmt=conn.prepareStatement(sql);
+//			pmd=stmt.getParameterMetaData();
+//			System.out.println(pmd.getParameterCount());
 			stmt.setInt(1, ssn);
 			stmt.setString(2, dateOne);
 			stmt.setString(3, dateTwo);
@@ -121,13 +127,18 @@ public class CustomerDAO extends AbstractDAO {
 			while( rs.next() ) {
 				String fName 			= rs.getString(1);
 				String mName 			= rs.getString(2);
-				int d 					= rs.getInt(3);
-				int m 					= rs.getInt(4);
-				int y 					= rs.getInt(5);
-				String ccn 				= rs.getString(6);
-				int branch 				= rs.getInt(7);
-				String transaction_type  = rs.getString(8);
-				double transaction_value = rs.getDouble(9);
+				String date				= rs.getString(3);
+				String[] decompDate		= date.split("-"); //0 year, 1 month, 2 day
+				int d 					= Integer.parseInt(decompDate[2]);
+				int m 					= Integer.parseInt(decompDate[1]);
+				int y 					= Integer.parseInt(decompDate[0]);
+				String ccn 				= rs.getString(4);
+				int branch 				= rs.getInt(5);
+//				System.out.println(rs.getInt(5) + " was getint(5)");
+				String transaction_type  = rs.getString(6);
+//				System.out.println(rs.getInt(6) + " was getint(6)");
+				double transaction_value = rs.getDouble(7);
+//				System.out.println(rs.getInt(7) + " was getint(7)");
 				CustTransBetweenDates info = new CustTransBetweenDates(fName, mName, d, m, y, ccn, branch, transaction_type, transaction_value);
 				
 				list.add(info);
@@ -137,7 +148,9 @@ public class CustomerDAO extends AbstractDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		for(CustTransBetweenDates e: list) {
+			System.out.println(e);
+		}
 		return list;
 	}
 

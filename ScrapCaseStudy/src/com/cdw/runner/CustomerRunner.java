@@ -3,6 +3,7 @@ package com.cdw.runner;
 import java.util.Scanner;
 
 import com.cdw.dao.CustomerDAO;
+import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.Prompter;
 
 public class CustomerRunner {
@@ -56,10 +57,19 @@ public class CustomerRunner {
 	public static void updateCustomerInfoBySsn() {
 		CustomerDAO cDao = new CustomerDAO();
 		//2) To modify the existing account details of a customer 
-		// @string table_name, @string column_name, @string/@int (depending) new_value, @int ssn
-		String t_name, c_name;
-		System.out.println("determine what field they're chaning and what var type to use there");
+		//display customer info,
+		
+		//ask use what they want to change
+		
+	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
+		String c_name = Prompter.staging("column").outputString; 
+//		new_value;
+		
+		System.out.println("determine what field they're changing and what var type to use there");
 		//take input as string, and then convert later?
+		
+		int ssn = Prompter.staging("ssn").getOutputInt();
+		String ccn = Prompter.staging("ccn").getOutputString();
 	}
 	
 	public static void generateBillByMonthYearForCcn(/*Scanner scanner*/) {
@@ -85,24 +95,24 @@ public class CustomerRunner {
 		CustomerDAO cDao = new CustomerDAO();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
 		int ssn = Prompter.staging("ssn").outputInt;
-		
-		//dateOne, need a prompter?
-		int m = Prompter.staging("month").outputInt;
-		int d = Prompter.staging("date").outputInt;
-		//might need to combine these two into a "date of month" stager to validate max day of month vals
 		int y = Prompter.staging("year").outputInt;
-		String dateOne = y+"-"+m+"-"+d;
-		System.out.println(dateOne+ " was date in custTransBetweenTwoDates in cust runn");
-		//dateTwo, need a prompter?
-		m = Prompter.staging("month").outputInt;
-		d = Prompter.staging("date").outputInt;
-		y = Prompter.staging("year").outputInt;
-		String dateTwo = y+"-"+m+"-"+d;
-		System.out.println(dateTwo+ " was date in custTransBetweenTwoDates in cust runn");
+		//dateOne prompt?
+		System.out.println("First Date");
 		
-		System.out.println(
-				cDao.getCustTransBetweenDatesBySsn(ssn, dateOne, dateTwo)
-				);
+		String[] dateSplit = Prompter.staging("dateMonth").outputDateSplit;	//using var for readability
+		//dateSplit[0] is day, dateSplit[1] is month
+		
+		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];
+		
+		//dateTwo prompter
+		System.out.println("Second Date");
+		dateSplit = Prompter.staging("dateMonth").outputDateSplit;
+		String dateTwo = y+"-"+dateSplit[1]+"-"+dateSplit[0];
+
+		for(CustTransBetweenDates e : 
+			cDao.getCustTransBetweenDatesBySsn(ssn, dateOne, dateTwo)) {
+					System.out.println(e);
+		}
 		
 	}
 }

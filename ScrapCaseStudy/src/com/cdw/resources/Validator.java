@@ -1,6 +1,8 @@
 package com.cdw.resources;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Validator {
@@ -24,7 +26,7 @@ public class Validator {
 			 )
 			) {
 			System.out.println(invalid);
-			Prompter.staging("custSsn");
+			Prompter.staging("ssn");
 		}
 			
 		
@@ -90,10 +92,34 @@ public class Validator {
 		
 		return true;
 	}
-	public static boolean dateValidCheck(int d, String invalid) {
+	public static boolean dateMonthValidCheck(String[] split, String invalid) {
+		//split[0] is the day, split[1] is the month
+		int[] dayMonthAsInts = new int[] {Integer.parseInt(split[0]), Integer.parseInt(split[1])};
+		Map<Integer, Integer[]> maxDays = new HashMap<Integer,Integer[]>();
+		maxDays.put(29 , new Integer[] {2}); //we're not checking for leap years,but do allow for their entry TODO: incorporate leap year check as needed
+		maxDays.put(30 , new Integer[] {4,6,9,11});
+		maxDays.put(31 , new Integer[] {1,3,5,7,8,10,12});
+		if(dayMonthAsInts[1]>=29) {
+			for(Map.Entry<Integer, Integer[]> e : maxDays.entrySet() ) {
+//				if(e.getKey()<=dayMonthAsInts[0]) {
+				if(e.getKey()==dayMonthAsInts[0]) {
+//					for(int i : e.getValue()) {
+//						//i is the individual months in this value-set from maxDays???
+//						
+//					}
+					System.out.println("inside if(e.getKey()==dayMonthAsInts[0])");
+					Arrays.asList(e.getValue()).contains(dayMonthAsInts[1]);
+					return true;
+				} //else return false might end this before we have a chance to check other keys where the value may be OK
+				System.out.println("inside for(Map.Entry<Integer, Integer[]> e : maxDays.entrySet() )");
+			}
+			System.out.println("inside if(dayMonthAsInts[1]>=29)");
+		} else {
+			return true; //valid date if day is 28 or less as all months have that
+		}
 		
-		
+		System.out.println("end of dateMonthValidCheck(String dm, String invalid)");
 		//a check for day+month validity is needed i.e. no 30th of feb allowed
-		return true;
+		return false;
 	}
 }

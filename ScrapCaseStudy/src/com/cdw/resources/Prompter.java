@@ -1,6 +1,5 @@
 package com.cdw.resources;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public final class Prompter {
@@ -29,12 +28,20 @@ public final class Prompter {
 	private static final String getCcnPrompt = "credit card number";
 	private static final String  getCcnTestEntry = "4210653349028689"; 
 	
-	private static final String dayPrompt = "date (of month) criteria";
+	private static final String dayPrompt = "day criteria";
 	private static final String  dayTestEntry = "1 or 23 or 24"; 
+	
+	private static final String dateMonthPrompt = "date criteria (format: dd/mm)";
+	private static final String  dateMonthTestEntry = "01/11 or 30/11"; 
+	
+	
+	private static final String columnPrompt = "day criteria";
+	private static final String  columnTestEntry = "1 or 23 or 24"; 
 
+	private static final Scanner scanner = new Scanner (System.in); // this got rid of the yellow underline for similar declaration in staging(), but you would think the scanner should still be closed
 	
 	public static Output staging(String type/*, Scanner scanner*/) {
-		Scanner scanner = new Scanner (System.in); //if i can open/close scanner without issue here, do that,
+//		Scanner scanner = new Scanner (System.in); //if i can open/close scanner without issue here, do that,
 		//otherwise, open in calling main and close there, and pass as arg
 		String stringIn;
 		int intIn;
@@ -55,7 +62,7 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if ( Validator.zipValidCheck(stringIn, invalid) ) {
-					output = new Output(Integer.parseInt(stringIn),null);
+					output = new Output(Integer.parseInt(stringIn));
 				}
 				break;
 			}
@@ -70,7 +77,7 @@ public final class Prompter {
 				//get and validate entry
 				intIn = scanner.nextInt();
 				if( Validator.monthValidCheck(intIn, invalid)) {
-					output = new Output(intIn, null);
+					output = new Output(intIn);
 				}
 				break;
 			}
@@ -85,7 +92,7 @@ public final class Prompter {
 				//get and validate entry
 				intIn = scanner.nextInt();
 				if( Validator.yearValidCheck(intIn, invalid)) {
-					output = new Output(intIn, null); //outputs int intIn, null string
+					output = new Output(intIn); 
 				}
 				
 				break;
@@ -103,7 +110,7 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if( Validator.stateValidCheck(stringIn, invalid)) {
-					output = new Output(-1, stringIn); //-1 placeholder value for int, stringIn for string
+					output = new Output(stringIn); 
 				}
 				break;
 			}
@@ -120,7 +127,7 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if( Validator.typeValidCheck(stringIn, invalid)) {
-					output = new Output(-1, stringIn); //-1 placeholder value for int, stringIn for string
+					output = new Output(stringIn); 
 				}
 				break;
 			}
@@ -137,7 +144,7 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if( Validator.custSsnValidCheck(stringIn, invalid) ) {
-					output = new Output(Integer.parseInt(stringIn), stringIn); //outputs int version of stringIn, stringIn string(but probably dont need to)
+					output = new Output(Integer.parseInt(stringIn), stringIn);
 				}
 				
 				break;
@@ -155,12 +162,13 @@ public final class Prompter {
 				//get and validate entry
 				stringIn = scanner.next();
 				if( Validator.ccnValidCheck(stringIn, invalid) ) {
-					output = new Output(-1, stringIn);//-1 placeholder value for int, stringIn for string
+					output = new Output(stringIn);
 				}
 				
 				break;
 			}
 			case "date": {
+				System.out.println("date case in prompter reached");
 				// set string values
 				prompt = openPrompt + dayPrompt +": ";
 				test = dayTestEntry;
@@ -170,11 +178,37 @@ public final class Prompter {
 				System.out.println(test);
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( Validator.dateValidCheck(intIn, invalid)) {
-					output = new Output(intIn, null); //outputs int intIn, null string
-				}
+//				if( Validator.dateValidCheck(intIn, invalid)) {
+//					output = new Output(intIn, null); //outputs int intIn, null string
+//				}
 				
 				break;
+			}
+			case "dateMonth":{			
+				// set string values
+				prompt = openPrompt + dateMonthPrompt +": ";
+				test = dateMonthTestEntry;
+				invalid = invalidOpen + dateMonthPrompt + invalidClose;
+				
+				//show prompt
+				System.out.println(prompt);
+				System.out.println(test);
+				
+				//get and validate entry
+				stringIn = scanner.next();
+				String[] splitIn = stringIn.split("/");
+				
+				if( Validator.dateMonthValidCheck(splitIn, invalid) ) {
+					output = new Output(splitIn); 
+				}
+				break;
+			}
+			case "column": {
+				System.out.println("column case in prompter");
+				// set string values
+				prompt = openPrompt + columnPrompt +": ";
+				test = dateMonthTestEntry;
+				invalid = invalidOpen + dateMonthPrompt + invalidClose;
 			}
 			
 			default: {
