@@ -169,6 +169,9 @@ public class CustomerDAO extends AbstractDAO {
 			
 //			stmt=conn.prepareStatement(sql);
 //			stmt.setString(1, cName); //can't set colum names this way.
+			
+			//manual string input to check if newVal is outputting properly
+//			stmt.setString(1, "was alec, but been changed");
 			if(newVal.getOutputString() instanceof String) {
 				System.out.println("was inside if newVal.getOutputString() instanceof String");
 				System.out.println("string of: "+ newVal.getOutputString());
@@ -181,6 +184,10 @@ public class CustomerDAO extends AbstractDAO {
 			
 			stmt.setInt(2, ssn);
 			stmt.setString(3, ccn);
+//			4210653310061055
+//			4210653349028689
+//			System.out.println(stmt.getParameterMetaData().);
+//			stmt.getParameterMetaData();
 			int res = stmt.executeUpdate();
 			System.out.println(res +" was res");
 //			System.out.println(rs);

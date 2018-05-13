@@ -26,7 +26,7 @@ public final class Prompter {
 	private static final String ssnTestEntry = "123456100"; 
 	
 	private static final String getCcnPrompt = "credit card number";
-	private static final String getCcnTestEntry = "4210653349028689"; 
+	private static final String getCcnTestEntry = "4210653310061055 or 4210653349028689"; 
 	
 	private static final String dayPrompt = "day criteria";
 	private static final String dayTestEntry = "1 or 23 or 24"; 
