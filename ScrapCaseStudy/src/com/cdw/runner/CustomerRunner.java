@@ -1,9 +1,11 @@
 package com.cdw.runner;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import com.cdw.dao.CustomerDAO;
 import com.cdw.resources.CustTransBetweenDates;
+import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
 
 public class CustomerRunner {
@@ -47,7 +49,7 @@ public class CustomerRunner {
 		CustomerDAO cDao = new CustomerDAO();
 		//1) To check the existing account details of a customer.
 		//@int ssn
-		int ssn = Prompter.staging("getCust").outputInt;
+		int ssn = Prompter.staging("ssn").outputInt;
 		
 		System.out.println(
 				cDao.getCustomerBySsn(ssn)
@@ -57,19 +59,47 @@ public class CustomerRunner {
 	public static void updateCustomerInfoBySsn() {
 		CustomerDAO cDao = new CustomerDAO();
 		//2) To modify the existing account details of a customer 
-		//display customer info,
-		
-		//ask use what they want to change
-		
-	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
-		String c_name = Prompter.staging("column").outputString; 
-//		new_value;
-		
-		System.out.println("determine what field they're changing and what var type to use there");
-		//take input as string, and then convert later?
-		
+		//decide which cust
 		int ssn = Prompter.staging("ssn").getOutputInt();
 		String ccn = Prompter.staging("ccn").getOutputString();
+		
+		//display customer info,
+		System.out.println(
+				cDao.getCustomerBySsn(ssn)
+				);
+		
+		//ask use what they want to change
+		Output newVal;
+	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
+		String cName = Prompter.staging("column").outputString; 
+				
+		//can check here for col dtype to newval dtype.
+//		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
+//				 "CREDIT_CARD_NO", "APT_NO", "STREET_NAME", "CUST_CITY",
+//				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_EMAIL"};
+		String[] useInts = new String[] {"SSN", "CUST_PHONE"};
+		
+		if(Arrays.asList(useInts).contains(cName)) {
+//			String newVal = Prompter.staging("newStringVal").outputString;
+			newVal = new Output(Prompter.staging("newIntVal").outputInt);
+			
+		} else {
+			newVal = new Output(Prompter.staging("newStringVal").outputString);
+		}
+		
+		 
+		//everything but ssn and custphone use string
+
+//		System.out.println("determine what field they're changing and what var type to use there");
+		//take input as string, and then convert later?
+		
+		
+		
+		cDao.updateCustomerBySsn(cName, newVal, ssn, ccn);
+		System.out.println("Updated customer: ");
+		System.out.println(
+				cDao.getCustomerBySsn(ssn)
+				);
 	}
 	
 	public static void generateBillByMonthYearForCcn(/*Scanner scanner*/) {

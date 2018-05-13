@@ -23,20 +23,29 @@ public final class Prompter {
 	private static final String typeTestEntry = "Bills"; //case insensitive
 	
 	private static final String ssnPrompt = "customer ssn";
-	private static final String  ssnTestEntry = "123456100"; 
+	private static final String ssnTestEntry = "123456100"; 
 	
 	private static final String getCcnPrompt = "credit card number";
-	private static final String  getCcnTestEntry = "4210653349028689"; 
+	private static final String getCcnTestEntry = "4210653349028689"; 
 	
 	private static final String dayPrompt = "day criteria";
-	private static final String  dayTestEntry = "1 or 23 or 24"; 
-	
+	private static final String dayTestEntry = "1 or 23 or 24"; 
+
 	private static final String dateMonthPrompt = "date criteria (format: dd/mm)";
-	private static final String  dateMonthTestEntry = "01/11 or 30/11"; 
+	private static final String dateMonthTestEntry = "01/11 or 30/11"; 
 	
 	
-	private static final String columnPrompt = "day criteria";
-	private static final String  columnTestEntry = "1 or 23 or 24"; 
+	private static final String columnPrompt = "column criteria";
+	private static final String columnTestEntry = "first_name"; 
+	
+	private static final String newValPrompt = "new value for field";
+	private static final String newValTestEntry = "Alec -> Alex -> Alec";
+	
+	private static final String newStringValPrompt = "new string for field";
+	private static final String newStringValTestEntry = "";
+	
+	private static final String newIntValPrompt = "new int for field";
+	private static final String newIntValTestEntry = "";
 
 	private static final Scanner scanner = new Scanner (System.in); // this got rid of the yellow underline for similar declaration in staging(), but you would think the scanner should still be closed
 	
@@ -204,12 +213,65 @@ public final class Prompter {
 				break;
 			}
 			case "column": {
-				System.out.println("column case in prompter");
+//				System.out.println("column case in prompter");
 				// set string values
 				prompt = openPrompt + columnPrompt +": ";
-				test = dateMonthTestEntry;
-				invalid = invalidOpen + dateMonthPrompt + invalidClose;
+				test = columnTestEntry;
+				invalid = invalidOpen + columnPrompt + invalidClose;
+				
+				//show prompt
+				System.out.println(prompt);
+				System.out.println("(use underscores for spaces)");
+				System.out.println(test);
+				
+				//get and validate entry
+				stringIn = scanner.next();
+				
+				if( Validator.columnValidCheck(stringIn, invalid) ) {
+					output = new Output(stringIn); 
+				}
+				break;
 			}
+			case "newStringVal": {
+				System.out.println("newStringVal case in prompter");
+				// set string values
+				prompt = openPrompt + newStringValPrompt +": ";
+				test = newStringValTestEntry;
+				invalid = invalidOpen + newStringValPrompt + invalidClose;
+				
+				//show prompt
+				System.out.println(prompt);
+				System.out.println(test);
+				
+				//get and validate entry
+				stringIn = scanner.next();
+				
+				if( Validator.newStringValValidCheck(stringIn, invalid) ) {
+					output = new Output(stringIn); 
+				}
+				
+				break;
+			}
+			case "newIntVal": {
+				System.out.println("newIntVal case in prompter");
+				// set string values
+				prompt = openPrompt + newIntValPrompt +": ";
+				test = newIntValTestEntry;
+				invalid = invalidOpen + newIntValPrompt + invalidClose;
+				
+				//show prompt
+				System.out.println(prompt);
+				System.out.println(test);
+				
+				//get and validate entry
+				intIn = scanner.nextInt();
+				
+				if( Validator.newIntValValidCheck(intIn, invalid) ) {
+					output = new Output(intIn); 
+				}
+				
+				break;
+			}			
 			
 			default: {
 				System.out.println("Somehow reached default case in staging switch");

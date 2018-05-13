@@ -8,6 +8,7 @@ import java.util.List;
 import com.cdw.model.Customer;
 import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.MonthInvoice;
+import com.cdw.resources.Output;
 import com.cdw.resources.Queries;
 
 public class CustomerDAO extends AbstractDAO {
@@ -51,7 +52,7 @@ public class CustomerDAO extends AbstractDAO {
 	// get a customer by some identified (to be determined later)
 	public Customer getCustomerBySsn(int ssn) /*throws Exception*/{
 		Customer cust = null;
-		String sql = Queries.GET_CUST_BY_SSN; //not obvious what you need here without looking at the Queries class
+		String sql = Queries.GET_CUST_BY_SSN;
 		establishConnection();
 		
 		//		PreparedStatement 
@@ -63,7 +64,7 @@ public class CustomerDAO extends AbstractDAO {
 			stmt.setInt(1, ssn);
 			rs = stmt.executeQuery();
 //			System.out.println(rs);
-			if( rs.next() ) {
+			while( rs.next() ) {
 
 				
 				cust = formCustFromResults(rs);
@@ -153,5 +154,48 @@ public class CustomerDAO extends AbstractDAO {
 		}
 		return list;
 	}
-
+	
+	public void updateCustomerBySsn(String cName, Output newVal, int ssn, String ccn) {
+//		Customer updated = null;
+		String sqlStart = Queries.UPDATE_START;
+		String sqlEnd = Queries.UPDATE_END;
+		String sql = sqlStart+cName+sqlEnd;
+		System.out.println(sql + " was sql");
+		establishConnection();
+		
+		try {
+			stmt=conn.prepareStatement(sql);
+		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
+			
+//			stmt=conn.prepareStatement(sql);
+//			stmt.setString(1, cName); //can't set colum names this way.
+			if(newVal.getOutputString() instanceof String) {
+				System.out.println("was inside if newVal.getOutputString() instanceof String");
+				System.out.println("string of: "+ newVal.getOutputString());
+				stmt.setString(1, newVal.getOutputString());
+			} else {
+				System.out.println("was inside else of if");
+				System.out.println("int of: "+ newVal.getOutputInt());
+				stmt.setInt(1, newVal.getOutputInt()); //even though less int cases, can't instanceof int easily
+			}
+			
+			stmt.setInt(2, ssn);
+			stmt.setString(3, ccn);
+			int res = stmt.executeUpdate();
+			System.out.println(res +" was res");
+//			System.out.println(rs);
+			//no results from an update
+//			while( rs.next() ) {
+//
+//				
+//				updated = formCustFromResults(rs);
+//			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+//		return updated;
+	}
 }

@@ -41,7 +41,9 @@ public class Queries {
 
 	//2) To modify the existing account details of a customer 
 	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
-	public final static String UPDATE_CUST_BY_SSN = "UPDATE cdw_sapp_customer SET ? = ? WHERE ssn = ?";
+//	public final static String UPDATE_CUST_BY_SSN = "UPDATE cdw_sapp_customer SET ? = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
+	public final static String UPDATE_START = "UPDATE cdw_sapp_customer SET ";
+	public final static String UPDATE_END = " = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
 	
 	//3) To generate monthly bill for a credit card number for a given month and year. 
 	// @int month, @int year, @string ccn

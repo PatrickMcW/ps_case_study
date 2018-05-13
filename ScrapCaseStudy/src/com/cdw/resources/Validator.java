@@ -122,4 +122,51 @@ public class Validator {
 		//a check for day+month validity is needed i.e. no 30th of feb allowed
 		return false;
 	}
+	
+	public static boolean columnValidCheck(String col_name, String invalid) {
+		String[] valids = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
+				"SSN", "CREDIT_CARD_NO", "APT_NO", "STREET_NAME", "CUST_CITY",
+				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_PHONE", "CUST_EMAIL"};
+		
+		if(!Arrays.asList(valids).contains(col_name)) {
+			//if the transaction_type is not a valid type, reject it.
+			System.out.println(invalid);
+			System.out.println("Valid column names are: ");
+//			for(String v:valids) {
+//				System.out.print(v+", ");
+//				
+//			}
+			for(int i=0; i<valids.length;i++) {
+				if(i==valids.length-1) {
+					System.out.print(valids[i]+".");
+				} else if(i%4==0) {
+					System.out.println(valids[i]+",");
+				} else {
+					System.out.print(valids[i]+", ");
+				}
+			}
+			System.out.println();
+			Prompter.staging("column");
+		}
+		
+		return true;
+	}
+	
+	//weak checks
+	public static boolean newStringValValidCheck(String stringIn, String invalid) {
+		//how the hell do I determine if the input is valid for the column 
+		//when this has no idea what the column is? make the input a class that has both???
+		if(stringIn.length()>40) {
+			Prompter.staging("newStringVal");
+		}
+		return true;
+	}
+	public static boolean newIntValValidCheck(int intIn, String invalid) {
+		//how the hell do I determine if the input is valid for the column 
+		//when this has no idea what the column is? make the input a class that has both???
+		if( Integer.toString(intIn).length()>10) {
+			Prompter.staging("newIntVal");
+		}
+		return true;
+	}
 }
