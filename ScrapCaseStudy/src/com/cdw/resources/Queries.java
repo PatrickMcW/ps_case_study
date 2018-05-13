@@ -2,12 +2,11 @@ package com.cdw.resources;
 
 public class Queries {
 	private Queries() {}; //since this is private, a constructor can never be invoked
-	//@int input
-	public final static String GET_CUST_BY_SSN = "SELECT * FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
+
 	
 	//Customer has a compound key, may need to adjust the above string and it's using method to account for that
 	//@int input
-	public final static String GET_TRANSACTION_BY_T_ID = "SELECT * FROM CDW_SAPP_CREDITCARD WHERE transaction_id = ?";
+	public final static String GET_TRANSACTION_BY_T_ID = "SELECT transaction_id, day, month, year, credit_card_no, cust_ssn, branch_code, transaction_type, transaction_value FROM CDW_SAPP_CREDITCARD WHERE transaction_id = ?";
 	
 //	1) To display the transactions made by customers living in a given zipcode for a given month and year. 
 	//Order by day in descending order.
@@ -35,4 +34,38 @@ public class Queries {
 			"		INNER JOIN cdw_sapp_creditcard t ON b.BRANCH_CODE=t.BRANCH_CODE" + 
 			"	WHERE b.BRANCH_STATE = ?" + 
 			"	GROUP BY 1";
+	
+	//1) To check the existing account details of a customer.
+	//@int ssn
+	public final static String GET_CUST_BY_SSN = "SELECT * FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
+
+	//2) To modify the existing account details of a customer 
+	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
+//	public final static String UPDATE_CUST_BY_SSN = "UPDATE cdw_sapp_customer SET ? = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
+	public final static String UPDATE_START = "UPDATE cdw_sapp_customer SET ";
+	public final static String UPDATE_END = " = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
+	
+	//3) To generate monthly bill for a credit card number for a given month and year. 
+	// @int month, @int year, @string ccn
+	public final static String MONTH_YEAR_BALANCE_DUE_BY_CCN = "SELECT SUM(cc.TRANSACTION_VALUE) 'Balance Due', c.FIRST_NAME 'First Name', c.LAST_NAME 'Last Name', c.SSN 'Identifier' " + 
+			"	From cdw_sapp_creditcard cc " + 
+			"		INNER JOIN cdw_sapp_customer c on cc.CREDIT_CARD_NO=c.CREDIT_CARD_NO " + 
+			"    WHERE cc.month = ? " + 
+			"		AND cc.year = ? " + 
+			"        AND cc.CREDIT_CARD_NO = ?";
+	
+	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
+	//@int ssn, @String/date dateOne, @String/date dateTwo
+	public final static String GET_TRANS_BY_CUST_BETWEEN_TWO_DATES = "SELECT c.FIRST_NAME 'First Name', c.LAST_NAME 'Last Name', " + 
+			"	STR_TO_DATE(CONCAT(cc.YEAR,',',cc.MONTH,',',cc.DAY),'%Y,%m,%d') 'Date', " + 
+			"	cc.CREDIT_CARD_NO 'CCN', cc.BRANCH_CODE 'Branch', cc.TRANSACTION_TYPE 'Type', cc.TRANSACTION_VALUE 'Value' " + 
+			"	FROM cdw_sapp_customer c " + 
+			"		INNER JOIN cdw_sapp_creditcard cc ON c.CREDIT_CARD_NO=cc.CREDIT_CARD_NO" + 
+			" 		WHERE c.SSN = ? " + 
+			" 			AND STR_TO_DATE(CONCAT(cc.YEAR,',',cc.MONTH,',',cc.DAY),'%Y,%m,%d') " + 
+			"				BETWEEN ? AND ? " + 
+			"        ORDER BY cc.YEAR desc, cc.MONTH desc, cc.DAY desc";
 }
+
+ 
+
