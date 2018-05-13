@@ -9,8 +9,8 @@ import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
 
 public class CustomerRunner {
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner (System.in);
+	public static void Run(Scanner scanner) {
+		
 //		1) To check the existing account details of a customer. 
 //		2) To modify the existing account details of a customer  
 //		3) To generate monthly bill for a credit card number for a given month and year. 

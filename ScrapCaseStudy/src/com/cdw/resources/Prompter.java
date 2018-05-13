@@ -27,9 +27,6 @@ public final class Prompter {
 	
 	private static final String getCcnPrompt = "credit card number";
 	private static final String getCcnTestEntry = "4210653310061055 or 4210653349028689"; 
-	
-	private static final String dayPrompt = "day criteria";
-	private static final String dayTestEntry = "1 or 23 or 24"; 
 
 	private static final String dateMonthPrompt = "date criteria (format: dd/mm)";
 	private static final String dateMonthTestEntry = "01/11 or 30/11"; 
@@ -37,9 +34,6 @@ public final class Prompter {
 	
 	private static final String columnPrompt = "column criteria";
 	private static final String columnTestEntry = "first_name"; 
-	
-	private static final String newValPrompt = "new value for field";
-	private static final String newValTestEntry = "Alec -> Alex -> Alec";
 	
 	private static final String newStringValPrompt = "new string for field";
 	private static final String newStringValTestEntry = "";
@@ -64,9 +58,7 @@ public final class Prompter {
 				invalid = invalidOpen + zipPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				//show test entry that will return results
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
@@ -81,8 +73,8 @@ public final class Prompter {
 				test = monthTestEntry;
 				invalid = invalidOpen + monthPrompt + invalidClose;
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
+
 				//get and validate entry
 				intIn = scanner.nextInt();
 				if( Validator.monthValidCheck(intIn, invalid)) {
@@ -96,8 +88,8 @@ public final class Prompter {
 				test = yearTestEntry;
 				invalid = invalidOpen + yearPrompt + invalidClose;
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
+
 				//get and validate entry
 				intIn = scanner.nextInt();
 				if( Validator.yearValidCheck(intIn, invalid)) {
@@ -113,8 +105,7 @@ public final class Prompter {
 				invalid = invalidOpen + statePrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
@@ -130,8 +121,7 @@ public final class Prompter {
 				invalid = invalidOpen + typePrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
@@ -147,8 +137,7 @@ public final class Prompter {
 				invalid = invalidOpen + ssnPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
@@ -165,31 +154,13 @@ public final class Prompter {
 				invalid = invalidOpen + getCcnPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
 				if( Validator.ccnValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn);
 				}
-				
-				break;
-			}
-			case "date": {
-				System.out.println("date case in prompter reached");
-				// set string values
-				prompt = openPrompt + dayPrompt +": ";
-				test = dayTestEntry;
-				invalid = invalidOpen + dayPrompt + invalidClose;
-				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
-				//get and validate entry
-				intIn = scanner.nextInt();
-//				if( Validator.dateValidCheck(intIn, invalid)) {
-//					output = new Output(intIn, null); //outputs int intIn, null string
-//				}
 				
 				break;
 			}
@@ -200,8 +171,7 @@ public final class Prompter {
 				invalid = invalidOpen + dateMonthPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
@@ -220,9 +190,7 @@ public final class Prompter {
 				invalid = invalidOpen + columnPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println("(use underscores for spaces)");
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				stringIn = scanner.next();
@@ -240,9 +208,8 @@ public final class Prompter {
 				invalid = invalidOpen + newStringValPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
-				
+				showPrompt(prompt, test, type);
+
 				//get and validate entry
 				stringIn = scanner.next();
 				
@@ -260,8 +227,7 @@ public final class Prompter {
 				invalid = invalidOpen + newIntValPrompt + invalidClose;
 				
 				//show prompt
-				System.out.println(prompt);
-				System.out.println(test);
+				showPrompt(prompt, test, type);
 				
 				//get and validate entry
 				intIn = scanner.nextInt();
@@ -281,5 +247,13 @@ public final class Prompter {
 		return output;
 	}
 	
-	
+	public static void showPrompt(String p, String t, String c) {
+		System.out.println(p);
+		//cases: column
+		if(c.equals("column")) {
+			System.out.println("(use underscores for spaces, and all caps)");
+		}
+		//test data to get results. can be removed for "live" use
+		System.out.println(t);	
+	}
 }
