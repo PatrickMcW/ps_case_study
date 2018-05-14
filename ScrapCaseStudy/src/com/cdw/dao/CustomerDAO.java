@@ -12,15 +12,7 @@ import com.cdw.resources.Output;
 import com.cdw.resources.Queries;
 
 public class CustomerDAO extends AbstractDAO {
-	
-	public List<Customer> getAllCustomers() {
-		List<Customer> list = null;
 		
-		
-		
-		return list;
-	}
-	
 	public Customer formCustFromResults(ResultSet rs) {
 		Customer cust = null;
 		
@@ -49,7 +41,7 @@ public class CustomerDAO extends AbstractDAO {
 		return cust;
 	}
 	
-	// get a customer by some identified (to be determined later)
+	// get a customer by ssn
 	public Customer getCustomerBySsn(int ssn) /*throws Exception*/{
 		Customer cust = null;
 		String sql = Queries.GET_CUST_BY_SSN;
@@ -57,24 +49,16 @@ public class CustomerDAO extends AbstractDAO {
 		
 		//		PreparedStatement 
 		try {
-//			System.out.println(sql); //returns query string from Queries
-//			conn.getWarnings();
 			stmt=conn.prepareStatement(sql);
-//			System.out.println(stmt);
 			stmt.setInt(1, ssn);
 			rs = stmt.executeQuery();
-//			System.out.println(rs);
 			while( rs.next() ) {
-
-				
 				cust = formCustFromResults(rs);
-//				cust.toString(); //print to console
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 		return cust;
 	}
 	
@@ -82,8 +66,7 @@ public class CustomerDAO extends AbstractDAO {
 		// @int month, @int year, @string ccn
 		MonthInvoice bill = null;
 		String sql = Queries.MONTH_YEAR_BALANCE_DUE_BY_CCN;
-		establishConnection();
-		
+		establishConnection();	
 		try {
 			stmt=conn.prepareStatement(sql);
 			stmt.setInt(1, m);
@@ -92,7 +75,6 @@ public class CustomerDAO extends AbstractDAO {
 			rs=stmt.executeQuery();
 			
 			while(rs.next()) {
-				//balance, fName
 				double balance 	= rs.getDouble(1);
 				String fName 	= rs.getString(2);
 				String lName 	= rs.getString(3);
@@ -111,15 +93,9 @@ public class CustomerDAO extends AbstractDAO {
 		//the date strings could probably be Date objs, but im lazy
 		List<CustTransBetweenDates> list = new ArrayList<CustTransBetweenDates>();
 		String sql = Queries.GET_TRANS_BY_CUST_BETWEEN_TWO_DATES;
-//		System.out.println("sql in getCustTransBetweenDatesBySsn " + sql);
-//		System.out.println(dateOne + " dateOne");
-//		System.out.println(dateTwo + " dateTwo");
-//		ParameterMetaData pmd = null;
 		establishConnection();
 		try {
 			stmt=conn.prepareStatement(sql);
-//			pmd=stmt.getParameterMetaData();
-//			System.out.println(pmd.getParameterCount());
 			stmt.setInt(1, ssn);
 			stmt.setString(2, dateOne);
 			stmt.setString(3, dateTwo);
@@ -135,11 +111,9 @@ public class CustomerDAO extends AbstractDAO {
 				int y 					= Integer.parseInt(decompDate[0]);
 				String ccn 				= rs.getString(4);
 				int branch 				= rs.getInt(5);
-//				System.out.println(rs.getInt(5) + " was getint(5)");
 				String transaction_type  = rs.getString(6);
-//				System.out.println(rs.getInt(6) + " was getint(6)");
 				double transaction_value = rs.getDouble(7);
-//				System.out.println(rs.getInt(7) + " was getint(7)");
+				
 				CustTransBetweenDates info = new CustTransBetweenDates(fName, mName, d, m, y, ccn, branch, transaction_type, transaction_value);
 				
 				list.add(info);
@@ -155,8 +129,8 @@ public class CustomerDAO extends AbstractDAO {
 		return list;
 	}
 	
-	public void updateCustomerBySsn(String cName, Output newVal, int ssn, String ccn) {
-//		Customer updated = null;
+	public void updateCustomerBySsnAndCcn(String cName, Output newVal, int ssn, String ccn) {
+
 		String sqlStart = Queries.UPDATE_START;
 		String sqlEnd = Queries.UPDATE_END;
 		String sql = sqlStart+cName+sqlEnd;
@@ -167,11 +141,7 @@ public class CustomerDAO extends AbstractDAO {
 			stmt=conn.prepareStatement(sql);
 		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
 			
-//			stmt=conn.prepareStatement(sql);
-//			stmt.setString(1, cName); //can't set colum names this way.
-			
-			//manual string input to check if newVal is outputting properly
-//			stmt.setString(1, "was alec, but been changed");
+			//newVal can be 2 types, this if-else sets appropriately
 			if(newVal.getOutputString() instanceof String) {
 				System.out.println("was inside if newVal.getOutputString() instanceof String");
 				System.out.println("string of: "+ newVal.getOutputString());
@@ -184,25 +154,15 @@ public class CustomerDAO extends AbstractDAO {
 			
 			stmt.setInt(2, ssn);
 			stmt.setString(3, ccn);
-//			4210653310061055
-//			4210653349028689
-//			System.out.println(stmt.getParameterMetaData().);
-//			stmt.getParameterMetaData();
 			int res = stmt.executeUpdate();
-			System.out.println(res +" was res");
-//			System.out.println(rs);
-			//no results from an update
-//			while( rs.next() ) {
-//
-//				
-//				updated = formCustFromResults(rs);
-//			}
+			if(res==1) {
+				System.out.println("Update occurred.");
+			} else if (res==0) {
+				System.out.println("Update failed.");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-		
-//		return updated;
 	}
 }

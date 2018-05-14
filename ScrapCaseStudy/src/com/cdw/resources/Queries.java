@@ -55,7 +55,7 @@ public class Queries {
 			"        AND cc.CREDIT_CARD_NO = ?";
 	
 	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
-	//@int ssn, @String/date dateOne, @String/date dateTwo
+	//@int ssn, @String dateOne, @String dateTwo
 	public final static String GET_TRANS_BY_CUST_BETWEEN_TWO_DATES = "SELECT c.FIRST_NAME 'First Name', c.LAST_NAME 'Last Name', " + 
 			"	STR_TO_DATE(CONCAT(cc.YEAR,',',cc.MONTH,',',cc.DAY),'%Y,%m,%d') 'Date', " + 
 			"	cc.CREDIT_CARD_NO 'CCN', cc.BRANCH_CODE 'Branch', cc.TRANSACTION_TYPE 'Type', cc.TRANSACTION_VALUE 'Value' " + 

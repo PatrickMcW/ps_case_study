@@ -59,7 +59,7 @@ public class CustomerRunner {
 	public static void updateCustomerInfoBySsn() {
 		CustomerDAO cDao = new CustomerDAO();
 		//2) To modify the existing account details of a customer 
-		//decide which cust
+
 		int ssn = Prompter.staging("ssn").getOutputInt();
 		String ccn = Prompter.staging("ccn").getOutputString();
 		
@@ -70,13 +70,14 @@ public class CustomerRunner {
 		
 		//ask use what they want to change
 		Output newVal;
+		
 	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
 		String cName = Prompter.staging("column").outputString; 
 				
 		//can check here for col dtype to newval dtype.
 //		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
 //				 "CREDIT_CARD_NO", "APT_NO", "STREET_NAME", "CUST_CITY",
-//				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_EMAIL"};
+//				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_EMAIL"}; //leaving this here in case we need to check for string columns after any DB changes
 		String[] useInts = new String[] {"SSN", "CUST_PHONE"};
 		
 		if(Arrays.asList(useInts).contains(cName)) {
@@ -87,15 +88,7 @@ public class CustomerRunner {
 			newVal = new Output(Prompter.staging("newStringVal").outputString);
 		}
 		
-		 
-		//everything but ssn and custphone use string
-
-//		System.out.println("determine what field they're changing and what var type to use there");
-		//take input as string, and then convert later?
-		
-		
-		
-		cDao.updateCustomerBySsn(cName, newVal, ssn, ccn);
+		cDao.updateCustomerBySsnAndCcn(cName, newVal, ssn, ccn);
 		System.out.println("Updated customer: ");
 		System.out.println(
 				cDao.getCustomerBySsn(ssn)
@@ -108,14 +101,11 @@ public class CustomerRunner {
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
 		String ccn = Prompter.staging("ccn").outputString;
-		System.out.println();
-		
 		System.out.println(
 				cDao.getBillByMonthAndYearForCcn(m, y, ccn)
 				);
-		
-		
 	}
+	
 //	4) To display the transactions made by a customer between two dates. 
 	//Order by year, month, and day in descending order
 	// note: this may not account for the fact that a single customer could have more than 
@@ -126,7 +116,7 @@ public class CustomerRunner {
 		//@int ssn, @String/date dateOne, @String/date dateTwo
 		int ssn = Prompter.staging("ssn").outputInt;
 		int y = Prompter.staging("year").outputInt;
-		//dateOne prompt?
+		//dateOne prompt
 		System.out.println("First Date");
 		
 		String[] dateSplit = Prompter.staging("dateMonth").outputDateSplit;	//using var for readability
@@ -134,7 +124,7 @@ public class CustomerRunner {
 		
 		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];
 		
-		//dateTwo prompter
+		//dateTwo prompt
 		System.out.println("Second Date");
 		dateSplit = Prompter.staging("dateMonth").outputDateSplit;
 		String dateTwo = y+"-"+dateSplit[1]+"-"+dateSplit[0];

@@ -6,17 +6,15 @@ import java.util.Map;
 
 
 public class Validator {
-	
 	//contains methods to validate input from user prompts
-	public Validator() {};//prevent instantiation;
+	
+	private Validator() {};//prevent instantiation;
 	
 	public static boolean ccnValidCheck(String cIn, String invalid) {
 		if(! ( cIn.length()==16 && cIn.matches("[0-9]+") ) ) {
 			System.out.println(invalid);
 			Prompter.staging("ccn");
 		}
-			
-		
 		return true;
 	}
 	
@@ -27,9 +25,7 @@ public class Validator {
 			) {
 			System.out.println(invalid);
 			Prompter.staging("ssn");
-		}
-			
-		
+		}		
 		return true;
 	}
 	
@@ -60,7 +56,8 @@ public class Validator {
 	}
 	
 	public static boolean typeValidCheck(String sIn, String invalid) {
-		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas","Bills","Test","Healthcare" };
+		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas",
+				"Bills","Test","Healthcare" };
 		
 		if(!Arrays.asList(valids).contains(sIn)) {
 			//if the transaction_type is not a valid type, reject it.
@@ -76,8 +73,8 @@ public class Validator {
 	}
 	
 	public static boolean stateValidCheck(String state_abbr, String invalid) {
-		String[] valids = new String[] {"MN","IL","NY","FL","PA","NJ","CT","OH","MI","KY","MD","WA","CA","TX","NC","VA","GA","MT","AR","MS","WI","IN","SC","MA","IA","AL"};
-//		"MN","IL","NY","FL","PA","NJ","CT","OH","MI","KY","MD","WA","CA","TX","NC","VA","GA","MT","AR","MS","WI","IN","SC","MA","IA","AL"
+		String[] valids = new String[] {"MN","IL","NY","FL","PA","NJ","CT","OH","MI","KY",
+				"MD","WA","CA","TX","NC","VA","GA","MT","AR","MS","WI","IN","SC","MA","IA","AL"};
 
 		if(!Arrays.asList(valids).contains(state_abbr)) {
 			//if the transaction_type is not a valid type, reject it.
@@ -96,30 +93,21 @@ public class Validator {
 		//split[0] is the day, split[1] is the month
 		int[] dayMonthAsInts = new int[] {Integer.parseInt(split[0]), Integer.parseInt(split[1])};
 		Map<Integer, Integer[]> maxDays = new HashMap<Integer,Integer[]>();
-		maxDays.put(29 , new Integer[] {2}); //we're not checking for leap years,but do allow for their entry TODO: incorporate leap year check as needed
+		maxDays.put(28 , new Integer[] {2}); //we're not checking for leap years TODO: incorporate leap year check as needed
 		maxDays.put(30 , new Integer[] {4,6,9,11});
 		maxDays.put(31 , new Integer[] {1,3,5,7,8,10,12});
 		if(dayMonthAsInts[1]>=29) {
 			for(Map.Entry<Integer, Integer[]> e : maxDays.entrySet() ) {
-//				if(e.getKey()<=dayMonthAsInts[0]) {
 				if(e.getKey()==dayMonthAsInts[0]) {
-//					for(int i : e.getValue()) {
-//						//i is the individual months in this value-set from maxDays???
-//						
-//					}
-					System.out.println("inside if(e.getKey()==dayMonthAsInts[0])");
 					Arrays.asList(e.getValue()).contains(dayMonthAsInts[1]);
 					return true;
 				} //else return false might end this before we have a chance to check other keys where the value may be OK
-				System.out.println("inside for(Map.Entry<Integer, Integer[]> e : maxDays.entrySet() )");
 			}
-			System.out.println("inside if(dayMonthAsInts[1]>=29)");
 		} else {
 			return true; //valid date if day is 28 or less as all months have that
 		}
 		
 		System.out.println("end of dateMonthValidCheck(String dm, String invalid)");
-		//a check for day+month validity is needed i.e. no 30th of feb allowed
 		return false;
 	}
 	
@@ -132,10 +120,6 @@ public class Validator {
 			//if the transaction_type is not a valid type, reject it.
 			System.out.println(invalid);
 			System.out.println("Valid column names are: ");
-//			for(String v:valids) {
-//				System.out.print(v+", ");
-//				
-//			}
 			for(int i=0; i<valids.length;i++) {
 				if(i==valids.length-1) {
 					System.out.print(valids[i]+".");
@@ -154,16 +138,12 @@ public class Validator {
 	
 	//weak checks
 	public static boolean newStringValValidCheck(String stringIn, String invalid) {
-		//how the hell do I determine if the input is valid for the column 
-		//when this has no idea what the column is? make the input a class that has both???
-		if(stringIn.length()>40) {
+		if(stringIn.length()>40) { //this is a shitty metric, but here we are
 			Prompter.staging("newStringVal");
 		}
 		return true;
 	}
 	public static boolean newIntValValidCheck(int intIn, String invalid) {
-		//how the hell do I determine if the input is valid for the column 
-		//when this has no idea what the column is? make the input a class that has both???
 		if( Integer.toString(intIn).length()>10) {
 			Prompter.staging("newIntVal");
 		}

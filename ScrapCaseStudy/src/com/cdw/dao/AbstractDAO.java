@@ -13,12 +13,8 @@ public abstract class AbstractDAO {
 	
 	
 	protected void establishConnection() {
-//		System.out.println("establishConnection called");
 		Properties properties = new Properties();
-//		System.out.println(properties);
 		try {
-//			String path = this.getClass().getClassLoader().getResource("com/cdw/resources/db.properties").getPath();
-//			System.out.println(path + " was path");
 //			FileInputStream fs = new FileInputStream(
 //					///ScrapCaseStudy/src/com/cdw/resources/db.properties
 //					//C:\Users\Students\Desktop\Case Study Repo\ScrapCaseStudy\src\com\cdw\resources
@@ -33,15 +29,12 @@ public abstract class AbstractDAO {
 			String url = properties.getProperty("url");
 			String user = properties.getProperty("user");
 			String password = properties.getProperty("password");
-//			System.out.println(url);
 			try {
 				conn = DriverManager.getConnection(url,user,password);
-//				System.out.println(conn);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			System.out.println(conn);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -7,7 +7,6 @@ public class CustTransBetweenDates extends Transaction {
 	private String mName;
 	public CustTransBetweenDates(String fName, String mName,int d, int m, int y, String ccn, int branch,
 			String transaction_type, double transaction_value) {
-//		super(t_id, d, m, y, ccn, c_ssn, branch, transaction_type, transaction_value);
 		super.setM(m);
 		super.setD(d);
 		super.setY(y);
@@ -32,8 +31,8 @@ public class CustTransBetweenDates extends Transaction {
 	}
 	@Override
 	public String toString() {
-		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", toString()=" + super.toString() + "]";
-	} //this is kind of wonky
+		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", toString()=" + super.subClassCTBDToString() + "]";
+	} //this is kind of wonky //less wonky with new super toString
 	
 	
 }

@@ -1,9 +1,9 @@
 package com.cdw.resources;
 
 public class StateTranCountVal {
-	private String state;
-	private int count;
-	private double val;
+	private String 	state;
+	private int 	count;
+	private double 	val;
 	public StateTranCountVal(String state, int count, double val) {
 		super();
 		this.state = state;

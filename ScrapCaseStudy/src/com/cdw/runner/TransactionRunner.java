@@ -25,9 +25,7 @@ public class TransactionRunner {
 				break;
 			default:
 				System.out.println("Somehow reached default case in transaction runner switch");
-		}
-
-		
+		}	
 		scanner.close();
 	}
 	
@@ -37,15 +35,11 @@ public class TransactionRunner {
 		int z = Prompter.staging("zip").outputInt;
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
-		
-		
+			
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
 			System.out.println(t);
 			t.toString();
 		}
-		
-		
-		
 	}
 ////	2) To display the number and total values of transactions for a given type. 
 	public static void transactionNumberAndValueByType() {
@@ -61,6 +55,7 @@ public class TransactionRunner {
 	public static void transactionNumberAndValueByState() {
 		TransactionDAO tDao = new TransactionDAO();
 		String state_abbr = Prompter.staging("state").outputString;
+		
 		System.out.println(
 				tDao.getStateTransactionCountAndVal(state_abbr)
 				);

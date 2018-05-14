@@ -4,16 +4,6 @@ public class Transaction {
 	//the credit card database seems to be closest to this since it
 	//contains "transaction_type and _value" fields.
 	
-//	TRANSACTION_ID int(9) PK 
-//	DAY int(2) 
-//	MONTH int(2) 
-//	YEAR int(4) 
-//	CREDIT_CARD_NO varchar(16) 
-//	CUST_SSN int(9) 
-//	BRANCH_CODE int(9) 
-//	TRANSACTION_TYPE varchar(30) 
-//	TRANSACTION_VALUE decimal(20,3)
-	
 	private int t_id;
 	private int d;
 	private int m;
@@ -82,6 +72,11 @@ public class Transaction {
 				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
 				+ transaction_value + "]"; //printing customer SSN is 1000000% totally secure and not bad. ... ...
 	};
+	public String subClassCTBDToString() {
+		return "t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
+				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
+				+ transaction_value ;
+	}
 	
 	
 }

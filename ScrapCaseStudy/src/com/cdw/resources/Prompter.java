@@ -253,7 +253,8 @@ public final class Prompter {
 		if(c.equals("column")) {
 			System.out.println("(use underscores for spaces, and all caps)");
 		}
-		//test data to get results. can be removed for "live" use
+		
+		//test values to get results. can be removed for "live" use
 		System.out.println(t);	
 	}
 }

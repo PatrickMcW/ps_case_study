@@ -1,9 +1,9 @@
 package com.cdw.resources;
 
 public class TranTypeValCount {
-	private String type ;
-	private double val 	;
-	private int count 	;
+	private String 	type;
+	private double 	val;
+	private int 	count;
 	
 	public TranTypeValCount(String type, int count, double val) {
 		super();
