@@ -2,10 +2,14 @@ package com.cdw.resources;
 
 import java.util.Scanner;
 
+import com.cdw.runner.ChooseRunner;
+
 public final class Prompter {
 	private static final String openPrompt = "Please provide the ";
 	private static final String invalidOpen = "An invalid ";
 	private static final String invalidClose = " was entered, please try again.";
+	private static final String intExit = "Enter 0 to re-select category";
+	private static final String stringExit = "Enter EXIT to re-select category";
 	
 	private static final String zipPrompt = "zip criteria";
 	private static final String zipTestEntry = "06109";
@@ -49,20 +53,22 @@ public final class Prompter {
 		String stringIn;
 		int intIn;
 		Output output = null;
-		String prompt=null,test=null, invalid=null ;
+		String prompt=null,test=null, invalid=null, back=null ;
 		switch(type) {
 			case "zip": {
 				// set string values
 				prompt = openPrompt + zipPrompt +": ";
 				test = zipTestEntry;
 				invalid = invalidOpen + zipPrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if ( Validator.zipValidCheck(stringIn, invalid) ) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if ( Validator.zipValidCheck(stringIn, invalid) ) {
 					output = new Output(Integer.parseInt(stringIn));
 				}
 				break;
@@ -72,12 +78,15 @@ public final class Prompter {
 				prompt = openPrompt + monthPrompt +": ";
 				test = monthTestEntry;
 				invalid = invalidOpen + monthPrompt + invalidClose;
+				back = intExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( Validator.monthValidCheck(intIn, invalid)) {
+				if(intIn==0) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.monthValidCheck(intIn, invalid)) {
 					output = new Output(intIn);
 				}
 				break;
@@ -87,12 +96,15 @@ public final class Prompter {
 				prompt = openPrompt + yearPrompt +": ";
 				test = yearTestEntry;
 				invalid = invalidOpen + yearPrompt + invalidClose;
+				back = intExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type,back);
 
 				//get and validate entry
 				intIn = scanner.nextInt();
-				if( Validator.yearValidCheck(intIn, invalid)) {
+				if(intIn==0) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.yearValidCheck(intIn, invalid)) {
 					output = new Output(intIn); 
 				}
 				
@@ -103,13 +115,15 @@ public final class Prompter {
 				prompt = openPrompt + statePrompt +": ";
 				test = stateTestEntry;
 				invalid = invalidOpen + statePrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( Validator.stateValidCheck(stringIn, invalid)) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.stateValidCheck(stringIn, invalid)) {
 					output = new Output(stringIn); 
 				}
 				break;
@@ -119,13 +133,15 @@ public final class Prompter {
 				prompt = openPrompt + typePrompt +": ";
 				test = typeTestEntry;
 				invalid = invalidOpen + typePrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( Validator.typeValidCheck(stringIn, invalid)) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.typeValidCheck(stringIn, invalid)) {
 					output = new Output(stringIn); 
 				}
 				break;
@@ -135,13 +151,15 @@ public final class Prompter {
 				prompt = openPrompt + ssnPrompt +": ";
 				test = ssnTestEntry;
 				invalid = invalidOpen + ssnPrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( Validator.custSsnValidCheck(stringIn, invalid) ) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.custSsnValidCheck(stringIn, invalid) ) {
 					output = new Output(Integer.parseInt(stringIn), stringIn);
 				}
 				
@@ -152,13 +170,15 @@ public final class Prompter {
 				prompt = openPrompt + getCcnPrompt +": ";
 				test = getCcnTestEntry;
 				invalid = invalidOpen + getCcnPrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
-				if( Validator.ccnValidCheck(stringIn, invalid) ) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.ccnValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn);
 				}
 				
@@ -169,15 +189,17 @@ public final class Prompter {
 				prompt = openPrompt + dateMonthPrompt +": ";
 				test = dateMonthTestEntry;
 				invalid = invalidOpen + dateMonthPrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type,back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
 				String[] splitIn = stringIn.split("/");
 				
-				if( Validator.dateMonthValidCheck(splitIn, invalid) ) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.dateMonthValidCheck(splitIn, invalid) ) {
 					output = new Output(splitIn); 
 				}
 				break;
@@ -188,14 +210,16 @@ public final class Prompter {
 				prompt = openPrompt + columnPrompt +": ";
 				test = columnTestEntry;
 				invalid = invalidOpen + columnPrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
 				
-				if( Validator.columnValidCheck(stringIn, invalid) ) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.columnValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn); 
 				}
 				break;
@@ -206,14 +230,16 @@ public final class Prompter {
 				prompt = openPrompt + newStringValPrompt +": ";
 				test = newStringValTestEntry;
 				invalid = invalidOpen + newStringValPrompt + invalidClose;
-				
+				back = stringExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 
 				//get and validate entry
 				stringIn = scanner.next();
 				
-				if( Validator.newStringValValidCheck(stringIn, invalid) ) {
+				if(stringIn.equals("EXIT")) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.newStringValValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn); 
 				}
 				
@@ -225,14 +251,16 @@ public final class Prompter {
 				prompt = openPrompt + newIntValPrompt +": ";
 				test = newIntValTestEntry;
 				invalid = invalidOpen + newIntValPrompt + invalidClose;
-				
+				back = intExit;
 				//show prompt
-				showPrompt(prompt, test, type);
+				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				intIn = scanner.nextInt();
 				
-				if( Validator.newIntValValidCheck(intIn, invalid) ) {
+				if(intIn==0) {
+					ChooseRunner.select(scanner);
+				} else if( Validator.newIntValValidCheck(intIn, invalid) ) {
 					output = new Output(intIn); 
 				}
 				
@@ -247,7 +275,7 @@ public final class Prompter {
 		return output;
 	}
 	
-	public static void showPrompt(String p, String t, String c) {
+	public static void showPrompt(String p, String t, String c, String b) {
 		System.out.println(p);
 		//cases: column
 		if(c.equals("column")) {
@@ -256,5 +284,7 @@ public final class Prompter {
 		
 		//test values to get results. can be removed for "live" use
 		System.out.println(t);	
+		
+		System.out.println(b);
 	}
 }

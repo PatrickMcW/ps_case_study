@@ -9,24 +9,40 @@ import com.cdw.resources.Prompter;
 public class TransactionRunner {
 	public static void Run(Scanner scanner) {
 		System.out.println("Which transaction report would you like to run?");
-		System.out.println("1. Transactions by customer, for a given zip code, month and year.");
+		System.out.println("1. Transactions for a given zip code, month and year.");
 		System.out.println("2. Transaction number and value for a given type.");
 		System.out.println("3. Transaction number and value for a given state.");
+		System.out.println("0 to exit Transaction category");
+		select(scanner);
+//		return;
+	}
+	
+	public static void select(Scanner scanner) {
 		int input = scanner.nextInt();
-		switch (input) {
-			case 1:
-				transactionsForZipByMonthAndYear();
-				break;
-			case 2: 
-				transactionNumberAndValueByType();
-				break;
-			case 3:
-				transactionNumberAndValueByState();
-				break;
-			default:
-				System.out.println("Somehow reached default case in transaction runner switch");
-		}	
-		scanner.close();
+		while(input!=0) {
+			switch (input) {
+				case 1: {					
+					transactionsForZipByMonthAndYear();
+				}
+					break;
+				case 2: {					
+					transactionNumberAndValueByType();
+				}
+					break;
+				case 3: {					
+					transactionNumberAndValueByState();
+				}
+					break;
+				default: {					
+					System.out.println("Somehow reached default case in transaction runner switch");
+					input = 0;
+				}
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("You have exited the Transaction category");
+		ChooseRunner.select(scanner);
 	}
 	
 //	1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 

@@ -89,11 +89,20 @@ public class Customer {
 	public void setCustEmail(String custEmail) {this.custEmail = custEmail;};
 	
 	
+//	@Override
+//	public String toString() {
+//		return "Customer [fName=" + fName + ", mName=" + mName + ", lName=" + lName + ", ssn=" + ssn + ", ccn=" + ccn + ", aptN=" + aptN + ",\n"
+//				+ "streetN=" + streetN + ", custCity=" + custCity + ", custState=" + custState + ", custCountry=" + custCountry + ",\n" 
+//				+ "custZip=" + custZip + ", custPhone=" + custPhone + ", custEmail=" + custEmail + "]";
+//	}
+//	public String prettyString() {
 	@Override
 	public String toString() {
-		return "Customer [fName=" + fName + ", mName=" + mName + ", lName=" + lName + ", ssn=" + ssn + ", ccn=" + ccn + ", aptN=" + aptN + ",\n"
-				+ "streetN=" + streetN + ", custCity=" + custCity + ", custState=" + custState + ", custCountry=" + custCountry + ",\n" 
-				+ "custZip=" + custZip + ", custPhone=" + custPhone + ", custEmail=" + custEmail + "]";
+		String prettyOut = String.format("%40s | %40s | %40s | %9s | %16s | %7s | %30s | %30s | %30s | %30s | %7s | %10s | %40s | %n", 
+				fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail);
+//		System.out.println(prettyOut);
+		
+		return prettyOut;
 	}
 
 }

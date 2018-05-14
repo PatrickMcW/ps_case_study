@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import com.cdw.dao.CustomerDAO;
+import com.cdw.model.Customer;
 import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
@@ -20,29 +21,41 @@ public class CustomerRunner {
 		System.out.println("2. Modify account details of a particular customer by SSN.");
 		System.out.println("3. Generate monthly bill for a credit card number for a given month and year.");
 		System.out.println("4. Display the transactions made by a customer between two dates.");
+		System.out.println("0 to re-choose category");
+		select(scanner);	
+//		return;
+	}
+	public static void select(Scanner scanner) {
 		int input = scanner.nextInt();
-		switch (input) {
-			case 1: {
-				getCustomerBySsn();
-			}
-			break;
-			case 2: {
-				updateCustomerInfoBySsn();
-			}
-			break;
-			case 3: {
-//				generateBillByMonthYearForCcn(scanner);
-				generateBillByMonthYearForCcn();
-			}
-			break;
-			case 4: {
-				custTransBetweenTwoDates();
-			}
-			break;
-			default: {
-				System.out.println("Somehow reached default case in customer runner switch");
-			}
+		while(input!=0) {
+			switch (input) {
+				case 1: {
+					getCustomerBySsn();
+				}
+				break;
+				case 2: {
+					updateCustomerInfoBySsn();
+				}
+				break;
+				case 3: {
+	//				generateBillByMonthYearForCcn(scanner);
+					generateBillByMonthYearForCcn();
+				}
+				break;
+				case 4: {
+					custTransBetweenTwoDates();
+				}
+				break;
+				default: {
+					System.out.println("Somehow reached default case in customer runner switch");
+					input = 0;
+				}
+			}		
+			System.out.println();
 		}
+		System.out.println();
+		System.out.println("You have exited the Customer category");
+		ChooseRunner.select(scanner);
 	}
 	public static void getCustomerBySsn() {
 		
@@ -50,10 +63,12 @@ public class CustomerRunner {
 		//1) To check the existing account details of a customer.
 		//@int ssn
 		int ssn = Prompter.staging("ssn").outputInt;
-		
-		System.out.println(
-				cDao.getCustomerBySsn(ssn)
-				);
+		//13 columns
+		System.out.printf("%40s | %40s | %40s | %9s | %16s | %7s | %30s | %30s | %30s | %30s | %7s | %10s | %40s | %n", "First Name", "Middle Name","Last Name","SSN","Credit Card No.", "Apt No", "Street", "City","State","Country","Zip","Phone","Email");
+//		System.out.println("------------------");
+		for(Customer e: cDao.getCustomerBySsn(ssn)) {
+			System.out.println(e);
+		}
 		
 	}
 	public static void updateCustomerInfoBySsn() {
@@ -114,6 +129,7 @@ public class CustomerRunner {
 	public static void custTransBetweenTwoDates() {
 		CustomerDAO cDao = new CustomerDAO();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
+		System.out.println("year is crapping out here when i'm trying to exit from chooserunner()?");
 		int ssn = Prompter.staging("ssn").outputInt;
 		int y = Prompter.staging("year").outputInt;
 		//dateOne prompt

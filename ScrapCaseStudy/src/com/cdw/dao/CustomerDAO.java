@@ -42,8 +42,8 @@ public class CustomerDAO extends AbstractDAO {
 	}
 	
 	// get a customer by ssn
-	public Customer getCustomerBySsn(int ssn) /*throws Exception*/{
-		Customer cust = null;
+	public List<Customer> getCustomerBySsn(int ssn) /*throws Exception*/{
+		List<Customer> list = new ArrayList<Customer>();;
 		String sql = Queries.GET_CUST_BY_SSN;
 		establishConnection();
 		
@@ -53,13 +53,16 @@ public class CustomerDAO extends AbstractDAO {
 			stmt.setInt(1, ssn);
 			rs = stmt.executeQuery();
 			while( rs.next() ) {
-				cust = formCustFromResults(rs);
+				Customer cust = formCustFromResults(rs);
+//				System.out.println(cust);
+				list.add(cust);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		return cust;
+//		System.out.println(list);
+		return list;
 	}
 	
 	public MonthInvoice getBillByMonthAndYearForCcn(int m, int y, String ccn) {

@@ -31,7 +31,7 @@ public class CustTransBetweenDates extends Transaction {
 	}
 	@Override
 	public String toString() {
-		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", toString()=" + super.subClassCTBDToString() + "]";
+		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", "  + super.subClassCTBDToString() + "]";
 	} //this is kind of wonky //less wonky with new super toString
 	
 	

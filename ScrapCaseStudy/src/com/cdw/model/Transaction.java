@@ -68,10 +68,16 @@ public class Transaction {
 
 	@Override
 	public String toString() {
+		
 		return "Transaction [t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
 				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
 				+ transaction_value + "]"; //printing customer SSN is 1000000% totally secure and not bad. ... ...
 	};
+	public String prettyString() {
+		String out ="";
+		
+		return out;
+	}
 	public String subClassCTBDToString() {
 		return "t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
 				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
