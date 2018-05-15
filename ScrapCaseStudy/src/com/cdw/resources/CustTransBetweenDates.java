@@ -5,8 +5,10 @@ import com.cdw.model.Transaction;
 public class CustTransBetweenDates extends Transaction {
 	private String fName;
 	private String mName;
-	public CustTransBetweenDates(String fName, String mName,int d, int m, int y, String ccn, int branch,
+	private String lName;
+	public CustTransBetweenDates(String fName, String mName, String lName, int t_id, int d, int m, int y, String ccn, int branch,
 			String transaction_type, double transaction_value) {
+		super.setT_id(t_id);
 		super.setM(m);
 		super.setD(d);
 		super.setY(y);
@@ -16,6 +18,7 @@ public class CustTransBetweenDates extends Transaction {
 		super.setTransaction_value(transaction_value);
 		this.fName = fName;
 		this.mName = mName;
+		this.lName = lName;
 	}
 	public String getfName() {
 		return fName;
@@ -29,10 +32,21 @@ public class CustTransBetweenDates extends Transaction {
 	public void setmName(String mName) {
 		this.mName = mName;
 	}
+	
+	public String getlName() {
+		return lName;
+	}
+	public void setlName(String lName) {
+		this.lName = lName;
+	}
+//	@Override
+//	public String toString() {
+//		System.out.println(String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  ));
+//		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", " +"lName"+lName+", "  + super.subClassCTBDToString() + "]";
+//	} //this is kind of wonky //less wonky with new super toString
 	@Override
 	public String toString() {
-		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", "  + super.subClassCTBDToString() + "]";
-	} //this is kind of wonky //less wonky with new super toString
-	
-	
+		String prettyOut = String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  );
+		return prettyOut;
+	}
 }

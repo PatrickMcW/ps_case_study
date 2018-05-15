@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Transaction;
+import com.cdw.resources.Formats;
 import com.cdw.resources.Prompter;
 
 public class TransactionRunner {
@@ -23,16 +24,16 @@ public class TransactionRunner {
 			switch (input) {
 				case 1: {					
 					transactionsForZipByMonthAndYear();
+					return;
 				}
-					break;
 				case 2: {					
 					transactionNumberAndValueByType();
+					return;
 				}
-					break;
 				case 3: {					
 					transactionNumberAndValueByState();
+					return;
 				}
-					break;
 				default: {					
 					System.out.println("Somehow reached default case in transaction runner switch");
 					input = 0;
@@ -51,10 +52,10 @@ public class TransactionRunner {
 		int z = Prompter.staging("zip").outputInt;
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
-			
+		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
+		System.out.println();
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
-			System.out.println(t);
-			t.toString();
+			System.out.print(t);
 		}
 	}
 ////	2) To display the number and total values of transactions for a given type. 
@@ -62,6 +63,8 @@ public class TransactionRunner {
 		TransactionDAO tDao = new TransactionDAO();
 		String transaction_type = Prompter.staging("type").outputString;
 		
+		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
+		System.out.println();
 		System.out.println(
 				tDao.getTransactionTotalValForType(transaction_type)
 				);
@@ -72,6 +75,8 @@ public class TransactionRunner {
 		TransactionDAO tDao = new TransactionDAO();
 		String state_abbr = Prompter.staging("state").outputString;
 		
+		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "State","Value($)","# of Transactions");
+		System.out.println();
 		System.out.println(
 				tDao.getStateTransactionCountAndVal(state_abbr)
 				);

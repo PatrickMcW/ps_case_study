@@ -1,5 +1,7 @@
 package com.cdw.model;
 
+import com.cdw.resources.Formats;
+
 public class Transaction {
 	//the credit card database seems to be closest to this since it
 	//contains "transaction_type and _value" fields.
@@ -66,23 +68,25 @@ public class Transaction {
 
 	public void setTransaction_value(double transaction_value) {this.transaction_value = transaction_value;}
 
+//	@Override
+//	public String toString() {
+//		
+//		return "Transaction [t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
+//				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
+//				+ transaction_value + "]"; //printing customer SSN is 1000000% totally secure and not bad. ... ...
+//	};
 	@Override
 	public String toString() {
+		String prettyOut = String.format(Formats.transactionLayout + Formats.ssn +" %n", t_id, d,m,y, ccn, branch, transaction_type, transaction_value,c_ssn);
 		
-		return "Transaction [t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
-				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
-				+ transaction_value + "]"; //printing customer SSN is 1000000% totally secure and not bad. ... ...
-	};
-	public String prettyString() {
-		String out ="";
-		
-		return out;
+		return prettyOut;
 	}
-	public String subClassCTBDToString() {
-		return "t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
-				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
-				+ transaction_value ;
-	}
-	
+//	public String subClassCTBDToString() {
+////		String prettyOut = String.format(,);
+//		return "t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
+//				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
+//				+ transaction_value ;
+//	}
+//	
 	
 }

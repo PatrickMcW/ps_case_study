@@ -11,7 +11,11 @@ public class Queries {
 //	1) To display the transactions made by customers living in a given zipcode for a given month and year. 
 	//Order by day in descending order.
 	//@four int inputs
-	public final static String GET_TRANSACTION_LIST_BY_ZIP_MONTH_YEAR = "SELECT * FROM " + 
+	public final static String GET_TRANSACTION_LIST_BY_ZIP_MONTH_YEAR = "SELECT "+
+			" cc.TRANSACTION_ID, cc.DAY, cc.MONTH, cc.YEAR, cc.CREDIT_CARD_NO, cc.CUST_SSN, "+
+			" cc.BRANCH_CODE, cc.TRANSACTION_TYPE, cc.TRANSACTION_VALUE, c.FIRST_NAME, "+
+			" c.MIDDLE_NAME, c.LAST_NAME, c.SSN, c.CREDIT_CARD_NO, c.APT_NO, c.STREET_NAME, "+
+			" c.CUST_CITY, c.CUST_STATE, c.CUST_COUNTRY, c.CUST_ZIP, c.CUST_PHONE, c.CUST_EMAIL FROM " + 
 			"	cdw_sapp_creditcard cc INNER JOIN cdw_sapp_customer c ON cc.CREDIT_CARD_NO=c.CREDIT_CARD_NO" + 
 			"    WHERE c.CUST_ZIP = ?" + 
 			"		AND cc.MONTH = ?" + 
@@ -56,7 +60,7 @@ public class Queries {
 	
 	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
 	//@int ssn, @String dateOne, @String dateTwo
-	public final static String GET_TRANS_BY_CUST_BETWEEN_TWO_DATES = "SELECT c.FIRST_NAME 'First Name', c.LAST_NAME 'Last Name', " + 
+	public final static String GET_TRANS_BY_CUST_BETWEEN_TWO_DATES = "SELECT c.FIRST_NAME 'First Name', c.MIDDLE_NAME 'Middle Name', c.LAST_NAME 'Last Name', " + "cc.TRANSACTION_ID, " +
 			"	STR_TO_DATE(CONCAT(cc.YEAR,',',cc.MONTH,',',cc.DAY),'%Y,%m,%d') 'Date', " + 
 			"	cc.CREDIT_CARD_NO 'CCN', cc.BRANCH_CODE 'Branch', cc.TRANSACTION_TYPE 'Type', cc.TRANSACTION_VALUE 'Value' " + 
 			"	FROM cdw_sapp_customer c " + 

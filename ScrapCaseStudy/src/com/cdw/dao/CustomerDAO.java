@@ -107,27 +107,25 @@ public class CustomerDAO extends AbstractDAO {
 			while( rs.next() ) {
 				String fName 			= rs.getString(1);
 				String mName 			= rs.getString(2);
-				String date				= rs.getString(3);
+				String lName			= rs.getString(3);
+				int t_id				= rs.getInt(4);
+				String date				= rs.getString(5);
 				String[] decompDate		= date.split("-"); //0 year, 1 month, 2 day
 				int d 					= Integer.parseInt(decompDate[2]);
 				int m 					= Integer.parseInt(decompDate[1]);
 				int y 					= Integer.parseInt(decompDate[0]);
-				String ccn 				= rs.getString(4);
-				int branch 				= rs.getInt(5);
-				String transaction_type  = rs.getString(6);
-				double transaction_value = rs.getDouble(7);
+				String ccn 				= rs.getString(6);
+				int branch 				= rs.getInt(7);
+				String transaction_type  = rs.getString(8);
+				double transaction_value = rs.getDouble(9);
 				
-				CustTransBetweenDates info = new CustTransBetweenDates(fName, mName, d, m, y, ccn, branch, transaction_type, transaction_value);
-				
+				CustTransBetweenDates info = new CustTransBetweenDates(fName, mName, lName, t_id, d, m, y, ccn, branch, transaction_type, transaction_value);
 				list.add(info);
-				System.out.println(info);
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		for(CustTransBetweenDates e: list) {
-			System.out.println(e);
 		}
 		return list;
 	}

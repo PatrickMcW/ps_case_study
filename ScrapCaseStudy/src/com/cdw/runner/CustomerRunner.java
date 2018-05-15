@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.cdw.dao.CustomerDAO;
 import com.cdw.model.Customer;
 import com.cdw.resources.CustTransBetweenDates;
+import com.cdw.resources.Formats;
 import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
 
@@ -31,21 +32,20 @@ public class CustomerRunner {
 			switch (input) {
 				case 1: {
 					getCustomerBySsn();
+					return;
 				}
-				break;
 				case 2: {
 					updateCustomerInfoBySsn();
+					return;
 				}
-				break;
 				case 3: {
-	//				generateBillByMonthYearForCcn(scanner);
 					generateBillByMonthYearForCcn();
+					return;
 				}
-				break;
 				case 4: {
 					custTransBetweenTwoDates();
+					return;
 				}
-				break;
 				default: {
 					System.out.println("Somehow reached default case in customer runner switch");
 					input = 0;
@@ -64,8 +64,10 @@ public class CustomerRunner {
 		//@int ssn
 		int ssn = Prompter.staging("ssn").outputInt;
 		//13 columns
-		System.out.printf("%40s | %40s | %40s | %9s | %16s | %7s | %30s | %30s | %30s | %30s | %7s | %10s | %40s | %n", "First Name", "Middle Name","Last Name","SSN","Credit Card No.", "Apt No", "Street", "City","State","Country","Zip","Phone","Email");
-//		System.out.println("------------------");
+		System.out.printf(Formats.customerLayout, 
+				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
+				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
+		System.out.println();
 		for(Customer e: cDao.getCustomerBySsn(ssn)) {
 			System.out.println(e);
 		}
@@ -79,9 +81,12 @@ public class CustomerRunner {
 		String ccn = Prompter.staging("ccn").getOutputString();
 		
 		//display customer info,
-		System.out.println(
-				cDao.getCustomerBySsn(ssn)
-				);
+		System.out.printf(Formats.customerLayout, 
+				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
+				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
+		for(Customer e: cDao.getCustomerBySsn(ssn)) {
+			System.out.println(e);
+		}
 		
 		//ask use what they want to change
 		Output newVal;
@@ -105,9 +110,16 @@ public class CustomerRunner {
 		
 		cDao.updateCustomerBySsnAndCcn(cName, newVal, ssn, ccn);
 		System.out.println("Updated customer: ");
-		System.out.println(
-				cDao.getCustomerBySsn(ssn)
-				);
+		System.out.printf(Formats.customerLayout, 
+				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
+				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
+		for(Customer e: cDao.getCustomerBySsn(ssn)) {
+			System.out.println(e);
+		}
+		//think im looping here
+//		System.out.println("probably loop");
+		return;
+//		ChooseRunner.select(scanner);
 	}
 	
 	public static void generateBillByMonthYearForCcn(/*Scanner scanner*/) {
@@ -116,6 +128,7 @@ public class CustomerRunner {
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
 		String ccn = Prompter.staging("ccn").outputString;
+		System.out.printf(Formats.monthBillLayoutHeader, "Balance Due($)","First Name","Last Name","SSN");
 		System.out.println(
 				cDao.getBillByMonthAndYearForCcn(m, y, ccn)
 				);
@@ -144,10 +157,13 @@ public class CustomerRunner {
 		System.out.println("Second Date");
 		dateSplit = Prompter.staging("dateMonth").outputDateSplit;
 		String dateTwo = y+"-"+dateSplit[1]+"-"+dateSplit[0];
-
+		//11 categories
+		System.out.printf(Formats.custTransBetweenDatesLayoutHeader,"First Name","Middle Name","Last Name","Transaction ID","Day","Month","Year","Credit Card No.","Branch Code","Type","Transaction Value");
+		System.out.println();
 		for(CustTransBetweenDates e : 
 			cDao.getCustTransBetweenDatesBySsn(ssn, dateOne, dateTwo)) {
-					System.out.println(e);
+//					System.out.println(e);
+					System.out.print(e);
 		}
 		
 	}

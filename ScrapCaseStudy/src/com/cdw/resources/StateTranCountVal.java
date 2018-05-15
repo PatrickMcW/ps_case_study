@@ -28,11 +28,16 @@ public class StateTranCountVal {
 	public void setVal(double val) {
 		this.val = val;
 	}
+//	@Override
+//	public String toString() {
+//		return "StateTranCountVal [state=" + state + ", count=" + count + ", val=" + val + "]";
+//	}
 	@Override
 	public String toString() {
-		return "StateTranCountVal [state=" + state + ", count=" + count + ", val=" + val + "]";
+		String prettyOut = String.format(Formats.typeOrState+Formats.valueAndCount, state, val, count);
+		return prettyOut;
+		
+//		return "";
 	}
-	
-	
 
 }

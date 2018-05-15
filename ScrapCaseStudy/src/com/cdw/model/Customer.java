@@ -1,5 +1,7 @@
 package com.cdw.model;
 
+import com.cdw.resources.Formats;
+
 public class Customer {
 	//fields
 	private String fName;
@@ -98,7 +100,7 @@ public class Customer {
 //	public String prettyString() {
 	@Override
 	public String toString() {
-		String prettyOut = String.format("%40s | %40s | %40s | %9s | %16s | %7s | %30s | %30s | %30s | %30s | %7s | %10s | %40s | %n", 
+		String prettyOut = String.format(Formats.customerLayout, 
 				fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail);
 //		System.out.println(prettyOut);
 		

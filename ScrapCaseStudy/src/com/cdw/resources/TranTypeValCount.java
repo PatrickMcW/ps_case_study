@@ -29,9 +29,14 @@ public class TranTypeValCount {
 	public void setVal(double val) {
 		this.val = val;
 	}
+//	@Override
+//	public String toString() {
+//		return "TranTypeValCount [type=" + type + ", val=" + val + ", count=" + count + "]";
+//	}
 	@Override
 	public String toString() {
-		return "TranTypeValCount [type=" + type + ", val=" + val + ", count=" + count + "]";
+		String prettyOut = String.format(Formats.typeOrState+Formats.valueAndCount, type, val, count);
+		return prettyOut;
 	}
 	
 }
