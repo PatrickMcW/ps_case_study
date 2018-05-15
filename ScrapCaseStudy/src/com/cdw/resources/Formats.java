@@ -17,7 +17,7 @@ public class Formats {
 	public final static String valueAndCountHeader = "%30s | %20s";
 	public final static String valueAndCount = "%,30.2f | %20s";
 	
-	public final static String typeOrState = " %-30s |";
+	public final static String typeOrState = "%-30s |";
 	
 //	public final static String
 }
