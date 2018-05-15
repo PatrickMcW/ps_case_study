@@ -106,5 +106,9 @@ public class Customer {
 		
 		return prettyOut;
 	}
+	
+	public void toFile() {
+		
+	}
 
 }

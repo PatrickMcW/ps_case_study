@@ -49,4 +49,7 @@ public class CustTransBetweenDates extends Transaction {
 		String prettyOut = String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  );
 		return prettyOut;
 	}
+	public void toFile() {
+		
+	}
 }

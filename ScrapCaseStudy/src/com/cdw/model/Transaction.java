@@ -88,5 +88,7 @@ public class Transaction {
 //				+ transaction_value ;
 //	}
 //	
-	
+	public void toFile() {
+		
+	}
 }

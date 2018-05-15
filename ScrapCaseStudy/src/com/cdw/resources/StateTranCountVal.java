@@ -39,5 +39,8 @@ public class StateTranCountVal {
 		
 //		return "";
 	}
+	public void toFile() {
+		
+	}
 
 }
