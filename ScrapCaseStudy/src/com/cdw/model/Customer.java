@@ -1,5 +1,7 @@
 package com.cdw.model;
 
+import java.io.PrintWriter;
+
 import com.cdw.resources.Formats;
 
 public class Customer {
@@ -107,8 +109,9 @@ public class Customer {
 		return prettyOut;
 	}
 	
-	public void toFile() {
-		
+	public void toFile(PrintWriter writer) {
+//		writer.println("fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail");
+		writer.println(fName + "," + mName + "," + lName + "," + ssn + "," + ccn + "," + aptN + "," + streetN + "," + custCity + "," + custState + "," + custCountry + "," + custZip + "," + custPhone + "," + custEmail);
 	}
 
 }

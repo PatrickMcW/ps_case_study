@@ -6,6 +6,7 @@ import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Transaction;
 import com.cdw.resources.Formats;
 import com.cdw.resources.Prompter;
+import com.cdw.resources.WriteToFile;
 
 public class TransactionRunner {
 	public static void Run(Scanner scanner) {
@@ -23,15 +24,15 @@ public class TransactionRunner {
 		while(input!=0) {
 			switch (input) {
 				case 1: {					
-					transactionsForZipByMonthAndYear();
+					transactionsForZipByMonthAndYear(scanner);
 					return;
 				}
 				case 2: {					
-					transactionNumberAndValueByType();
+					transactionNumberAndValueByType(scanner);
 					return;
 				}
 				case 3: {					
-					transactionNumberAndValueByState();
+					transactionNumberAndValueByState(scanner);
 					return;
 				}
 				default: {					
@@ -47,11 +48,14 @@ public class TransactionRunner {
 	}
 	
 //	1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
-	public static void transactionsForZipByMonthAndYear() {
+	public static void transactionsForZipByMonthAndYear(Scanner scanner) {
+		WriteToFile.writeFileQuestion(scanner);
+		
 		TransactionDAO tDao = new TransactionDAO();
 		int z = Prompter.staging("zip").outputInt;
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
+		
 		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
 		System.out.println();
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
@@ -59,7 +63,7 @@ public class TransactionRunner {
 		}
 	}
 ////	2) To display the number and total values of transactions for a given type. 
-	public static void transactionNumberAndValueByType() {
+	public static void transactionNumberAndValueByType(Scanner scanner) {
 		TransactionDAO tDao = new TransactionDAO();
 		String transaction_type = Prompter.staging("type").outputString;
 		
@@ -71,7 +75,7 @@ public class TransactionRunner {
 		
 	}
 ////	3) To display the number and total values of transactions for branches in a given state 
-	public static void transactionNumberAndValueByState() {
+	public static void transactionNumberAndValueByState(Scanner scanner) {
 		TransactionDAO tDao = new TransactionDAO();
 		String state_abbr = Prompter.staging("state").outputString;
 		
@@ -80,6 +84,7 @@ public class TransactionRunner {
 		System.out.println(
 				tDao.getStateTransactionCountAndVal(state_abbr)
 				);
+		
 		
 	}
 }

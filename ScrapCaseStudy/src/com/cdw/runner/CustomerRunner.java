@@ -31,19 +31,19 @@ public class CustomerRunner {
 		while(input!=0) {
 			switch (input) {
 				case 1: {
-					getCustomerBySsn();
+					getCustomerBySsn(scanner);
 					return;
 				}
 				case 2: {
-					updateCustomerInfoBySsn();
+					updateCustomerInfoBySsn(scanner);
 					return;
 				}
 				case 3: {
-					generateBillByMonthYearForCcn();
+					generateBillByMonthYearForCcn(scanner);
 					return;
 				}
 				case 4: {
-					custTransBetweenTwoDates();
+					custTransBetweenTwoDates(scanner);
 					return;
 				}
 				default: {
@@ -57,7 +57,7 @@ public class CustomerRunner {
 		System.out.println("You have exited the Customer category");
 		ChooseRunner.select(scanner);
 	}
-	public static void getCustomerBySsn() {
+	public static void getCustomerBySsn(Scanner scanner) {
 		
 		CustomerDAO cDao = new CustomerDAO();
 		//1) To check the existing account details of a customer.
@@ -73,7 +73,7 @@ public class CustomerRunner {
 		}
 		
 	}
-	public static void updateCustomerInfoBySsn() {
+	public static void updateCustomerInfoBySsn(Scanner scanner) {
 		CustomerDAO cDao = new CustomerDAO();
 		//2) To modify the existing account details of a customer 
 
@@ -122,7 +122,7 @@ public class CustomerRunner {
 //		ChooseRunner.select(scanner);
 	}
 	
-	public static void generateBillByMonthYearForCcn(/*Scanner scanner*/) {
+	public static void generateBillByMonthYearForCcn(Scanner scanner) {
 		CustomerDAO cDao = new CustomerDAO();
 		// @int month, @int year, @string ccn
 		int m = Prompter.staging("month").outputInt;
@@ -139,7 +139,7 @@ public class CustomerRunner {
 	// note: this may not account for the fact that a single customer could have more than 
 	// one cc since the customer table has a compound primary key of ssn and ccn, unless we're
 	// specifically looking for all transactions rather than transactions on a given card
-	public static void custTransBetweenTwoDates() {
+	public static void custTransBetweenTwoDates(Scanner scanner) {
 		CustomerDAO cDao = new CustomerDAO();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
 		System.out.println("year is crapping out here when i'm trying to exit from chooserunner()?");

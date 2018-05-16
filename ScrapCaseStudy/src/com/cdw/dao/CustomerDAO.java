@@ -132,8 +132,8 @@ public class CustomerDAO extends AbstractDAO {
 	
 	public void updateCustomerBySsnAndCcn(String cName, Output newVal, int ssn, String ccn) {
 
-		String sqlStart = Queries.UPDATE_START;
-		String sqlEnd = Queries.UPDATE_END;
+		String sqlStart = Queries.UPDATE_START; //"UPDATE cdw_sapp_customer SET " //cName
+		String sqlEnd = Queries.UPDATE_END; // = ? WHERE ssn = ? AND CREDIT_CARD_NO = 
 		String sql = sqlStart+cName+sqlEnd;
 		System.out.println(sql + " was sql");
 		establishConnection();
