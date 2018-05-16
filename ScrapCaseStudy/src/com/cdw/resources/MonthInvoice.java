@@ -45,8 +45,8 @@ public class MonthInvoice {
 		String prettyOut = String.format(Formats.monthBillLayout, balance, fName, lName, id);
 		return prettyOut;
 	}
-	public void toFile() {
-		
+	public String toFile() {
+		return balance + "," + fName + "," + lName + "," + id;
 	}
 	
 }

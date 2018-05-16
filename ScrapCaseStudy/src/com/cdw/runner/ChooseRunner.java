@@ -1,9 +1,25 @@
 package com.cdw.runner;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
+
+import com.cdw.resources.WriteToFile;
 
 public class ChooseRunner {
 	public static void main(String[] args) {
+		//delete files here to clean up last run
+//		Path testPath = Paths.get("*.csv");// Exception in thread "main" java.nio.file.InvalidPathException: Illegal char <*> at index 0: *.csv
+//		System.out.println(testPath);
+//		System.out.println("csv path");
+		String[] fileNames = {
+				"transByZipMonthYear", "transCountAndValByType", "transCountAndValByState",
+				"customerBySsn", "updatedCustomer", "monthInvoice","custTransBetweenDates"
+				};
+		for(String n: fileNames) {
+			WriteToFile.overWrite(n);
+		}
+		//might be easier to just non-append-write the files here to blank them out
 		
 		Scanner scanner = new Scanner (System.in);
 		select(scanner);

@@ -41,7 +41,15 @@ public class Queries {
 	
 	//1) To check the existing account details of a customer.
 	//@int ssn
-	public final static String GET_CUST_BY_SSN = "SELECT * FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
+	public final static String GET_CUST_BY_SSN = "SELECT FIRST_NAME, MIDDLE_NAME, LAST_NAME, SSN, CREDIT_CARD_NO, APT_NO,\r\n" + 
+			" STREET_NAME, CUST_CITY, CUST_STATE, CUST_COUNTRY, CUST_ZIP, CUST_PHONE, \r\n" + 
+			" CUST_EMAIL FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
+	
+	//get cust by ssn and ccn
+	//@int ssn @string ccn
+	public final static String GET_CUST_BY_SSN_AND_CCN = "SELECT FIRST_NAME, MIDDLE_NAME, LAST_NAME, SSN, CREDIT_CARD_NO, APT_NO,\r\n" + 
+			" STREET_NAME, CUST_CITY, CUST_STATE, CUST_COUNTRY, CUST_ZIP, CUST_PHONE, \r\n" + 
+			" CUST_EMAIL FROM CDW_SAPP_CUSTOMER WHERE ssn = ? AND credit_card_no = ?";
 
 	//2) To modify the existing account details of a customer 
 	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn

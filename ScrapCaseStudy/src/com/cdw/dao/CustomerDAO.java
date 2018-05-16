@@ -64,6 +64,26 @@ public class CustomerDAO extends AbstractDAO {
 //		System.out.println(list);
 		return list;
 	}
+	public Customer getCustomerBySsnAndCcn(int ssn, String ccn) {
+		Customer cust = null;
+		String sql = Queries.GET_CUST_BY_SSN_AND_CCN;
+		establishConnection();
+		
+		try {
+			stmt=conn.prepareStatement(sql);
+			stmt.setInt(1, ssn);
+			stmt.setString(2, ccn);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				cust = formCustFromResults(rs);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cust;
+	}
 	
 	public MonthInvoice getBillByMonthAndYearForCcn(int m, int y, String ccn) {
 		// @int month, @int year, @string ccn

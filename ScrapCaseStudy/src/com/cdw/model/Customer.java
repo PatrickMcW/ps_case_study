@@ -109,9 +109,9 @@ public class Customer {
 		return prettyOut;
 	}
 	
-	public void toFile(PrintWriter writer) {
+	public String toFile() {
 //		writer.println("fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail");
-		writer.println(fName + "," + mName + "," + lName + "," + ssn + "," + ccn + "," + aptN + "," + streetN + "," + custCity + "," + custState + "," + custCountry + "," + custZip + "," + custPhone + "," + custEmail);
+		return fName + "," + mName + "," + lName + "," + ssn + "," + ccn + "," + aptN + "," + streetN + "," + custCity + "," + custState + "," + custCountry + "," + custZip + "," + custPhone + "," + custEmail;
 	}
 
 }

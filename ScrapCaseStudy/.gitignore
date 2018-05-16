@@ -1,1 +1,8 @@
 /bin/
+/custTransBetweenDates.csv
+/customerBySsn.csv
+/monthInvoice.csv
+/transByZipMonthYear.csv
+/transCountAndValByState.csv
+/transCountAndValByType.csv
+/updatedCustomer.csv

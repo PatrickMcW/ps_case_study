@@ -39,8 +39,8 @@ public class StateTranCountVal {
 		
 //		return "";
 	}
-	public void toFile() {
-		
+	public String toFile() {
+		return state + "," + val + "," + count;
 	}
 
 }

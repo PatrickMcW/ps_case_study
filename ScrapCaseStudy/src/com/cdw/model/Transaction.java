@@ -88,7 +88,7 @@ public class Transaction {
 //				+ transaction_value ;
 //	}
 //	
-	public void toFile() {
-		
+	public String toFile() {
+		return t_id + "," + d + "," + m + "," + y + "," + ccn + "," + c_ssn + "," + branch + "," + transaction_type + "," + transaction_value ;
 	}
 }

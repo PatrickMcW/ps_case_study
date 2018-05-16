@@ -38,8 +38,8 @@ public class TranTypeValCount {
 		String prettyOut = String.format(Formats.typeOrState+Formats.valueAndCount, type, val, count);
 		return prettyOut;
 	}
-	public void toFile() {
-		
+	public String toFile() {
+		return type + "," + val + "," + count;
 	}
 	
 }

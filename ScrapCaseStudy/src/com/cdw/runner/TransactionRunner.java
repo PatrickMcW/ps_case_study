@@ -28,7 +28,7 @@ public class TransactionRunner {
 					return;
 				}
 				case 2: {					
-					transactionNumberAndValueByType(scanner);
+					transactionCountAndValueByType(scanner);
 					return;
 				}
 				case 3: {					
@@ -49,7 +49,7 @@ public class TransactionRunner {
 	
 //	1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
 	public static void transactionsForZipByMonthAndYear(Scanner scanner) {
-		WriteToFile.writeFileQuestion(scanner);
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		
 		TransactionDAO tDao = new TransactionDAO();
 		int z = Prompter.staging("zip").outputInt;
@@ -59,11 +59,16 @@ public class TransactionRunner {
 		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
 		System.out.println();
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
+			if(write) {
+				WriteToFile.writeToLoc("transByZipMonthYear", t.toFile()); //no message indicating file location for user
+			}
+			
 			System.out.print(t);
 		}
 	}
 ////	2) To display the number and total values of transactions for a given type. 
-	public static void transactionNumberAndValueByType(Scanner scanner) {
+	public static void transactionCountAndValueByType(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
 		String transaction_type = Prompter.staging("type").outputString;
 		
@@ -72,10 +77,14 @@ public class TransactionRunner {
 		System.out.println(
 				tDao.getTransactionTotalValForType(transaction_type)
 				);
+		if(write) {
+			WriteToFile.writeToLoc("transCountAndValByType", tDao.getTransactionTotalValForType(transaction_type).toFile());
+		}
 		
 	}
 ////	3) To display the number and total values of transactions for branches in a given state 
 	public static void transactionNumberAndValueByState(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
 		String state_abbr = Prompter.staging("state").outputString;
 		
@@ -84,7 +93,12 @@ public class TransactionRunner {
 		System.out.println(
 				tDao.getStateTransactionCountAndVal(state_abbr)
 				);
-		
+		if(write) {
+			WriteToFile.writeToLoc("transCountAndValByState", tDao.getStateTransactionCountAndVal(state_abbr).toFile());
+		}
+//if(write) {
+//			
+//		}
 		
 	}
 }

@@ -7,8 +7,10 @@ import com.cdw.dao.CustomerDAO;
 import com.cdw.model.Customer;
 import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.Formats;
+import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
+import com.cdw.resources.WriteToFile;
 
 public class CustomerRunner {
 	public static void Run(Scanner scanner) {
@@ -35,7 +37,7 @@ public class CustomerRunner {
 					return;
 				}
 				case 2: {
-					updateCustomerInfoBySsn(scanner);
+					updateCustomerInfoBySsnAndCcn(scanner);
 					return;
 				}
 				case 3: {
@@ -58,6 +60,7 @@ public class CustomerRunner {
 		ChooseRunner.select(scanner);
 	}
 	public static void getCustomerBySsn(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		
 		CustomerDAO cDao = new CustomerDAO();
 		//1) To check the existing account details of a customer.
@@ -70,23 +73,29 @@ public class CustomerRunner {
 		System.out.println();
 		for(Customer e: cDao.getCustomerBySsn(ssn)) {
 			System.out.println(e);
+			if(write) {
+				WriteToFile.writeToLoc("customerBySsn", e.toFile() );
+			}
 		}
 		
 	}
-	public static void updateCustomerInfoBySsn(Scanner scanner) {
+	public static void updateCustomerInfoBySsnAndCcn(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		//2) To modify the existing account details of a customer 
 
 		int ssn = Prompter.staging("ssn").getOutputInt();
 		String ccn = Prompter.staging("ccn").getOutputString();
 		
+		Customer cust = cDao.getCustomerBySsnAndCcn(ssn, ccn);
 		//display customer info,
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
-		for(Customer e: cDao.getCustomerBySsn(ssn)) {
-			System.out.println(e);
-		}
+//		for(Customer e: cDao.getCustomerBySsn(ssn)) {
+//			System.out.println(e);
+//		}
+		System.out.println(cust);
 		
 		//ask use what they want to change
 		Output newVal;
@@ -113,8 +122,10 @@ public class CustomerRunner {
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
-		for(Customer e: cDao.getCustomerBySsn(ssn)) {
-			System.out.println(e);
+		
+		System.out.println(cust);
+		if(write) {
+			WriteToFile.writeToLoc("updatedCustomer", cust.toFile());
 		}
 		//think im looping here
 //		System.out.println("probably loop");
@@ -123,15 +134,18 @@ public class CustomerRunner {
 	}
 	
 	public static void generateBillByMonthYearForCcn(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		// @int month, @int year, @string ccn
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
 		String ccn = Prompter.staging("ccn").outputString;
+		MonthInvoice bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
 		System.out.printf(Formats.monthBillLayoutHeader, "Balance Due($)","First Name","Last Name","SSN");
-		System.out.println(
-				cDao.getBillByMonthAndYearForCcn(m, y, ccn)
-				);
+		System.out.println(bill);
+		if(write) {
+			WriteToFile.writeToLoc("monthInvoice", bill.toFile());
+		}	
 	}
 	
 //	4) To display the transactions made by a customer between two dates. 
@@ -140,6 +154,7 @@ public class CustomerRunner {
 	// one cc since the customer table has a compound primary key of ssn and ccn, unless we're
 	// specifically looking for all transactions rather than transactions on a given card
 	public static void custTransBetweenTwoDates(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
 		System.out.println("year is crapping out here when i'm trying to exit from chooserunner()?");
@@ -164,6 +179,9 @@ public class CustomerRunner {
 			cDao.getCustTransBetweenDatesBySsn(ssn, dateOne, dateTwo)) {
 //					System.out.println(e);
 					System.out.print(e);
+					if(write) {
+						WriteToFile.writeToLoc("custTransBetweenDates", e.toFile());
+					}
 		}
 		
 	}
