@@ -90,25 +90,14 @@ public class Customer {
 
 	public void setCustEmail(String custEmail) {this.custEmail = custEmail;};
 	
-	
-//	@Override
-//	public String toString() {
-//		return "Customer [fName=" + fName + ", mName=" + mName + ", lName=" + lName + ", ssn=" + ssn + ", ccn=" + ccn + ", aptN=" + aptN + ",\n"
-//				+ "streetN=" + streetN + ", custCity=" + custCity + ", custState=" + custState + ", custCountry=" + custCountry + ",\n" 
-//				+ "custZip=" + custZip + ", custPhone=" + custPhone + ", custEmail=" + custEmail + "]";
-//	}
-//	public String prettyString() {
 	@Override
-	public String toString() {
-		String prettyOut = String.format(Formats.customerLayout, 
+	public String toString() {	
+		return String.format(Formats.customerLayout, 
 				fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail);
-//		System.out.println(prettyOut);
-		
-		return prettyOut;
+
 	}
 	
 	public String toFile() {
-//		writer.println("fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail");
 		return fName + "," + mName + "," + lName + "," + ssn + "," + ccn + "," + aptN + "," + streetN + "," + custCity + "," + custState + "," + custCountry + "," + custZip + "," + custPhone + "," + custEmail;
 	}
 

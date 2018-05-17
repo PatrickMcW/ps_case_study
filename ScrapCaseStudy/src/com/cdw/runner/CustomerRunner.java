@@ -26,7 +26,6 @@ public class CustomerRunner {
 		System.out.println("4. Display the transactions made by a customer between two dates.");
 		System.out.println("0 to re-choose category");
 		select(scanner);	
-//		return;
 	}
 	public static void select(Scanner scanner) {
 		int input = scanner.nextInt();
@@ -82,56 +81,51 @@ public class CustomerRunner {
 	public static void updateCustomerInfoBySsnAndCcn(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
+		Output newVal;
 		//2) To modify the existing account details of a customer 
-
+		
+		//get unique customer+ccn record
 		int ssn = Prompter.staging("ssn").getOutputInt();
 		String ccn = Prompter.staging("ccn").getOutputString();
 		
+		//display record info,
 		Customer cust = cDao.getCustomerBySsnAndCcn(ssn, ccn);
-		//display customer info,
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
-//		for(Customer e: cDao.getCustomerBySsn(ssn)) {
-//			System.out.println(e);
-//		}
 		System.out.println(cust);
-		
-		//ask use what they want to change
-		Output newVal;
-		
-	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
+	
+		//ask use what the user wants to change
+		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
 		String cName = Prompter.staging("column").outputString; 
 				
 		//can check here for col dtype to newval dtype.
 //		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
 //				 "CREDIT_CARD_NO", "APT_NO", "STREET_NAME", "CUST_CITY",
-//				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_EMAIL"}; //leaving this here in case we need to check for string columns after any DB changes
+//				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_EMAIL"}; 
+		//leaving this here in case we need to check for string columns after any DB changes
 		String[] useInts = new String[] {"SSN", "CUST_PHONE"};
 		
 		if(Arrays.asList(useInts).contains(cName)) {
-//			String newVal = Prompter.staging("newStringVal").outputString;
 			newVal = new Output(Prompter.staging("newIntVal").outputInt);
 			
 		} else {
 			newVal = new Output(Prompter.staging("newStringVal").outputString);
 		}
 		
+		//actually update the record info
 		cDao.updateCustomerBySsnAndCcn(cName, newVal, ssn, ccn);
+		
+		//show newly updated record
 		System.out.println("Updated customer: ");
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
-				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
-		
-		System.out.println(cust);
-		
+				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");	
+		System.out.println(cust);	
 		if(write) {
 			WriteToFile.writeToLoc("updatedCustomer", cust.toFile());
 		}
-		//think im looping here
-//		System.out.println("probably loop");
 		return;
-//		ChooseRunner.select(scanner);
 	}
 	
 	public static void generateBillByMonthYearForCcn(Scanner scanner) {
@@ -158,17 +152,13 @@ public class CustomerRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
-		System.out.println("year is crapping out here when i'm trying to exit from chooserunner()?");
 		int ssn = Prompter.staging("ssn").outputInt;
 		int y = Prompter.staging("year").outputInt;
 		//dateOne prompt
-		System.out.println("First Date");
-		
+		System.out.println("First Date");	
 		String[] dateSplit = Prompter.staging("dateMonth").outputDateSplit;	//using var for readability
-		//dateSplit[0] is day, dateSplit[1] is month
-		
-		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];
-		
+		//dateSplit[0] is day, dateSplit[1] is month	
+		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];		
 		//dateTwo prompt
 		System.out.println("Second Date");
 		dateSplit = Prompter.staging("dateMonth").outputDateSplit;
@@ -178,12 +168,10 @@ public class CustomerRunner {
 		System.out.println();
 		for(CustTransBetweenDates e : 
 			cDao.getCustTransBetweenDatesBySsn(ssn, dateOne, dateTwo)) {
-//					System.out.println(e);
-					System.out.print(e);
+					System.out.println(e);
 					if(write) {
 						WriteToFile.writeToLoc("custTransBetweenDates", e.toFile());
 					}
-		}
-		
+		}		
 	}
 }

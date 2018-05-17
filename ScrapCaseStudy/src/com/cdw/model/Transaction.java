@@ -68,26 +68,10 @@ public class Transaction {
 
 	public void setTransaction_value(double transaction_value) {this.transaction_value = transaction_value;}
 
-//	@Override
-//	public String toString() {
-//		
-//		return "Transaction [t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
-//				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
-//				+ transaction_value + "]"; //printing customer SSN is 1000000% totally secure and not bad. ... ...
-//	};
 	@Override
 	public String toString() {
-		String prettyOut = String.format(Formats.transactionLayout + Formats.ssn +" %n", t_id, d,m,y, ccn, branch, transaction_type, transaction_value,c_ssn);
-		
-		return prettyOut;
+		return String.format(Formats.transactionLayout + Formats.ssn +" %n", t_id, d,m,y, ccn, branch, transaction_type, transaction_value,c_ssn);
 	}
-//	public String subClassCTBDToString() {
-////		String prettyOut = String.format(,);
-//		return "t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
-//				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
-//				+ transaction_value ;
-//	}
-//	
 	public String toFile() {
 		return t_id + "," + d + "," + m + "," + y + "," + ccn + "," + c_ssn + "," + branch + "," + transaction_type + "," + transaction_value ;
 	}

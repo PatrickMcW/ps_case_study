@@ -16,7 +16,6 @@ public class TransactionRunner {
 		System.out.println("3. Transaction number and value for a given state.");
 		System.out.println("0 to exit Transaction category");
 		select(scanner);
-//		return;
 	}
 	
 	public static void select(Scanner scanner) {
@@ -50,8 +49,8 @@ public class TransactionRunner {
 //	1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
 	public static void transactionsForZipByMonthAndYear(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
-		
 		TransactionDAO tDao = new TransactionDAO();
+		
 		int z = Prompter.staging("zip").outputInt;
 		int m = Prompter.staging("month").outputInt;
 		int y = Prompter.staging("year").outputInt;
@@ -70,6 +69,7 @@ public class TransactionRunner {
 	public static void transactionCountAndValueByType(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
+		
 		String transaction_type = Prompter.staging("type").outputString;
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
@@ -86,6 +86,7 @@ public class TransactionRunner {
 	public static void transactionNumberAndValueByState(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
+		
 		String state_abbr = Prompter.staging("state").outputString;
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "State","Value($)","# of Transactions");
@@ -96,9 +97,5 @@ public class TransactionRunner {
 		if(write) {
 			WriteToFile.writeToLoc("transCountAndValByState", tDao.getStateTransactionCountAndVal(state_abbr).toFile());
 		}
-//if(write) {
-//			
-//		}
-		
 	}
 }

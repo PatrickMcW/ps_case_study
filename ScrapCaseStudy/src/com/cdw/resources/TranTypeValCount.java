@@ -35,8 +35,7 @@ public class TranTypeValCount {
 //	}
 	@Override
 	public String toString() {
-		String prettyOut = String.format(Formats.typeOrState+Formats.valueAndCount, type, val, count);
-		return prettyOut;
+		return String.format(Formats.typeOrState+Formats.valueAndCount, type, val, count);
 	}
 	public String toFile() {
 		return type + "," + val + "," + count;

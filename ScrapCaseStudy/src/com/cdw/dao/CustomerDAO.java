@@ -113,7 +113,6 @@ public class CustomerDAO extends AbstractDAO {
 	}
 	
 	public List<CustTransBetweenDates> getCustTransBetweenDatesBySsn(int ssn, String dateOne, String dateTwo) {
-		//the date strings could probably be Date objs, but im lazy
 		List<CustTransBetweenDates> list = new ArrayList<CustTransBetweenDates>();
 		String sql = Queries.GET_TRANS_BY_CUST_BETWEEN_TWO_DATES;
 		establishConnection();

@@ -1,7 +1,5 @@
 package com.cdw.runner;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 import com.cdw.resources.WriteToFile;
@@ -9,9 +7,6 @@ import com.cdw.resources.WriteToFile;
 public class ChooseRunner {
 	public static void main(String[] args) {
 		//delete files here to clean up last run
-//		Path testPath = Paths.get("*.csv");// Exception in thread "main" java.nio.file.InvalidPathException: Illegal char <*> at index 0: *.csv
-//		System.out.println(testPath);
-//		System.out.println("csv path");
 		String[] fileNames = {
 				"transByZipMonthYear", "transCountAndValByType", "transCountAndValByState",
 				"customerBySsn", "updatedCustomer", "monthInvoice","custTransBetweenDates"
@@ -31,14 +26,11 @@ public class ChooseRunner {
 			WriteToFile.writeToLoc(fileNames[i], columnNames[i]);
 		}
 		//might be easier to just non-append-write the files here to blank them out
-		
+			//narrator: it was.	
 		Scanner scanner = new Scanner (System.in);
 		select(scanner);
-		//TODO: give exit option, then loop
-		//TODO: make prints pretty, give them a 
 		scanner.close();
-		return;
-		
+		return;	
 	}
 	public static void select(Scanner scanner) {
 		System.out.println("Available report query types:"); 
@@ -57,27 +49,18 @@ public class ChooseRunner {
 				case 2:{
 					CustomerRunner.Run(scanner);
 				}
-				break;
-				
-				
+				break;			
 				default: {
 					System.out.println("You hit default, run again");
-//					return;
-//					input = 0;
 					select(scanner);
 				}
-				break;
-			
+				break;		
 			}
 			System.out.println();
 		}
 		if(input==0) {
 			System.out.println("You have exited the program. Have a great day!");
-//			return;
 			System.exit(0);
 		}
-		
-//		scanner.close();
-//		return;
 	}
 }

@@ -39,15 +39,10 @@ public class CustTransBetweenDates extends Transaction {
 	public void setlName(String lName) {
 		this.lName = lName;
 	}
-//	@Override
-//	public String toString() {
-//		System.out.println(String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  ));
-//		return "CustTransBetweenDates [fName=" + fName + ", mName=" + mName + ", " +"lName"+lName+", "  + super.subClassCTBDToString() + "]";
-//	} //this is kind of wonky //less wonky with new super toString
+
 	@Override
 	public String toString() {
-		String prettyOut = String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  );
-		return prettyOut;
+		return String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  );
 	}
 	public String toFile() {
 		return fName + "," + mName + "," + lName + "," + super.getT_id() + "," + super.getD() + "," + super.getM() + "," + super.getY() + "," + super.getCcn() + "," + super.getBranch() + "," + super.getTransaction_type() + "," + super.getTransaction_value();

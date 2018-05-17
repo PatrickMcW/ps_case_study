@@ -277,7 +277,7 @@ public final class Prompter {
 	
 	public static void showPrompt(String p, String t, String c, String b) {
 		System.out.println(p);
-		//cases: column
+		//special cases: column
 		if(c.equals("column")) {
 			System.out.println("(use underscores for spaces, and all caps)");
 		}

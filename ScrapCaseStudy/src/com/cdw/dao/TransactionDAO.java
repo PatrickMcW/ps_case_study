@@ -13,8 +13,6 @@ import com.cdw.resources.TranTypeValCount;
 public class TransactionDAO extends AbstractDAO{
 
 	public Transaction formTransFromResults(ResultSet rs) {
-		//The ResultSet interface provides getter methods (getBoolean, getLong, and so on) 
-		// for retrieving column values from the current row.
 		Transaction trans = null;	
 		 try { 
 			 int t_id 					= rs.getInt(1);
@@ -81,15 +79,6 @@ public class TransactionDAO extends AbstractDAO{
 		return list;
 	}
 //	2) To display the number and total values of transactions for a given type. 
-//	public enum T_Type{
-//		Education,
-//		Entertainment,
-//		Grocery,
-//		Gas,
-//		Bills,
-//		Test,
-//		Healthcare
-//	} //java does not have square bracket var notation, so this won't work.
 	public TranTypeValCount getTransactionTotalValForType(String transaction_type){
 		TranTypeValCount result = null;		
 		String sql = Queries.GET_TRANSACTION_TOTAL_VALUE_BY_TYPE;

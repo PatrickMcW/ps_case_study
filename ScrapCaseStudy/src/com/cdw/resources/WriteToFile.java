@@ -7,35 +7,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class WriteToFile {
-	public static void main(String[] args) {
-//		PrintWriter writer = null;
-//		Scanner scanner = new Scanner (System.in);
-//		System.out.println("Do you want to write these results to file?");
-//		System.out.println("1 for yes, 2 for no: ");
-//		int wantWrite = scanner.nextInt(); 
-//		//file name only, not extension.
-//		if(wantWrite==1) {
-//			
-//			System.out.println("Enter file name (no extension, will be .csv): ");
-//			String loc = scanner.next(); //probably need a check here for legit file names
-//			try {
-//				writer = new PrintWriter(new BufferedWriter(new FileWriter(loc+".csv", true)));
-//				//probably need a way to clean the file between test runs
-//				writeToLoc(/*loc,*/ writer);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} //true param should allow appending, rather than overwriting.
-//			finally {
-//				writer.close();
-//			}
-//			
-//			
-//		}
-//		
-//		
-//		
-	}
+	private WriteToFile() {};
 	public static boolean writeFileQuestion(Scanner scanner) {
 		System.out.println("Do you want to write the results to a file?");
 		System.out.println("1 for yes, 2 for no: ");
@@ -50,8 +22,6 @@ public class WriteToFile {
 	public static void writeToLoc(String loc, String printable/*, PrintWriter writer*/) {
 		try {
 			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(loc+".csv", true)));
-//			System.out.println(printable);
-//			System.out.println("=================");
 			writer.println(printable);
 			writer.close();
 		} catch (IOException e) {
@@ -59,6 +29,7 @@ public class WriteToFile {
 			e.printStackTrace();
 		}
 		//indicate to user where file is?
+		//it is in default (src) directory
 	}
 	public static void overWrite(String loc) {
 		try {

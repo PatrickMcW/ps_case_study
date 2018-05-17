@@ -36,14 +36,10 @@ public class MonthInvoice {
 	public void setId(int id) {
 		this.id = id;
 	}
-//	@Override
-//	public String toString() {
-//		return "MonthInvoice [balance=" + balance + ", fName=" + fName + ", lName=" + lName + ", id=" + id + "]";
-//	}
+
 	@Override
 	public String toString() {
-		String prettyOut = String.format(Formats.monthBillLayout, balance, fName, lName, id);
-		return prettyOut;
+		return String.format(Formats.monthBillLayout, balance, fName, lName, id);
 	}
 	public String toFile() {
 		return balance + "," + fName + "," + lName + "," + id;
