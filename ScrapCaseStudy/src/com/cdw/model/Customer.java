@@ -1,7 +1,5 @@
 package com.cdw.model;
 
-import java.io.PrintWriter;
-
 import com.cdw.resources.Formats;
 
 public class Customer {

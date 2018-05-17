@@ -16,8 +16,19 @@ public class ChooseRunner {
 				"transByZipMonthYear", "transCountAndValByType", "transCountAndValByState",
 				"customerBySsn", "updatedCustomer", "monthInvoice","custTransBetweenDates"
 				};
-		for(String n: fileNames) {
-			WriteToFile.overWrite(n);
+		String[] columnNames = {
+				"t_id,d,m,y,ccn,branch,transaction_type,transaction_value,c_ssn",
+				"type, val, count",
+				"state, val, count",
+				"fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail",
+				"fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail",
+				"balance, fName, lName, id",
+				"fName, mName, lName,t_id,d,m,y,ccn,branch,transaction_type,transaction_value"
+				
+		};
+		for(int i = 0;i<fileNames.length;i++) {
+			WriteToFile.overWrite(fileNames[i]);
+			WriteToFile.writeToLoc(fileNames[i], columnNames[i]);
 		}
 		//might be easier to just non-append-write the files here to blank them out
 		

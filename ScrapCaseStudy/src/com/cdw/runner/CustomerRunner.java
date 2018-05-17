@@ -124,6 +124,7 @@ public class CustomerRunner {
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
 		
 		System.out.println(cust);
+		
 		if(write) {
 			WriteToFile.writeToLoc("updatedCustomer", cust.toFile());
 		}
