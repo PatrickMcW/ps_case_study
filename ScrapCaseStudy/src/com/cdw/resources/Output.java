@@ -8,6 +8,7 @@ public class Output {
 	public String[] outputDateSplit; //[0] should be day, [1] should be month
 	
 	//constructors
+	public Output() {};
 	public Output(int intIn, String stringIn, String[] arrIn) {
 		super();
 		this.outputInt = intIn;

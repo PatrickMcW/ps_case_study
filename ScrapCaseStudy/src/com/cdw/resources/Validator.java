@@ -116,12 +116,42 @@ public class Validator {
 				"SSN", "CREDIT_CARD_NO", "APT_NO", "STREET_NAME", "CUST_CITY",
 				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_PHONE", "CUST_EMAIL"};
 		
-		if(!Arrays.asList(valids).contains(col_name)) {
+//		if(!Arrays.asList(valids).contains(col_name)) {
+//			//if the transaction_type is not a valid type, reject it.
+//			System.out.println(invalid);
+//			System.out.println("Valid column names are: ");
+//			for(int i=0; i<valids.length;i++) {
+//				if(i==valids.length-1) {
+//					System.out.print(valids[i]+".");
+//				} else if(i%4==0) {
+//					System.out.println(valids[i]+",");
+//				} else {
+//					System.out.print(valids[i]+", ");
+//				}
+//			}
+//			System.out.println();
+//			System.out.println("columnValidCheck reject");
+////			return false;
+//			Prompter.staging("column");
+//			return false;
+//		} else {
+//			System.out.println("columnValidCheck pass");
+//			return true; //this may be redundant, but we'll see if ELEPHANTS breaks this again
+//		}
+//		System.out.println("why is this printing");
+//		return false;
+		if(Arrays.asList(valids).contains(col_name)) {
+			System.out.println("columnValidCheck pass");
+			return true; //this may be redundant, but we'll see if ELEPHANTS breaks this again
+
+		} else {
 			//if the transaction_type is not a valid type, reject it.
 			System.out.println(invalid);
 			System.out.println("Valid column names are: ");
 			for(int i=0; i<valids.length;i++) {
-				if(i==valids.length-1) {
+				if(i==0) {
+					System.out.print(valids[i]+",");
+				} else if(i==valids.length-1) {
 					System.out.print(valids[i]+".");
 				} else if(i%4==0) {
 					System.out.println(valids[i]+",");
@@ -130,10 +160,11 @@ public class Validator {
 				}
 			}
 			System.out.println();
+			System.out.println("columnValidCheck reject");
+//			return false;
 			Prompter.staging("column");
+			return false;
 		}
-		
-		return true;
 	}
 	
 	//weak checks

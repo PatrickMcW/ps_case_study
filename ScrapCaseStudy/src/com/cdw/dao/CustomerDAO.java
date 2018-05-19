@@ -10,6 +10,7 @@ import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Output;
 import com.cdw.resources.Queries;
+import com.cdw.resources.Validator;
 
 public class CustomerDAO extends AbstractDAO {
 		
@@ -85,6 +86,8 @@ public class CustomerDAO extends AbstractDAO {
 		return cust;
 	}
 	
+	//i could probably just overload a getCustomer method, having one that takes ssn only, and another that takes ssn+ccn, but not today. 
+	
 	public MonthInvoice getBillByMonthAndYearForCcn(int m, int y, String ccn) {
 		// @int month, @int year, @string ccn
 		MonthInvoice bill = null;
@@ -153,7 +156,9 @@ public class CustomerDAO extends AbstractDAO {
 
 		String sqlStart = Queries.UPDATE_START; //"UPDATE cdw_sapp_customer SET " //cName
 		String sqlEnd = Queries.UPDATE_END; // = ? WHERE ssn = ? AND CREDIT_CARD_NO = 
-		String sql = sqlStart+cName+sqlEnd;
+		String sql = sqlStart+cName+sqlEnd; 
+		//cName has to pass Validator.columnValidCheck() to get used as argument, so safe from injection
+		
 		System.out.println(sql + " was sql");
 		establishConnection();
 		

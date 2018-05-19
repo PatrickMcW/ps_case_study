@@ -52,8 +52,14 @@ public final class Prompter {
 		//otherwise, open in calling main and close there, and pass as arg
 		String stringIn;
 		int intIn;
-		Output output = null;
+		Output output = new Output() {};
+//		Output output;
 		String prompt=null,test=null, invalid=null, back=null ;
+		
+		//check input here, then 
+		//while false, reprompt
+		
+		//when true, set values, then return
 		switch(type) {
 			case "zip": {
 				// set string values
@@ -70,7 +76,10 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if ( Validator.zipValidCheck(stringIn, invalid) ) {
 					output = new Output(Integer.parseInt(stringIn));
+					return output;
 				}
+				
+//				caseTest(type, Validator.zipValidCheck(stringIn, invalid), stringIn);
 				break;
 			}
 			case "month": {
@@ -88,6 +97,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.monthValidCheck(intIn, invalid)) {
 					output = new Output(intIn);
+					return output;
 				}
 				break;
 			}
@@ -106,6 +116,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.yearValidCheck(intIn, invalid)) {
 					output = new Output(intIn); 
+					return output;
 				}
 				
 				break;
@@ -125,6 +136,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.stateValidCheck(stringIn, invalid)) {
 					output = new Output(stringIn); 
+					return output;
 				}
 				break;
 			}
@@ -143,6 +155,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.typeValidCheck(stringIn, invalid)) {
 					output = new Output(stringIn); 
+					return output;
 				}
 				break;
 			}
@@ -161,6 +174,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.custSsnValidCheck(stringIn, invalid) ) {
 					output = new Output(Integer.parseInt(stringIn), stringIn);
+					return output;
 				}
 				
 				break;
@@ -180,6 +194,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.ccnValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn);
+					return output;
 				}
 				
 				break;
@@ -201,6 +216,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.dateMonthValidCheck(splitIn, invalid) ) {
 					output = new Output(splitIn); 
+					return output;
 				}
 				break;
 			}
@@ -219,13 +235,21 @@ public final class Prompter {
 				
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.columnValidCheck(stringIn, invalid) ) {
+				} 
+				
+				if( Validator.columnValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn); 
+					System.out.println(output);
+					System.out.println(output.toString());
+					System.out.println(output.getOutputString());
+//					return output;
+				} else {
+					return output;
 				}
 				break;
 			}
 			case "newStringVal": {
-				System.out.println("newStringVal case in prompter");
+//				System.out.println("newStringVal case in prompter");
 				// set string values
 				prompt = openPrompt + newStringValPrompt +": ";
 				test = newStringValTestEntry;
@@ -241,6 +265,7 @@ public final class Prompter {
 					ChooseRunner.select(scanner);
 				} else if( Validator.newStringValValidCheck(stringIn, invalid) ) {
 					output = new Output(stringIn); 
+					return output;
 				}
 				
 				break;
@@ -260,21 +285,35 @@ public final class Prompter {
 				
 				if(intIn==0) {
 					ChooseRunner.select(scanner);
+//					return
 				} else if( Validator.newIntValValidCheck(intIn, invalid) ) {
 					output = new Output(intIn); 
+					return output;
 				}
+				
+				//while(checkIsFalse){ re-enter} return output
 				
 				break;
 			}			
 			
 			default: {
 				System.out.println("Somehow reached default case in staging switch");
+				return output;
 			}
 
 		}
+		System.out.println("how here");
+		//i need to only return an output when one of the cases have been met
 		return output;
 	}
 	
+//	public static Output caseTest(String type, boolean check, String input) {
+//		
+//	}
+//	public static Output caseTest(String type, boolean check, int input) {
+//		
+//	}
+//	
 	public static void showPrompt(String p, String t, String c, String b) {
 		System.out.println(p);
 		//special cases: column

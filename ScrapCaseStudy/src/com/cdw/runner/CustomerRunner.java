@@ -97,7 +97,10 @@ public class CustomerRunner {
 	
 		//ask use what the user wants to change
 		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
-		String cName = Prompter.staging("column").outputString; 
+		Output test = Prompter.staging("column");
+		System.out.println(test);
+//		String cName = Prompter.staging("column").getOutputString(); 
+		String cName = test.getOutputString();
 				
 		//can check here for col dtype to newval dtype.
 //		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
@@ -121,7 +124,7 @@ public class CustomerRunner {
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");	
-		System.out.println(cust);	
+		System.out.println(cust);//TODO: this is old data	
 		if(write) {
 			WriteToFile.writeToLoc("updatedCustomer", cust.toFile());
 		}
