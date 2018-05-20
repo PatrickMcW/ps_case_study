@@ -5,108 +5,102 @@ import java.util.Scanner;
 import com.cdw.runner.ChooseRunner;
 
 public final class Prompter {
-	private static final String openPrompt = "Please provide the ";
-	private static final String invalidOpen = "An invalid ";
-	private static final String invalidClose = " was entered, please try again.";
-	private static final String intExit = "Enter 0 to re-select category";
-	private static final String stringExit = "Enter EXIT to re-select category";
 	
-	private static final String zipPrompt = "zip criteria";
-	private static final String zipTestEntry = "06109";
-	
-	private static final String monthPrompt = "month (as integer) criteria ";
-	private static final String monthTestEntry = "2 or 11";
-	
-	private static final String yearPrompt = "year criteria";
-	private static final String yearTestEntry = "2018"; //only year in records
-	
-	private static final String statePrompt = "state criteria";
-	private static final String stateTestEntry = "CT"; //not case sensitive in mysqlworkbench
-
-	private static final String typePrompt = "type criteria";
-	private static final String typeTestEntry = "Bills"; //case insensitive
-	
-	private static final String ssnPrompt = "customer ssn";
-	private static final String ssnTestEntry = "123456100"; 
-	
-	private static final String getCcnPrompt = "credit card number";
-	private static final String getCcnTestEntry = "4210653310061055 or 4210653349028689"; 
-
-	private static final String dateMonthPrompt = "date criteria (format: dd/mm)";
-	private static final String dateMonthTestEntry = "01/11 or 30/11"; 
-	
-	
-	private static final String columnPrompt = "column criteria";
-	private static final String columnTestEntry = "first_name"; 
-	
-	private static final String newStringValPrompt = "new string for field";
-	private static final String newStringValTestEntry = "";
-	
-	private static final String newIntValPrompt = "new int for field";
-	private static final String newIntValTestEntry = "";
-
 	private static final Scanner scanner = new Scanner (System.in); // this got rid of the yellow underline for similar declaration in staging(), but you would think the scanner should still be closed
 	
 	public static Output staging(String type/*, Scanner scanner*/) {
+//	public static void staging(String type/*, Scanner scanner*/, Output output) {
 //		Scanner scanner = new Scanner (System.in); //if i can open/close scanner without issue here, do that,
 		//otherwise, open in calling main and close there, and pass as arg
 		String stringIn;
 		int intIn;
-		Output output = new Output() {};
+//		Output output = new Output() {};
 //		Output output;
+		Output output= new Output();
 		String prompt=null,test=null, invalid=null, back=null ;
 		
-		//check input here, then 
-		//while false, reprompt
+		//prompt
+		//get input
+		//check input , then 
+		//while false/invalid, reprompt
+		//while true/valid, return
 		
 		//when true, set values, then return
 		switch(type) {
-			case "zip": {
+			case "zip":{
 				// set string values
-				prompt = openPrompt + zipPrompt +": ";
-				test = zipTestEntry;
-				invalid = invalidOpen + zipPrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.zipPrompt +": ";
+				test = Prompts.zipTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.zipPrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
 				//get and validate entry
 				stringIn = scanner.next();
+				//check for exit command
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if ( Validator.zipValidCheck(stringIn, invalid) ) {
-					output = new Output(Integer.parseInt(stringIn));
-					return output;
+					break;
 				}
 				
-//				caseTest(type, Validator.zipValidCheck(stringIn, invalid), stringIn);
+				while(!Validator.zipValidCheck(stringIn, invalid) ) {
+					staging(type);
+					break;
+				}
+//				output=new Output(Integer.parseInt(stringIn)) {};
+//				int gb = ;
+				output.reset();
+				if(Validator.zipValidCheck(stringIn, invalid)) {
+					
+					output.setOutputInt(Integer.parseInt(stringIn));;
+					System.out.println(output);
+					System.out.println("output in zip after set");
+				}
 				break;
 			}
 			case "month": {
 				// set string values
-				prompt = openPrompt + monthPrompt +": ";
-				test = monthTestEntry;
-				invalid = invalidOpen + monthPrompt + invalidClose;
-				back = intExit;
+				prompt = Prompts.openPrompt + Prompts.monthPrompt +": ";
+				test = Prompts.monthTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.monthPrompt + Prompts.invalidClose;
+				back = Prompts.intExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 
 				//get and validate entry
-				intIn = scanner.nextInt();
+				intIn = scanner.nextInt(); //if the user is a dick, they can put a really long string here to break things
 				if(intIn==0) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.monthValidCheck(intIn, invalid)) {
-					output = new Output(intIn);
-					return output;
+					break;
+				} 
+				System.out.println(output);
+				System.out.println("output before while");
+				while( !Validator.monthValidCheck(intIn, invalid)) {
+//					output = new Output();
+					System.out.println(output);
+					System.out.println("output in while, before staging");
+					//TODO: put the invalid before staging, take it out of validator. for all?
+					staging(type);
+					System.out.println("output in while, after staging");
+					break;
+				}
+				
+				if(Validator.monthValidCheck(intIn, invalid)) {
+					
+					output.reset();
+					output.setOutputInt(intIn);
+					System.out.println(output);
+					System.out.println("output after while and set");
 				}
 				break;
 			}
 			case "year": {
 				// set string values
-				prompt = openPrompt + yearPrompt +": ";
-				test = yearTestEntry;
-				invalid = invalidOpen + yearPrompt + invalidClose;
-				back = intExit;
+				prompt = Prompts.openPrompt + Prompts.yearPrompt +": ";
+				test = Prompts.yearTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.yearPrompt + Prompts.invalidClose;
+				back = Prompts.intExit;
 				//show prompt
 				showPrompt(prompt, test, type,back);
 
@@ -114,19 +108,24 @@ public final class Prompter {
 				intIn = scanner.nextInt();
 				if(intIn==0) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.yearValidCheck(intIn, invalid)) {
-					output = new Output(intIn); 
-					return output;
+					break;
+				} 
+				while ( !Validator.yearValidCheck(intIn, invalid)) {
+					staging(type);
+					break;
 				}
+//				output = new Output(intIn); 
+				output.reset();
+				output.setOutputInt(intIn);
 				
-				break;
+  				break;
 			}
 			case "state": {
 				// set string values
-				prompt = openPrompt + statePrompt +": ";
-				test = stateTestEntry;
-				invalid = invalidOpen + statePrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.statePrompt +": ";
+				test = Prompts.stateTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.statePrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
@@ -134,18 +133,23 @@ public final class Prompter {
 				stringIn = scanner.next();
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.stateValidCheck(stringIn, invalid)) {
-					output = new Output(stringIn); 
-					return output;
+					break;
+				} 
+				while ( !Validator.stateValidCheck(stringIn, invalid)) {
+					staging(type);
+					break;
 				}
-				break;
+//				output = new Output(stringIn); 
+				output.reset();
+				output.setOutputString(stringIn);
+  				break;
 			}
 			case "type": {
 				//set string values
-				prompt = openPrompt + typePrompt +": ";
-				test = typeTestEntry;
-				invalid = invalidOpen + typePrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.typePrompt +": ";
+				test = Prompts.typeTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.typePrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
@@ -153,18 +157,23 @@ public final class Prompter {
 				stringIn = scanner.next();
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.typeValidCheck(stringIn, invalid)) {
-					output = new Output(stringIn); 
-					return output;
+					break;
 				}
-				break;
+				while ( !Validator.typeValidCheck(stringIn, invalid)) {
+					staging(type);
+					break;
+				}
+//				output = new Output(stringIn); 
+				output.reset();
+				output.setOutputString(stringIn);
+  				break;
 			}
 			case "ssn": {
 				//set string values
-				prompt = openPrompt + ssnPrompt +": ";
-				test = ssnTestEntry;
-				invalid = invalidOpen + ssnPrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.ssnPrompt +": ";
+				test = Prompts.ssnTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.ssnPrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
@@ -172,19 +181,24 @@ public final class Prompter {
 				stringIn = scanner.next();
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.custSsnValidCheck(stringIn, invalid) ) {
-					output = new Output(Integer.parseInt(stringIn), stringIn);
-					return output;
+					break;
+				} 
+				while ( !Validator.custSsnValidCheck(stringIn, invalid) ) {
+					staging(type);
+					break;
 				}
 				
-				break;
+//				output = new Output(Integer.parseInt(stringIn), stringIn);
+				output.reset();
+				output.setOutputInt(Integer.parseInt(stringIn));
+  				break;
 			}
 			case "ccn": {
 				//set string values
-				prompt = openPrompt + getCcnPrompt +": ";
-				test = getCcnTestEntry;
-				invalid = invalidOpen + getCcnPrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.getCcnPrompt +": ";
+				test = Prompts.getCcnTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.getCcnPrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
@@ -192,19 +206,24 @@ public final class Prompter {
 				stringIn = scanner.next();
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.ccnValidCheck(stringIn, invalid) ) {
-					output = new Output(stringIn);
-					return output;
+					break;
 				}
-				
-				break;
+
+				while ( !Validator.ccnValidCheck(stringIn, invalid) ) {
+					staging(type);
+					break;
+				}
+//				output = new Output(stringIn);
+				output.reset();
+				output.setOutputString(stringIn);
+  				break;
 			}
-			case "dateMonth":{			
+			case "dateMonth":{		 //this validator was returning t/f and not re-prompting, why was this working?	
 				// set string values
-				prompt = openPrompt + dateMonthPrompt +": ";
-				test = dateMonthTestEntry;
-				invalid = invalidOpen + dateMonthPrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.dateMonthPrompt +": ";
+				test = Prompts.dateMonthTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.dateMonthPrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type,back);
 				
@@ -214,19 +233,26 @@ public final class Prompter {
 				
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.dateMonthValidCheck(splitIn, invalid) ) {
-					output = new Output(splitIn); 
-					return output;
+					break;
 				}
-				break;
+				while ( !Validator.dateMonthValidCheck(splitIn, invalid) ) {
+					// TODO: review this logic as far as when the validator returns
+					// what here
+					staging(type);
+					break;
+				}
+//				output = new Output(splitIn); 
+				output.reset();
+				output.setOutputDateSplit(splitIn);
+  				break;
 			}
 			case "column": {
 //				System.out.println("column case in prompter");
 				// set string values
-				prompt = openPrompt + columnPrompt +": ";
-				test = columnTestEntry;
-				invalid = invalidOpen + columnPrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.columnPrompt +": ";
+				test = Prompts.columnTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.columnPrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
@@ -235,26 +261,29 @@ public final class Prompter {
 				
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
+					break;
 				} 
 				
-				if( Validator.columnValidCheck(stringIn, invalid) ) {
-					output = new Output(stringIn); 
-					System.out.println(output);
-					System.out.println(output.toString());
-					System.out.println(output.getOutputString());
-//					return output;
-				} else {
-					return output;
+				while( !Validator.columnValidCheck(stringIn, invalid) ) {
+//					System.out.println(output);
+//					System.out.println(output.toString());
+//					System.out.println(output.getOutputString());
+//					output;
+					staging(type);
+					break;
 				}
+//				output = new Output(stringIn); 
+				output.reset();
+				output.setOutputString(stringIn);
 				break;
 			}
 			case "newStringVal": {
 //				System.out.println("newStringVal case in prompter");
 				// set string values
-				prompt = openPrompt + newStringValPrompt +": ";
-				test = newStringValTestEntry;
-				invalid = invalidOpen + newStringValPrompt + invalidClose;
-				back = stringExit;
+				prompt = Prompts.openPrompt + Prompts.newStringValPrompt +": ";
+				test = Prompts.newStringValTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.newStringValPrompt + Prompts.invalidClose;
+				back = Prompts.stringExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 
@@ -263,20 +292,25 @@ public final class Prompter {
 				
 				if(stringIn.equals("EXIT")) {
 					ChooseRunner.select(scanner);
-				} else if( Validator.newStringValValidCheck(stringIn, invalid) ) {
-					output = new Output(stringIn); 
-					return output;
+					break;
+				} 
+				while ( !Validator.newStringValValidCheck(stringIn, invalid) ) {
+					staging(type);
+					break;
 				}
+//				output = new Output(stringIn); 
+				output.reset();
+				output.setOutputString(stringIn);
 				
-				break;
+  				break;
 			}
 			case "newIntVal": {
 				System.out.println("newIntVal case in prompter");
 				// set string values
-				prompt = openPrompt + newIntValPrompt +": ";
-				test = newIntValTestEntry;
-				invalid = invalidOpen + newIntValPrompt + invalidClose;
-				back = intExit;
+				prompt = Prompts.openPrompt + Prompts.newIntValPrompt +": ";
+				test = Prompts.newIntValTestEntry;
+				invalid = Prompts.invalidOpen + Prompts.newIntValPrompt + Prompts.invalidClose;
+				back = Prompts.intExit;
 				//show prompt
 				showPrompt(prompt, test, type, back);
 				
@@ -285,25 +319,30 @@ public final class Prompter {
 				
 				if(intIn==0) {
 					ChooseRunner.select(scanner);
+					break;
 //					return
-				} else if( Validator.newIntValValidCheck(intIn, invalid) ) {
-					output = new Output(intIn); 
-					return output;
+				} 
+				while ( !Validator.newIntValValidCheck(intIn, invalid) ) {
+					staging(type);
+					break;
 				}
-				
-				//while(checkIsFalse){ re-enter} return output
+//				output = new Output(intIn); 
+				output.reset();
+				output.setOutputInt(intIn);
+				//while(checkIsFalse){ re-enter} output
 				
 				break;
 			}			
 			
 			default: {
 				System.out.println("Somehow reached default case in staging switch");
-				return output;
+				output = new Output();
 			}
 
 		}
-		System.out.println("how here");
+//		System.out.println("how here");
 		//i need to only return an output when one of the cases have been met
+//		output;
 		return output;
 	}
 	

@@ -64,7 +64,7 @@ public class CustomerRunner {
 		CustomerDAO cDao = new CustomerDAO();
 		//1) To check the existing account details of a customer.
 		//@int ssn
-		int ssn = Prompter.staging("ssn").outputInt;
+		int ssn = Prompter.staging("ssn").getOutputInt();
 		//13 columns
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
@@ -110,10 +110,10 @@ public class CustomerRunner {
 		String[] useInts = new String[] {"SSN", "CUST_PHONE"};
 		
 		if(Arrays.asList(useInts).contains(cName)) {
-			newVal = new Output(Prompter.staging("newIntVal").outputInt);
+			newVal = new Output(Prompter.staging("newIntVal").getOutputInt());
 			
 		} else {
-			newVal = new Output(Prompter.staging("newStringVal").outputString);
+			newVal = new Output(Prompter.staging("newStringVal").getOutputString());
 		}
 		
 		//actually update the record info
@@ -135,9 +135,9 @@ public class CustomerRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		// @int month, @int year, @string ccn
-		int m = Prompter.staging("month").outputInt;
-		int y = Prompter.staging("year").outputInt;
-		String ccn = Prompter.staging("ccn").outputString;
+		int m = Prompter.staging("month").getOutputInt();
+		int y = Prompter.staging("year").getOutputInt();
+		String ccn = Prompter.staging("ccn").getOutputString();
 		MonthInvoice bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
 		System.out.printf(Formats.monthBillLayoutHeader, "Balance Due($)","First Name","Last Name","SSN");
 		System.out.println(bill);
@@ -155,16 +155,16 @@ public class CustomerRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
-		int ssn = Prompter.staging("ssn").outputInt;
-		int y = Prompter.staging("year").outputInt;
+		int ssn = Prompter.staging("ssn").getOutputInt();
+		int y = Prompter.staging("year").getOutputInt();
 		//dateOne prompt
 		System.out.println("First Date");	
-		String[] dateSplit = Prompter.staging("dateMonth").outputDateSplit;	//using var for readability
+		String[] dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();	//using var for readability
 		//dateSplit[0] is day, dateSplit[1] is month	
 		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];		
 		//dateTwo prompt
 		System.out.println("Second Date");
-		dateSplit = Prompter.staging("dateMonth").outputDateSplit;
+		dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();
 		String dateTwo = y+"-"+dateSplit[1]+"-"+dateSplit[0];
 		//11 categories
 		System.out.printf(Formats.custTransBetweenDatesLayoutHeader,"First Name","Middle Name","Last Name","Transaction ID","Day","Month","Year","Credit Card No.","Branch Code","Type","Transaction Value");

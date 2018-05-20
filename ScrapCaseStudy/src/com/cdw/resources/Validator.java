@@ -13,7 +13,8 @@ public class Validator {
 	public static boolean ccnValidCheck(String cIn, String invalid) {
 		if(! ( cIn.length()==16 && cIn.matches("[0-9]+") ) ) {
 			System.out.println(invalid);
-			Prompter.staging("ccn");
+			return false;
+//			Prompter.staging("ccn");
 		}
 		return true;
 	}
@@ -24,34 +25,53 @@ public class Validator {
 			 )
 			) {
 			System.out.println(invalid);
-			Prompter.staging("ssn");
+			return false;
+//			Prompter.staging("ssn");
 		}		
 		return true;
 	}
 	
 	public static boolean zipValidCheck(String zIn, String invalid) {
 		if(zIn.length()!=5) {
+			System.out.println(zIn.length());
 			System.out.println(invalid);
-			Prompter.staging("zip");
+			System.out.println(zIn);
+			return false;
+//			Prompter.staging("zip");
 		}	
+		System.out.println(zIn.length());
+		System.out.println("valid");
 		return true; //should only be reached if the above if the zIn length is 5
 	}
 	
 	public static boolean monthValidCheck(int mIn, String invalid) {
-		if( mIn<1 || mIn>12 ) {
-			System.out.println(invalid);
-			Prompter.staging("month");
+//		if( mIn<1 || mIn>12 ) {
+//			System.out.println(invalid);
+//			return false;
+////			Prompter.staging("month");
+//		}
+//		return true; //reachable only if month valid??
+		if( mIn>=1 && mIn<=12 ) {
+			System.out.println("valid month");
+			return true;
+//			Prompter.staging("month");
 		}
-		return true; //reachable only if month valid??
+		System.out.println(invalid);
+		return false; //reachable only if month valid??
 	}
 	
 	public static boolean yearValidCheck(int yIn, String invalid) {
+		System.out.println(yIn + " was yin in yearValidCheck");
 		if( yIn!=2018 ) {
+			System.out.println(yIn);
 			System.out.println(invalid);
 			System.out.println("The only year in this dataset is 2018"); 
 			//I could probably just not prompt for a year input but the reqs are the reqs
-			Prompter.staging("year");
+			return false;
+//			Prompter.staging("year");
 		}
+		System.out.println(yIn);
+//		System.out.println(invalid);
 		return true; //reachable only if valid year entered
 	}
 	
@@ -67,7 +87,8 @@ public class Validator {
 				System.out.print(v+" ");
 			}
 			System.out.println();
-			Prompter.staging("type");
+			return false;
+//			Prompter.staging("type");
 		} 
 		return true; //reachable only if valid type entered
 	}
@@ -84,7 +105,8 @@ public class Validator {
 				System.out.print(v+" ");
 			}
 			System.out.println();
-			Prompter.staging("state");
+			return false;
+//			Prompter.staging("state");
 		} 
 		
 		return true;
@@ -162,21 +184,23 @@ public class Validator {
 			System.out.println();
 			System.out.println("columnValidCheck reject");
 //			return false;
-			Prompter.staging("column");
 			return false;
+//			Prompter.staging("column");
 		}
 	}
 	
 	//weak checks
 	public static boolean newStringValValidCheck(String stringIn, String invalid) {
 		if(stringIn.length()>40) { //this is a shitty metric, but here we are
-			Prompter.staging("newStringVal");
+			return false;
+//			Prompter.staging("newStringVal");
 		}
 		return true;
 	}
 	public static boolean newIntValValidCheck(int intIn, String invalid) {
 		if( Integer.toString(intIn).length()>10) {
-			Prompter.staging("newIntVal");
+			return false;
+//			Prompter.staging("newIntVal");
 		}
 		return true;
 	}
