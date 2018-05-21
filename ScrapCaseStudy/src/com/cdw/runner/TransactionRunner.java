@@ -6,7 +6,6 @@ import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Transaction;
 import com.cdw.resources.Formats;
 import com.cdw.resources.Output;
-import com.cdw.resources.Prompter;
 import com.cdw.resources.RoundThree;
 import com.cdw.resources.WriteToFile;
 
@@ -53,31 +52,20 @@ public class TransactionRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
 		Output output=new Output();
-		
-//		int z = Prompter.staging("zip").getOutputInt();
-//		Prompter.staging("zip", output);
-//		int z = WholeNewFuckingThing.setData("zip").getOutputInt(); //this is getting the data from the first entry
-//		output= new Output()
-//		int z = WholeNewFuckingThing.setData("zip").getOutputInt();
-//		WholeNewFuckingThing.ugly("zip");
 		int z,m,y;
+		
 		RoundThree.wholeShabang("zip", output);
 		z= Integer.parseInt(output.getOutputString() );
-//		z= output.getOutputInt();
+
 		System.out.println(z + " was z");
 		output.reset();
+		
 		RoundThree.wholeShabang("month", output);
 		m= output.getOutputInt();
 		
 		output=new Output();
 		RoundThree.wholeShabang("year", output);
 		y = output.getOutputInt();
-//		int z = output.outputInt;
-//		int m = WholeNewFuckingThing.setData("month").getOutputInt();
-//		int m = output.outputInt;
-//		Prompter.staging("year",output);
-//		int y = output.outputInt;
-//		int y = WholeNewFuckingThing.setData("year").getOutputInt();
 		System.out.println(z + " was z");
 		System.out.println(m + " was m");
 		System.out.println(y + " was y");
@@ -97,11 +85,15 @@ public class TransactionRunner {
 	public static void transactionCountAndValueByType(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
+		Output output=new Output();
 //		Output output = null;
 		
 //		Prompter.staging("type",output);
 //		String transaction_type = output.outputString;
-		String transaction_type = Prompter.staging("type").getOutputString();
+//		String transaction_type = Prompter.staging("type").getOutputString();
+		String transaction_type;
+		RoundThree.wholeShabang("type", output);
+		transaction_type = output.getOutputString();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
 		System.out.println();
@@ -117,9 +109,12 @@ public class TransactionRunner {
 	public static void transactionNumberAndValueByState(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
-//		Output output = null;
+		Output output = new Output();
 //		Prompter.staging("state",output);
-		String state_abbr = Prompter.staging("state").getOutputString();
+//		String state_abbr = Prompter.staging("state").getOutputString();
+		String state_abbr;
+		RoundThree.wholeShabang("state", output);
+		state_abbr = output.getOutputString();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "State","Value($)","# of Transactions");
 		System.out.println();

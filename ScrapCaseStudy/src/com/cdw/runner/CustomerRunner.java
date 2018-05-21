@@ -10,6 +10,7 @@ import com.cdw.resources.Formats;
 import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
+import com.cdw.resources.RoundThree;
 import com.cdw.resources.WriteToFile;
 
 public class CustomerRunner {
@@ -62,9 +63,13 @@ public class CustomerRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		
 		CustomerDAO cDao = new CustomerDAO();
+		Output output = new Output();
 		//1) To check the existing account details of a customer.
 		//@int ssn
-		int ssn = Prompter.staging("ssn").getOutputInt();
+//		int ssn = Prompter.staging("ssn").getOutputInt();
+		int ssn;
+		RoundThree.wholeShabang("ssn", output);
+		ssn = Integer.parseInt(output.getOutputString());
 		//13 columns
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
@@ -81,26 +86,38 @@ public class CustomerRunner {
 	public static void updateCustomerInfoBySsnAndCcn(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
+		Output outputSsn = new Output();
+		Output outputCcn = new Output();
+		Output outputColName = new Output();
 		Output newVal;
 		//2) To modify the existing account details of a customer 
 		
 		//get unique customer+ccn record
-		int ssn = Prompter.staging("ssn").getOutputInt();
-		String ccn = Prompter.staging("ccn").getOutputString();
+//		int ssn = Prompter.staging("ssn").getOutputInt();
+		int ssn;
+		RoundThree.wholeShabang("ssn", outputSsn);
+		ssn = Integer.parseInt(outputSsn.getOutputString());
+		
+		String ccn;
+		RoundThree.wholeShabang("ccn", outputCcn);
+		ccn = outputCcn.getOutputString();
 		
 		//display record info,
-		Customer cust = cDao.getCustomerBySsnAndCcn(ssn, ccn);
+		;
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
-		System.out.println(cust);
+		System.out.println(cDao.getCustomerBySsnAndCcn(ssn, ccn));
 	
 		//ask use what the user wants to change
 		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
-		Output test = Prompter.staging("column");
-		System.out.println(test);
+//		Output test = Prompter.staging("column");
+//		System.out.println(test);
 //		String cName = Prompter.staging("column").getOutputString(); 
-		String cName = test.getOutputString();
+//		String cName = test.getOutputString();
+		String cName;
+		RoundThree.wholeShabang("column", outputColName);
+		cName = outputColName.getOutputString();
 				
 		//can check here for col dtype to newval dtype.
 //		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
@@ -124,7 +141,8 @@ public class CustomerRunner {
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");	
-		System.out.println(cust);//TODO: this is old data	
+		Customer cust = cDao.getCustomerBySsnAndCcn(ssn, ccn);
+		System.out.println(cust);
 		if(write) {
 			WriteToFile.writeToLoc("updatedCustomer", cust.toFile());
 		}
@@ -134,11 +152,30 @@ public class CustomerRunner {
 	public static void generateBillByMonthYearForCcn(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
+		Output output = new Output();
 		// @int month, @int year, @string ccn
-		int m = Prompter.staging("month").getOutputInt();
-		int y = Prompter.staging("year").getOutputInt();
-		String ccn = Prompter.staging("ccn").getOutputString();
-		MonthInvoice bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
+//		int m = Prompter.staging("month").getOutputInt();
+//		int y = Prompter.staging("year").getOutputInt();
+//		String ccn = Prompter.staging("ccn").getOutputString();
+//		MonthInvoice bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
+		int m,y;
+		String ccn;
+		MonthInvoice bill;
+		
+		RoundThree.wholeShabang("month", output);
+		m=output.getOutputInt();
+		output=new Output();
+		
+		RoundThree.wholeShabang("year", output);
+		y=output.getOutputInt();
+		output=new Output();
+		
+		RoundThree.wholeShabang("ccn", output);
+		ccn = output.getOutputString();
+		output=new Output();
+		
+		bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
+		
 		System.out.printf(Formats.monthBillLayoutHeader, "Balance Due($)","First Name","Last Name","SSN");
 		System.out.println(bill);
 		if(write) {
@@ -154,17 +191,36 @@ public class CustomerRunner {
 	public static void custTransBetweenTwoDates(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
+		Output output = new Output();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
-		int ssn = Prompter.staging("ssn").getOutputInt();
-		int y = Prompter.staging("year").getOutputInt();
+//		int ssn = Prompter.staging("ssn").getOutputInt();
+//		int y = Prompter.staging("year").getOutputInt();
+		
+		int ssn, y;
+		String[] dateSplit;
 		//dateOne prompt
 		System.out.println("First Date");	
-		String[] dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();	//using var for readability
+//		String[] dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();	//using var for readability
 		//dateSplit[0] is day, dateSplit[1] is month	
+		RoundThree.wholeShabang("ssn", output);
+		ssn = Integer.parseInt(output.getOutputString());
+		output= new Output();
+		
+		RoundThree.wholeShabang("year", output);
+		y = output.getOutputInt();
+		output=new Output();
+		
+		RoundThree.wholeShabang("dateMonth", output);
+		dateSplit = output.getOutputDateSplit();
+		output = new Output();
+		
 		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];		
 		//dateTwo prompt
 		System.out.println("Second Date");
-		dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();
+		RoundThree.wholeShabang("dateMonth", output);
+		dateSplit = output.getOutputDateSplit();
+		output = new Output();
+		
 		String dateTwo = y+"-"+dateSplit[1]+"-"+dateSplit[0];
 		//11 categories
 		System.out.printf(Formats.custTransBetweenDatesLayoutHeader,"First Name","Middle Name","Last Name","Transaction ID","Day","Month","Year","Credit Card No.","Branch Code","Type","Transaction Value");

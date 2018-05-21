@@ -10,7 +10,6 @@ import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Output;
 import com.cdw.resources.Queries;
-import com.cdw.resources.Validator;
 
 public class CustomerDAO extends AbstractDAO {
 		

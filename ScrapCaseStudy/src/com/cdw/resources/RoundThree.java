@@ -3,6 +3,8 @@ package com.cdw.resources;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import com.cdw.runner.ChooseRunner;
+
 public class RoundThree {
 	private static final Scanner scanner = new Scanner (System.in);
 	
@@ -149,8 +151,10 @@ public class RoundThree {
 	}
 
 	public static String checkOutputType(String type) {
-		String[] outInts = {"month","year","ssn","newIntVal"};
-		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal"};
+//		String[] outInts = {"month","year","ssn","newIntVal"};
+//		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal"};
+		String[] outInts = {"month","year","newIntVal"};
+		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal","ssn",};
 		String[] outArr = {"dateMonth"};
 //		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal","dateMonth"};
 		if(Arrays.asList(outArr).contains(type)) {
@@ -168,6 +172,9 @@ public class RoundThree {
 	public static void getStringInput(String type, String input, Output output) {
 		input = scanner.next();
 		String invalid = "";
+		if(input.equals("EXIT")) {
+			ChooseRunner.select(scanner);
+		} 
 		switch(type) {
 		case "zip":{
 			invalid = Prompts.invalidOpen + Prompts.zipPrompt + Prompts.invalidClose;
@@ -187,7 +194,7 @@ public class RoundThree {
 		}
 		case "state": {
 			invalid = Prompts.invalidOpen + Prompts.statePrompt + Prompts.invalidClose;
-			if(!Validator.stateValidCheck(output.getOutputString(), invalid)) {
+			if(!Validator.stateValidCheck(input, invalid)) {
 				getStringInput(type, input, output);
 			} else {
 				output.setOutputString(input);
@@ -196,7 +203,8 @@ public class RoundThree {
 		}
 		case "type": {
 			invalid = Prompts.invalidOpen + Prompts.typePrompt + Prompts.invalidClose;
-			if(!Validator.typeValidCheck(output.getOutputString(), invalid)) {
+			System.out.println(input + " was input in case type");
+			if(!Validator.typeValidCheck(input, invalid)) {
 				getStringInput(type, input, output);
 			} else {
 				output.setOutputString(input);
@@ -205,7 +213,7 @@ public class RoundThree {
 		}
 		case "ssn": {
 			invalid = Prompts.invalidOpen + Prompts.ssnPrompt + Prompts.invalidClose;
-			if(!Validator.custSsnValidCheck(output.getOutputString(), invalid)) {
+			if(!Validator.custSsnValidCheck(input, invalid)) {
 				getStringInput(type, input, output);
 			} else {
 				output.setOutputString(input); 
@@ -214,7 +222,7 @@ public class RoundThree {
 		}
 		case "ccn": {
 			invalid = Prompts.invalidOpen + Prompts.getCcnPrompt + Prompts.invalidClose;
-			if(!Validator.ccnValidCheck(output.getOutputString(), invalid)) {
+			if(!Validator.ccnValidCheck(input, invalid)) {
 				getStringInput(type, input, output);
 			} else {
 				output.setOutputString(input);
@@ -223,7 +231,7 @@ public class RoundThree {
 		}
 		case "column": {
 			invalid = Prompts.invalidOpen + Prompts.columnPrompt + Prompts.invalidClose;
-			if(!Validator.columnValidCheck(output.getOutputString(), invalid)) {
+			if(!Validator.columnValidCheck(input, invalid)) {
 				getStringInput(type, input, output);
 			} else {
 				output.setOutputString(input);
@@ -232,7 +240,7 @@ public class RoundThree {
 		}
 		case "newStringVal": {
 			invalid = Prompts.invalidOpen + Prompts.newStringValPrompt + Prompts.invalidClose;
-			if(!Validator.newStringValValidCheck(output.getOutputString(), invalid)) {
+			if(!Validator.newStringValValidCheck(input, invalid)) {
 				getStringInput(type, input, output);
 			} else {
 				output.setOutputString(input);
@@ -256,6 +264,9 @@ public class RoundThree {
 	public static void getSplitInput(String type, String[] input, Output output) {
 		input = scanner.next().split("/");
 		String invalid = "";
+		if(input[0].equals("EXIT")) { //may not work?
+			ChooseRunner.select(scanner);
+		} 
 		switch(type) {
 		case "dateMonth":{
 			invalid = Prompts.invalidOpen + Prompts.dateMonthPrompt + Prompts.invalidClose;
@@ -272,8 +283,13 @@ public class RoundThree {
 		}
 	}
 	public static void getIntInput(String type, int input, Output output) {
+		System.out.println(input + " was input before scanner.nextInt");
 		input = scanner.nextInt();
+		System.out.println(input + " was input after scanner.nextInt");
 		String invalid = "";
+		if(input==0) {
+			ChooseRunner.select(scanner);
+		}
 		switch(type) {
 		case "month": {
 			invalid = Prompts.invalidOpen + Prompts.monthPrompt + Prompts.invalidClose;

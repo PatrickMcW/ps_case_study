@@ -78,6 +78,7 @@ public class Validator {
 	public static boolean typeValidCheck(String sIn, String invalid) {
 		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas",
 				"Bills","Test","Healthcare" };
+		System.out.println(sIn + " was sIn");
 		
 		if(!Arrays.asList(valids).contains(sIn)) {
 			//if the transaction_type is not a valid type, reject it.
