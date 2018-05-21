@@ -8,7 +8,6 @@ import com.cdw.resources.Formats;
 import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
 import com.cdw.resources.RoundThree;
-
 import com.cdw.resources.WriteToFile;
 
 public class TransactionRunner {
