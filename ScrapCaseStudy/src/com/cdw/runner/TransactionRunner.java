@@ -6,7 +6,7 @@ import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Transaction;
 import com.cdw.resources.Formats;
 import com.cdw.resources.Output;
-import com.cdw.resources.RoundThree;
+import com.cdw.resources.Prompter;
 import com.cdw.resources.WriteToFile;
 
 public class TransactionRunner {
@@ -54,17 +54,17 @@ public class TransactionRunner {
 		Output output=new Output();
 		int z,m,y;
 		
-		RoundThree.wholeShabang("zip", output);
+		Prompter.prompting("zip", output);
 		z= Integer.parseInt(output.getOutputString() );
 
 		System.out.println(z + " was z");
 		output.reset();
 		
-		RoundThree.wholeShabang("month", output);
+		Prompter.prompting("month", output);
 		m= output.getOutputInt();
 		
 		output=new Output();
-		RoundThree.wholeShabang("year", output);
+		Prompter.prompting("year", output);
 		y = output.getOutputInt();
 		System.out.println(z + " was z");
 		System.out.println(m + " was m");
@@ -92,7 +92,7 @@ public class TransactionRunner {
 //		String transaction_type = output.outputString;
 //		String transaction_type = Prompter.staging("type").getOutputString();
 		String transaction_type;
-		RoundThree.wholeShabang("type", output);
+		Prompter.prompting("type", output);
 		transaction_type = output.getOutputString();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
@@ -113,7 +113,7 @@ public class TransactionRunner {
 //		Prompter.staging("state",output);
 //		String state_abbr = Prompter.staging("state").getOutputString();
 		String state_abbr;
-		RoundThree.wholeShabang("state", output);
+		Prompter.prompting("state", output);
 		state_abbr = output.getOutputString();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "State","Value($)","# of Transactions");

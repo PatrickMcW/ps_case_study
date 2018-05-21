@@ -10,7 +10,6 @@ import com.cdw.resources.Formats;
 import com.cdw.resources.MonthInvoice;
 import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
-import com.cdw.resources.RoundThree;
 import com.cdw.resources.WriteToFile;
 
 public class CustomerRunner {
@@ -68,7 +67,7 @@ public class CustomerRunner {
 		//@int ssn
 //		int ssn = Prompter.staging("ssn").getOutputInt();
 		int ssn;
-		RoundThree.wholeShabang("ssn", output);
+		Prompter.prompting("ssn", output);
 		ssn = Integer.parseInt(output.getOutputString());
 		//13 columns
 		System.out.printf(Formats.customerLayout, 
@@ -86,6 +85,7 @@ public class CustomerRunner {
 	public static void updateCustomerInfoBySsnAndCcn(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
+		Output output = new Output();
 		Output outputSsn = new Output();
 		Output outputCcn = new Output();
 		Output outputColName = new Output();
@@ -95,11 +95,11 @@ public class CustomerRunner {
 		//get unique customer+ccn record
 //		int ssn = Prompter.staging("ssn").getOutputInt();
 		int ssn;
-		RoundThree.wholeShabang("ssn", outputSsn);
+		Prompter.prompting("ssn", outputSsn);
 		ssn = Integer.parseInt(outputSsn.getOutputString());
 		
 		String ccn;
-		RoundThree.wholeShabang("ccn", outputCcn);
+		Prompter.prompting("ccn", outputCcn);
 		ccn = outputCcn.getOutputString();
 		
 		//display record info,
@@ -116,8 +116,9 @@ public class CustomerRunner {
 //		String cName = Prompter.staging("column").getOutputString(); 
 //		String cName = test.getOutputString();
 		String cName;
-		RoundThree.wholeShabang("column", outputColName);
+		Prompter.prompting("column", outputColName);
 		cName = outputColName.getOutputString();
+		output = new Output();
 				
 		//can check here for col dtype to newval dtype.
 //		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
@@ -127,10 +128,16 @@ public class CustomerRunner {
 		String[] useInts = new String[] {"SSN", "CUST_PHONE"};
 		
 		if(Arrays.asList(useInts).contains(cName)) {
-			newVal = new Output(Prompter.staging("newIntVal").getOutputInt());
+//			newVal = new Output(Prompter.staging("newIntVal").getOutputInt());
+			Prompter.prompting("newIntVal", output);
+			newVal = output;
+			output =  new Output();
 			
 		} else {
-			newVal = new Output(Prompter.staging("newStringVal").getOutputString());
+//			newVal = new Output(Prompter.staging("newStringVal").getOutputString());
+			Prompter.prompting("newStringVal", output);
+			newVal = output;
+			output =  new Output();
 		}
 		
 		//actually update the record info
@@ -162,15 +169,15 @@ public class CustomerRunner {
 		String ccn;
 		MonthInvoice bill;
 		
-		RoundThree.wholeShabang("month", output);
+		Prompter.prompting("month", output);
 		m=output.getOutputInt();
 		output=new Output();
 		
-		RoundThree.wholeShabang("year", output);
+		Prompter.prompting("year", output);
 		y=output.getOutputInt();
 		output=new Output();
 		
-		RoundThree.wholeShabang("ccn", output);
+		Prompter.prompting("ccn", output);
 		ccn = output.getOutputString();
 		output=new Output();
 		
@@ -202,22 +209,22 @@ public class CustomerRunner {
 		System.out.println("First Date");	
 //		String[] dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();	//using var for readability
 		//dateSplit[0] is day, dateSplit[1] is month	
-		RoundThree.wholeShabang("ssn", output);
+		Prompter.prompting("ssn", output);
 		ssn = Integer.parseInt(output.getOutputString());
 		output= new Output();
 		
-		RoundThree.wholeShabang("year", output);
+		Prompter.prompting("year", output);
 		y = output.getOutputInt();
 		output=new Output();
 		
-		RoundThree.wholeShabang("dateMonth", output);
+		Prompter.prompting("dateMonth", output);
 		dateSplit = output.getOutputDateSplit();
 		output = new Output();
 		
 		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];		
 		//dateTwo prompt
 		System.out.println("Second Date");
-		RoundThree.wholeShabang("dateMonth", output);
+		Prompter.prompting("dateMonth", output);
 		dateSplit = output.getOutputDateSplit();
 		output = new Output();
 		

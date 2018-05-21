@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 import com.cdw.runner.ChooseRunner;
 
-public class RoundThree {
+public class Prompter {
 	private static final Scanner scanner = new Scanner (System.in);
 	
-	public static void wholeShabang(String type, Output output) {
+	public static void prompting(String type, Output output) {
 		String str = null;
 		int n = -1;
 		String[] split = null;
