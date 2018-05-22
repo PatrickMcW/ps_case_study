@@ -56,26 +56,25 @@ public class TransactionRunner {
 		
 		Prompter.prompting("zip", output);
 		z= Integer.parseInt(output.getOutputString() );
-
-		System.out.println(z + " was z");
 		output.reset();
 		
 		Prompter.prompting("month", output);
 		m= output.getOutputInt();
+		output.reset();
 		
-		output=new Output();
 		Prompter.prompting("year", output);
 		y = output.getOutputInt();
-		System.out.println(z + " was z");
-		System.out.println(m + " was m");
-		System.out.println(y + " was y");
+		output.reset();
+		
+//		System.out.println(z + " was z");
+//		System.out.println(m + " was m");
+//		System.out.println(y + " was y");
 		
 		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
 		System.out.println();
-		//TODO: uncomment the below for block
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
 			if(write) {
-				WriteToFile.writeToLoc("transByZipMonthYear", t.toFile()); //no message indicating file location for user
+				WriteToFile.writeToLoc("transByZipMonthYear", t.toFile()); //no message indicating file location for user. TODO: add message in future version??
 			}
 			
 			System.out.print(t);
@@ -86,14 +85,11 @@ public class TransactionRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
 		Output output=new Output();
-//		Output output = null;
-		
-//		Prompter.staging("type",output);
-//		String transaction_type = output.outputString;
-//		String transaction_type = Prompter.staging("type").getOutputString();
+
 		String transaction_type;
 		Prompter.prompting("type", output);
 		transaction_type = output.getOutputString();
+		output.reset();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
 		System.out.println();
@@ -110,8 +106,7 @@ public class TransactionRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
 		Output output = new Output();
-//		Prompter.staging("state",output);
-//		String state_abbr = Prompter.staging("state").getOutputString();
+
 		String state_abbr;
 		Prompter.prompting("state", output);
 		state_abbr = output.getOutputString();

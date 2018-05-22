@@ -10,6 +10,12 @@ public class Output {
 	//constructors
 	public Output() {};
 	
+	public Output(Output copy) {
+		this.outputInt = copy.outputInt;
+		this.outputString = copy.outputString;
+		this.outputDateSplit = copy.outputDateSplit;
+	}
+	
 	public Output(int intIn, String stringIn, String[] arrIn) {
 		super();
 		this.outputInt = intIn;
@@ -65,7 +71,7 @@ public class Output {
 	public void reset() {
 		this.outputDateSplit=null;
 		this.outputInt=-1;
-		this.outputString=null;
+		this.outputString=null; 
 	}
 	
 	//toString

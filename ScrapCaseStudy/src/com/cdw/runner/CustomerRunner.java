@@ -65,7 +65,7 @@ public class CustomerRunner {
 		Output output = new Output();
 		//1) To check the existing account details of a customer.
 		//@int ssn
-//		int ssn = Prompter.staging("ssn").getOutputInt();
+
 		int ssn;
 		Prompter.prompting("ssn", output);
 		ssn = Integer.parseInt(output.getOutputString());
@@ -86,22 +86,20 @@ public class CustomerRunner {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
 		Output output = new Output();
-		Output outputSsn = new Output();
-		Output outputCcn = new Output();
-		Output outputColName = new Output();
 		Output newVal;
 		//2) To modify the existing account details of a customer 
-		
-		//get unique customer+ccn record
-//		int ssn = Prompter.staging("ssn").getOutputInt();
+
 		int ssn;
-		Prompter.prompting("ssn", outputSsn);
-		ssn = Integer.parseInt(outputSsn.getOutputString());
+		Prompter.prompting("ssn", output);
+		ssn = Integer.parseInt(output.getOutputString());
+		output.reset();
 		
 		String ccn;
-		Prompter.prompting("ccn", outputCcn);
-		ccn = outputCcn.getOutputString();
+		Prompter.prompting("ccn", output);
+		ccn = output.getOutputString();
+		output.reset();
 		
+		//get unique customer+ccn record
 		//display record info,
 		;
 		System.out.printf(Formats.customerLayout, 
@@ -111,14 +109,11 @@ public class CustomerRunner {
 	
 		//ask use what the user wants to change
 		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
-//		Output test = Prompter.staging("column");
-//		System.out.println(test);
-//		String cName = Prompter.staging("column").getOutputString(); 
-//		String cName = test.getOutputString();
+
 		String cName;
-		Prompter.prompting("column", outputColName);
-		cName = outputColName.getOutputString();
-		output = new Output();
+		Prompter.prompting("column", output);
+		cName = output.getOutputString();
+		output.reset();
 				
 		//can check here for col dtype to newval dtype.
 //		String[] useStrings = new String[] {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", 
@@ -130,14 +125,14 @@ public class CustomerRunner {
 		if(Arrays.asList(useInts).contains(cName)) {
 //			newVal = new Output(Prompter.staging("newIntVal").getOutputInt());
 			Prompter.prompting("newIntVal", output);
-			newVal = output;
-			output =  new Output();
+			newVal = new Output(output);
+			output.reset();
 			
 		} else {
 //			newVal = new Output(Prompter.staging("newStringVal").getOutputString());
 			Prompter.prompting("newStringVal", output);
-			newVal = output;
-			output =  new Output();
+			newVal = new Output(output);
+			output.reset();
 		}
 		
 		//actually update the record info
@@ -161,25 +156,22 @@ public class CustomerRunner {
 		CustomerDAO cDao = new CustomerDAO();
 		Output output = new Output();
 		// @int month, @int year, @string ccn
-//		int m = Prompter.staging("month").getOutputInt();
-//		int y = Prompter.staging("year").getOutputInt();
-//		String ccn = Prompter.staging("ccn").getOutputString();
-//		MonthInvoice bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
+
 		int m,y;
 		String ccn;
 		MonthInvoice bill;
 		
 		Prompter.prompting("month", output);
 		m=output.getOutputInt();
-		output=new Output();
+		output.reset();
 		
 		Prompter.prompting("year", output);
 		y=output.getOutputInt();
-		output=new Output();
+		output.reset();
 		
 		Prompter.prompting("ccn", output);
 		ccn = output.getOutputString();
-		output=new Output();
+		output.reset();
 		
 		bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
 		
@@ -200,33 +192,33 @@ public class CustomerRunner {
 		CustomerDAO cDao = new CustomerDAO();
 		Output output = new Output();
 		//@int ssn, @String/date dateOne, @String/date dateTwo
-//		int ssn = Prompter.staging("ssn").getOutputInt();
-//		int y = Prompter.staging("year").getOutputInt();
+
 		
 		int ssn, y;
 		String[] dateSplit;
 		//dateOne prompt
 		System.out.println("First Date");	
-//		String[] dateSplit = Prompter.staging("dateMonth").getOutputDateSplit();	//using var for readability
-		//dateSplit[0] is day, dateSplit[1] is month	
+		
+		
 		Prompter.prompting("ssn", output);
 		ssn = Integer.parseInt(output.getOutputString());
 		output= new Output();
 		
 		Prompter.prompting("year", output);
 		y = output.getOutputInt();
-		output=new Output();
+		output.reset();
 		
 		Prompter.prompting("dateMonth", output);
 		dateSplit = output.getOutputDateSplit();
-		output = new Output();
+		//dateSplit[0] is day, dateSplit[1] is month	//using var for readability
+		output.reset();
 		
 		String dateOne = y+"-"+dateSplit[1]+"-"+dateSplit[0];		
 		//dateTwo prompt
 		System.out.println("Second Date");
 		Prompter.prompting("dateMonth", output);
 		dateSplit = output.getOutputDateSplit();
-		output = new Output();
+		output.reset();
 		
 		String dateTwo = y+"-"+dateSplit[1]+"-"+dateSplit[0];
 		//11 categories

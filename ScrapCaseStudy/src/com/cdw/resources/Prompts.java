@@ -2,6 +2,7 @@ package com.cdw.resources;
 
 public class Prompts {
 	private Prompts() {};
+	
 	public static final String openPrompt = "Please provide the ";
 	public static final String invalidOpen = "An invalid ";
 	public static final String invalidClose = " was entered, please try again.";
