@@ -242,7 +242,12 @@ public class Prompter {
 	}
 	public static void getIntInput(String type, int input, Output output) {
 		System.out.println(input + " was input before scanner.nextInt");
-		input = scanner.nextInt();
+		double buffer = scanner.nextDouble();
+		if(buffer>Integer.MAX_VALUE) {
+			System.out.println("Number too large, please enter something less than " + Integer.MAX_VALUE);
+			getIntInput(type, input, output);
+		}
+		input = (int)buffer;
 		System.out.println(input + " was input after scanner.nextInt");
 		String invalid = "";
 		if(input==0) {

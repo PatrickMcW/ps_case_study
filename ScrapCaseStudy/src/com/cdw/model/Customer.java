@@ -19,7 +19,7 @@ public class Customer {
 	private String custEmail;
 
 	
-	//construct
+	//constructors
 	public Customer() {};
 
 	public Customer(String fName, String mName, String lName, int ssn, String ccn, String aptN, String streetN,
@@ -39,7 +39,7 @@ public class Customer {
 		this.custPhone = custPhone;
 		this.custEmail = custEmail;
 	}
-
+	//don't need copy constructor?
 
 	//get/set
 	public String getfName() {return fName;}

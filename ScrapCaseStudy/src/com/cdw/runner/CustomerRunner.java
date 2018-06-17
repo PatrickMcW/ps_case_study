@@ -1,10 +1,14 @@
 package com.cdw.runner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import com.cdw.dao.CustomerDAO;
+import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Customer;
+import com.cdw.model.Transaction;
 import com.cdw.resources.CustTransBetweenDates;
 import com.cdw.resources.Formats;
 import com.cdw.resources.MonthInvoice;
@@ -154,12 +158,14 @@ public class CustomerRunner {
 	public static void generateBillByMonthYearForCcn(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		CustomerDAO cDao = new CustomerDAO();
+		TransactionDAO tDao = new TransactionDAO();
 		Output output = new Output();
 		// @int month, @int year, @string ccn
 
 		int m,y;
 		String ccn;
 		MonthInvoice bill;
+		List<Transaction> list = new ArrayList<Transaction>();
 		
 		Prompter.prompting("month", output);
 		m=output.getOutputInt();
@@ -174,9 +180,19 @@ public class CustomerRunner {
 		output.reset();
 		
 		bill = cDao.getBillByMonthAndYearForCcn(m, y, ccn);
+		list = tDao.getCcnTransactionListByMonthAndYear(m, y, ccn);
+		
+		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", "Branch Code","Type","Value($)","Customer ID");
+		for(Transaction e: list){
+			System.out.print(e);
+			if(write) {
+				WriteToFile.writeToLoc("monthInvoiceTransactions", e.toFile());
+			}
+		}
 		
 		System.out.printf(Formats.monthBillLayoutHeader, "Balance Due($)","First Name","Last Name","SSN");
 		System.out.println(bill);
+		
 		if(write) {
 			WriteToFile.writeToLoc("monthInvoice", bill.toFile());
 		}	

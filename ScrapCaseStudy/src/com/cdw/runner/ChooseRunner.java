@@ -9,7 +9,7 @@ public class ChooseRunner {
 		//delete files here to clean up last run
 		String[] fileNames = {
 				"transByZipMonthYear", "transCountAndValByType", "transCountAndValByState",
-				"customerBySsn", "updatedCustomer", "monthInvoice","custTransBetweenDates"
+				"customerBySsn", "updatedCustomer", "monthInvoice","monthInvoiceTransactions","custTransBetweenDates"
 				};
 		String[] columnNames = {
 				"t_id,d,m,y,ccn,branch,transaction_type,transaction_value,c_ssn",
@@ -18,6 +18,7 @@ public class ChooseRunner {
 				"fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail",
 				"fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail",
 				"balance, fName, lName, id",
+				"t_id,d,m,y,ccn,branch,transaction_type,transaction_value,c_ssn",
 				"fName, mName, lName,t_id,d,m,y,ccn,branch,transaction_type,transaction_value"
 				
 		};
@@ -51,7 +52,7 @@ public class ChooseRunner {
 				}
 				break;			
 				default: {
-					System.out.println("You hit default, run again");
+					System.out.println("You entered something other than 1 or 2. Try again");
 					select(scanner);
 				}
 				break;		

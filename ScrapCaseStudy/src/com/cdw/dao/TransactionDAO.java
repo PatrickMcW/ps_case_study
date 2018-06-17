@@ -12,7 +12,7 @@ import com.cdw.resources.TranTypeValCount;
 
 public class TransactionDAO extends AbstractDAO{
 
-	public Transaction formTransFromResults(ResultSet rs) {
+	public static Transaction formTransFromResults(ResultSet rs) {
 		Transaction trans = null;	
 		 try { 
 			 int t_id 					= rs.getInt(1);
@@ -48,8 +48,31 @@ public class TransactionDAO extends AbstractDAO{
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return trans;
+	}
+	public List<Transaction> getCcnTransactionListByMonthAndYear(int m, int y, String ccn){
+		List<Transaction> monthlyTransactions = new ArrayList<Transaction>();
+		String sql = Queries.GET_TRANSACTION_LIST_BY_M_Y_CCN;
+		establishConnection();
+		
+		try {
+			stmt=conn.prepareStatement(sql);
+			stmt.setInt(1, m);
+			stmt.setInt(2, y);
+			stmt.setString(3, ccn);
+			rs=stmt.executeQuery();
+			while(rs.next()) {
+				Transaction trans = formTransFromResults(rs);
+				monthlyTransactions.add(trans);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return monthlyTransactions;
 	}
 	
 //	1) To display the transactions made by customers living in a given zipcode for a given month and year. 
@@ -78,6 +101,7 @@ public class TransactionDAO extends AbstractDAO{
 
 		return list;
 	}
+	
 //	2) To display the number and total values of transactions for a given type. 
 	public TranTypeValCount getTransactionTotalValForType(String transaction_type){
 		TranTypeValCount result = null;		

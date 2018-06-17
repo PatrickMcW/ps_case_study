@@ -104,7 +104,9 @@ public class CustomerDAO extends AbstractDAO {
 				String fName 	= rs.getString(2);
 				String lName 	= rs.getString(3);
 				int id 			= rs.getInt(4);
-				bill = new MonthInvoice(balance, fName, lName, id);
+//				//async complications?
+//				List<Transaction> lineItems = getCcnTransactionListByMonthAndYear(m, y, ccn);
+				bill = new MonthInvoice(balance, fName, lName, id/*, lineItems*/);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -113,6 +115,7 @@ public class CustomerDAO extends AbstractDAO {
 		
 		return bill;
 	}
+	
 	
 	public List<CustTransBetweenDates> getCustTransBetweenDatesBySsn(int ssn, String dateOne, String dateTwo) {
 		List<CustTransBetweenDates> list = new ArrayList<CustTransBetweenDates>();
@@ -158,7 +161,6 @@ public class CustomerDAO extends AbstractDAO {
 		String sql = sqlStart+cName+sqlEnd; 
 		//cName has to pass Validator.columnValidCheck() to get used as argument, so safe from injection
 		
-		System.out.println(sql + " was sql");
 		establishConnection();
 		
 		try {
@@ -167,12 +169,8 @@ public class CustomerDAO extends AbstractDAO {
 			
 			//newVal can be 2 types, this if-else sets appropriately
 			if(newVal.getOutputString() instanceof String) {
-				System.out.println("was inside if newVal.getOutputString() instanceof String");
-				System.out.println("string of: "+ newVal.getOutputString());
 				stmt.setString(1, newVal.getOutputString());
 			} else {
-				System.out.println("was inside else of if");
-				System.out.println("int of: "+ newVal.getOutputInt());
 				stmt.setInt(1, newVal.getOutputInt()); //even though less int cases, can't instanceof int easily
 			}
 			

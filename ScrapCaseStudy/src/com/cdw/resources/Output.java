@@ -37,7 +37,7 @@ public class Output {
 				}
 			}
 		}
-		
+		//can probably condense this by &&ing stringIn!=null && stringIn.length()==5
 	}
 	public Output(int intIn) {
 		this.outputInt = intIn;

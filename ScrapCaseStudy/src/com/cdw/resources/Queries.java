@@ -65,6 +65,13 @@ public class Queries {
 			"    WHERE cc.month = ? " + 
 			"		AND cc.year = ? " + 
 			"        AND cc.CREDIT_CARD_NO = ?";
+	//3b list of transactions for that month
+	public final static String GET_TRANSACTION_LIST_BY_M_Y_CCN = "SELECT cc.transaction_id, cc.day, cc.month, cc.year, cc.credit_card_no, cc.cust_ssn, cc.branch_code, cc.transaction_type, cc.transaction_value " +
+			"	From cdw_sapp_creditcard cc " + 
+			"		INNER JOIN cdw_sapp_customer c on cc.CREDIT_CARD_NO=c.CREDIT_CARD_NO " + //i don't think this line is necessary, but leaving it for now
+			"    WHERE cc.month = ? " + 
+			"		AND cc.year = ? " + 
+			"        AND cc.CREDIT_CARD_NO = ?";
 	
 	//4) To display the transactions made by a customer between two dates. Order by year, month, and day in descending order
 	//@int ssn, @String dateOne, @String dateTwo
