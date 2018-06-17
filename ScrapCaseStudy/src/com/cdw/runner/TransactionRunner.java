@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Transaction;
 import com.cdw.resources.Formats;
+import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
 import com.cdw.resources.WriteToFile;
 
@@ -50,16 +51,30 @@ public class TransactionRunner {
 	public static void transactionsForZipByMonthAndYear(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
+		Output output=new Output();
+		int z,m,y;
 		
-		int z = Prompter.staging("zip").outputInt;
-		int m = Prompter.staging("month").outputInt;
-		int y = Prompter.staging("year").outputInt;
+		Prompter.prompting("zip", output);
+		z= Integer.parseInt(output.getOutputString() );
+		output.reset();
+		
+		Prompter.prompting("month", output);
+		m= output.getOutputInt();
+		output.reset();
+		
+		Prompter.prompting("year", output);
+		y = output.getOutputInt();
+		output.reset();
+		
+//		System.out.println(z + " was z");
+//		System.out.println(m + " was m");
+//		System.out.println(y + " was y");
 		
 		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
 		System.out.println();
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
 			if(write) {
-				WriteToFile.writeToLoc("transByZipMonthYear", t.toFile()); //no message indicating file location for user
+				WriteToFile.writeToLoc("transByZipMonthYear", t.toFile()); //no message indicating file location for user. TODO: add message in future version??
 			}
 			
 			System.out.print(t);
@@ -69,8 +84,12 @@ public class TransactionRunner {
 	public static void transactionCountAndValueByType(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
-		
-		String transaction_type = Prompter.staging("type").outputString;
+		Output output=new Output();
+
+		String transaction_type;
+		Prompter.prompting("type", output);
+		transaction_type = output.getOutputString();
+		output.reset();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
 		System.out.println();
@@ -86,8 +105,11 @@ public class TransactionRunner {
 	public static void transactionNumberAndValueByState(Scanner scanner) {
 		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
-		
-		String state_abbr = Prompter.staging("state").outputString;
+		Output output = new Output();
+
+		String state_abbr;
+		Prompter.prompting("state", output);
+		state_abbr = output.getOutputString();
 		
 		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "State","Value($)","# of Transactions");
 		System.out.println();

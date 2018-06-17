@@ -13,7 +13,7 @@ public class Validator {
 	public static boolean ccnValidCheck(String cIn, String invalid) {
 		if(! ( cIn.length()==16 && cIn.matches("[0-9]+") ) ) {
 			System.out.println(invalid);
-			Prompter.staging("ccn");
+			return false;
 		}
 		return true;
 	}
@@ -24,40 +24,49 @@ public class Validator {
 			 )
 			) {
 			System.out.println(invalid);
-			Prompter.staging("ssn");
+			return false;
 		}		
 		return true;
 	}
 	
 	public static boolean zipValidCheck(String zIn, String invalid) {
 		if(zIn.length()!=5) {
+			System.out.println(zIn.length());
 			System.out.println(invalid);
-			Prompter.staging("zip");
+			System.out.println(zIn);
+			return false;
 		}	
+		System.out.println(zIn.length());
+		System.out.println("valid");
 		return true; //should only be reached if the above if the zIn length is 5
 	}
 	
 	public static boolean monthValidCheck(int mIn, String invalid) {
-		if( mIn<1 || mIn>12 ) {
-			System.out.println(invalid);
-			Prompter.staging("month");
+		if( mIn>=1 && mIn<=12 ) {
+			System.out.println("valid month");
+			return true;
 		}
-		return true; //reachable only if month valid??
+		System.out.println(invalid);
+		return false; //reachable only if month valid??
 	}
 	
 	public static boolean yearValidCheck(int yIn, String invalid) {
+		System.out.println(yIn + " was yin in yearValidCheck");
 		if( yIn!=2018 ) {
+			System.out.println(yIn);
 			System.out.println(invalid);
 			System.out.println("The only year in this dataset is 2018"); 
 			//I could probably just not prompt for a year input but the reqs are the reqs
-			Prompter.staging("year");
+			return false;
 		}
+		System.out.println(yIn);
 		return true; //reachable only if valid year entered
 	}
 	
 	public static boolean typeValidCheck(String sIn, String invalid) {
 		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas",
 				"Bills","Test","Healthcare" };
+		System.out.println(sIn + " was sIn");
 		
 		if(!Arrays.asList(valids).contains(sIn)) {
 			//if the transaction_type is not a valid type, reject it.
@@ -67,7 +76,7 @@ public class Validator {
 				System.out.print(v+" ");
 			}
 			System.out.println();
-			Prompter.staging("type");
+			return false;
 		} 
 		return true; //reachable only if valid type entered
 	}
@@ -84,7 +93,7 @@ public class Validator {
 				System.out.print(v+" ");
 			}
 			System.out.println();
-			Prompter.staging("state");
+			return false;
 		} 
 		
 		return true;
@@ -116,12 +125,18 @@ public class Validator {
 				"SSN", "CREDIT_CARD_NO", "APT_NO", "STREET_NAME", "CUST_CITY",
 				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_PHONE", "CUST_EMAIL"};
 		
-		if(!Arrays.asList(valids).contains(col_name)) {
+		if(Arrays.asList(valids).contains(col_name)) {
+			System.out.println("columnValidCheck pass");
+			return true; //this may be redundant, but we'll see if ELEPHANTS breaks this again
+
+		} else {
 			//if the transaction_type is not a valid type, reject it.
 			System.out.println(invalid);
 			System.out.println("Valid column names are: ");
 			for(int i=0; i<valids.length;i++) {
-				if(i==valids.length-1) {
+				if(i==0) {
+					System.out.print(valids[i]+",");
+				} else if(i==valids.length-1) {
 					System.out.print(valids[i]+".");
 				} else if(i%4==0) {
 					System.out.println(valids[i]+",");
@@ -130,22 +145,21 @@ public class Validator {
 				}
 			}
 			System.out.println();
-			Prompter.staging("column");
+			System.out.println("columnValidCheck reject");
+			return false;
 		}
-		
-		return true;
 	}
 	
 	//weak checks
 	public static boolean newStringValValidCheck(String stringIn, String invalid) {
 		if(stringIn.length()>40) { //this is a shitty metric, but here we are
-			Prompter.staging("newStringVal");
+			return false;
 		}
 		return true;
 	}
 	public static boolean newIntValValidCheck(int intIn, String invalid) {
 		if( Integer.toString(intIn).length()>10) {
-			Prompter.staging("newIntVal");
+			return false;
 		}
 		return true;
 	}

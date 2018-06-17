@@ -1,290 +1,300 @@
 package com.cdw.resources;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import com.cdw.runner.ChooseRunner;
 
-public final class Prompter {
-	private static final String openPrompt = "Please provide the ";
-	private static final String invalidOpen = "An invalid ";
-	private static final String invalidClose = " was entered, please try again.";
-	private static final String intExit = "Enter 0 to re-select category";
-	private static final String stringExit = "Enter EXIT to re-select category";
+public class Prompter {
+	private static final Scanner scanner = new Scanner (System.in);
 	
-	private static final String zipPrompt = "zip criteria";
-	private static final String zipTestEntry = "06109";
-	
-	private static final String monthPrompt = "month (as integer) criteria ";
-	private static final String monthTestEntry = "2 or 11";
-	
-	private static final String yearPrompt = "year criteria";
-	private static final String yearTestEntry = "2018"; //only year in records
-	
-	private static final String statePrompt = "state criteria";
-	private static final String stateTestEntry = "CT"; //not case sensitive in mysqlworkbench
+	public static void prompting(String type, Output output) {
+		String str = null;
+		int n = -1;
+		String[] split = null;
+		prompt(type, output);
+		switch(checkOutputType(type)) {
+		case "arr":{
 
-	private static final String typePrompt = "type criteria";
-	private static final String typeTestEntry = "Bills"; //case insensitive
-	
-	private static final String ssnPrompt = "customer ssn";
-	private static final String ssnTestEntry = "123456100"; 
-	
-	private static final String getCcnPrompt = "credit card number";
-	private static final String getCcnTestEntry = "4210653310061055 or 4210653349028689"; 
-
-	private static final String dateMonthPrompt = "date criteria (format: dd/mm)";
-	private static final String dateMonthTestEntry = "01/11 or 30/11"; 
-	
-	
-	private static final String columnPrompt = "column criteria";
-	private static final String columnTestEntry = "first_name"; 
-	
-	private static final String newStringValPrompt = "new string for field";
-	private static final String newStringValTestEntry = "";
-	
-	private static final String newIntValPrompt = "new int for field";
-	private static final String newIntValTestEntry = "";
-
-	private static final Scanner scanner = new Scanner (System.in); // this got rid of the yellow underline for similar declaration in staging(), but you would think the scanner should still be closed
-	
-	public static Output staging(String type/*, Scanner scanner*/) {
-//		Scanner scanner = new Scanner (System.in); //if i can open/close scanner without issue here, do that,
-		//otherwise, open in calling main and close there, and pass as arg
-		String stringIn;
-		int intIn;
-		Output output = null;
-		String prompt=null,test=null, invalid=null, back=null ;
-		switch(type) {
-			case "zip": {
-				// set string values
-				prompt = openPrompt + zipPrompt +": ";
-				test = zipTestEntry;
-				invalid = invalidOpen + zipPrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if ( Validator.zipValidCheck(stringIn, invalid) ) {
-					output = new Output(Integer.parseInt(stringIn));
-				}
-				break;
-			}
-			case "month": {
-				// set string values
-				prompt = openPrompt + monthPrompt +": ";
-				test = monthTestEntry;
-				invalid = invalidOpen + monthPrompt + invalidClose;
-				back = intExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-
-				//get and validate entry
-				intIn = scanner.nextInt();
-				if(intIn==0) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.monthValidCheck(intIn, invalid)) {
-					output = new Output(intIn);
-				}
-				break;
-			}
-			case "year": {
-				// set string values
-				prompt = openPrompt + yearPrompt +": ";
-				test = yearTestEntry;
-				invalid = invalidOpen + yearPrompt + invalidClose;
-				back = intExit;
-				//show prompt
-				showPrompt(prompt, test, type,back);
-
-				//get and validate entry
-				intIn = scanner.nextInt();
-				if(intIn==0) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.yearValidCheck(intIn, invalid)) {
-					output = new Output(intIn); 
-				}
-				
-				break;
-			}
-			case "state": {
-				// set string values
-				prompt = openPrompt + statePrompt +": ";
-				test = stateTestEntry;
-				invalid = invalidOpen + statePrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.stateValidCheck(stringIn, invalid)) {
-					output = new Output(stringIn); 
-				}
-				break;
-			}
-			case "type": {
-				//set string values
-				prompt = openPrompt + typePrompt +": ";
-				test = typeTestEntry;
-				invalid = invalidOpen + typePrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.typeValidCheck(stringIn, invalid)) {
-					output = new Output(stringIn); 
-				}
-				break;
-			}
-			case "ssn": {
-				//set string values
-				prompt = openPrompt + ssnPrompt +": ";
-				test = ssnTestEntry;
-				invalid = invalidOpen + ssnPrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.custSsnValidCheck(stringIn, invalid) ) {
-					output = new Output(Integer.parseInt(stringIn), stringIn);
-				}
-				
-				break;
-			}
-			case "ccn": {
-				//set string values
-				prompt = openPrompt + getCcnPrompt +": ";
-				test = getCcnTestEntry;
-				invalid = invalidOpen + getCcnPrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.ccnValidCheck(stringIn, invalid) ) {
-					output = new Output(stringIn);
-				}
-				
-				break;
-			}
-			case "dateMonth":{			
-				// set string values
-				prompt = openPrompt + dateMonthPrompt +": ";
-				test = dateMonthTestEntry;
-				invalid = invalidOpen + dateMonthPrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type,back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				String[] splitIn = stringIn.split("/");
-				
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.dateMonthValidCheck(splitIn, invalid) ) {
-					output = new Output(splitIn); 
-				}
-				break;
-			}
-			case "column": {
-//				System.out.println("column case in prompter");
-				// set string values
-				prompt = openPrompt + columnPrompt +": ";
-				test = columnTestEntry;
-				invalid = invalidOpen + columnPrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				stringIn = scanner.next();
-				
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.columnValidCheck(stringIn, invalid) ) {
-					output = new Output(stringIn); 
-				}
-				break;
-			}
-			case "newStringVal": {
-				System.out.println("newStringVal case in prompter");
-				// set string values
-				prompt = openPrompt + newStringValPrompt +": ";
-				test = newStringValTestEntry;
-				invalid = invalidOpen + newStringValPrompt + invalidClose;
-				back = stringExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-
-				//get and validate entry
-				stringIn = scanner.next();
-				
-				if(stringIn.equals("EXIT")) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.newStringValValidCheck(stringIn, invalid) ) {
-					output = new Output(stringIn); 
-				}
-				
-				break;
-			}
-			case "newIntVal": {
-				System.out.println("newIntVal case in prompter");
-				// set string values
-				prompt = openPrompt + newIntValPrompt +": ";
-				test = newIntValTestEntry;
-				invalid = invalidOpen + newIntValPrompt + invalidClose;
-				back = intExit;
-				//show prompt
-				showPrompt(prompt, test, type, back);
-				
-				//get and validate entry
-				intIn = scanner.nextInt();
-				
-				if(intIn==0) {
-					ChooseRunner.select(scanner);
-				} else if( Validator.newIntValValidCheck(intIn, invalid) ) {
-					output = new Output(intIn); 
-				}
-				
-				break;
-			}			
+//			System.out.println("arr case");
+//			System.out.println(output + " was output");
+			getSplitInput(type, split, output);
 			
-			default: {
-				System.out.println("Somehow reached default case in staging switch");
-			}
-
+			break;
 		}
-		return output;
+		case "ints":{
+
+//			System.out.println("ints case");
+//			System.out.println(output + " was output");
+			getIntInput(type, n, output);
+			break;
+		}
+		case "strings": {
+//			System.out.println("strings case");
+//			System.out.println(output + " was output");
+			getStringInput(type, str, output); //string input should be changed if invalid, otherwise, continue
+			break;
+		}
+		default:{
+			System.out.println("you done f@#$ed up");
+		}
+		}
+		
+		System.out.println("end of whole shabang");
+	}
+
+	public static void prompt(String type, Output output) {
+		String p=null, test=null, b = Prompts.stringExit;
+		switch(type) {
+		case "zip":{
+			p = Prompts.openPrompt + Prompts.zipPrompt +": ";
+			test = Prompts.zipTestEntry;
+			break;
+		}
+		case "month":{
+			p = Prompts.openPrompt + Prompts.monthPrompt +": ";
+			test = Prompts.monthTestEntry;
+			b = Prompts.intExit;
+			break;
+		}
+		case "year":{
+			p = Prompts.openPrompt + Prompts.yearPrompt +": ";
+			test = Prompts.yearTestEntry;
+			b = Prompts.intExit;
+			break;
+		}
+		case "state":{
+			p = Prompts.openPrompt + Prompts.statePrompt +": ";
+			test = Prompts.stateTestEntry;
+			break;
+		}
+		case "type":{
+			p = Prompts.openPrompt + Prompts.typePrompt +": ";
+			test = Prompts.typeTestEntry;
+			break;
+		}
+		case "ssn":{
+			p = Prompts.openPrompt + Prompts.ssnPrompt +": ";
+			test = Prompts.ssnTestEntry;
+			break;
+		}
+		case "ccn":{
+			p = Prompts.openPrompt + Prompts.getCcnPrompt +": ";
+			test = Prompts.getCcnTestEntry;
+			break;
+		}
+		case "dateMonth":{
+			p = Prompts.openPrompt + Prompts.dateMonthPrompt +": ";
+			test = Prompts.dateMonthTestEntry;
+			break;
+		}
+		case "column":{
+			p = Prompts.openPrompt + Prompts.columnPrompt +": ";
+			test = Prompts.columnTestEntry;
+			break;
+		}
+		case "newStringVal":{
+			p = Prompts.openPrompt + Prompts.newStringValPrompt +": ";
+			test = Prompts.newStringValTestEntry;
+			break;
+		}
+		case "newIntVal":{
+			p = Prompts.openPrompt + Prompts.newIntValPrompt +": ";
+			test = Prompts.newIntValTestEntry;
+			b = Prompts.intExit;
+			break;
+		}
+		default: {
+			p = "default case";
+			test = "default case";
+			b= "default case"; 
+			
+		}
+	}
+	Prompts.showPrompt(p, test, type, b);
+	}
+
+	public static String checkOutputType(String type) {
+//		String[] outInts = {"month","year","ssn","newIntVal"};
+//		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal"};
+		String[] outInts = {"month","year","newIntVal"};
+		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal","ssn",};
+		String[] outArr = {"dateMonth"};
+//		String[] outStrings = {"ccn","zip","type","state","column","newStringVal","newIntVal","dateMonth"};
+		if(Arrays.asList(outArr).contains(type)) {
+			return "arr";
+		} else if(Arrays.asList(outInts).contains(type)) {
+			return "ints";
+		} else if(Arrays.asList(outStrings).contains(type)) {
+			return "strings";
+		} else {
+			return "undefined";
+		}
 	}
 	
-	public static void showPrompt(String p, String t, String c, String b) {
-		System.out.println(p);
-		//special cases: column
-		if(c.equals("column")) {
-			System.out.println("(use underscores for spaces, and all caps)");
+//	public static String getStringInput(String type, String input) {
+	public static void getStringInput(String type, String input, Output output) {
+		input = scanner.next();
+		String invalid = "";
+		if(input.equals("EXIT")) {
+			ChooseRunner.select(scanner);
+		} 
+		switch(type) {
+		case "zip":{
+			invalid = Prompts.invalidOpen + Prompts.zipPrompt + Prompts.invalidClose;
+			if(!Validator.zipValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} 
+			else {
+				output.setOutputString(input);
+			}
+			break;
 		}
+		case "state": {
+			invalid = Prompts.invalidOpen + Prompts.statePrompt + Prompts.invalidClose;
+			if(!Validator.stateValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} else {
+				output.setOutputString(input);
+			}
+			break;
+		}
+		case "type": {
+			invalid = Prompts.invalidOpen + Prompts.typePrompt + Prompts.invalidClose;
+			System.out.println(input + " was input in case type");
+			if(!Validator.typeValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} else {
+				output.setOutputString(input);
+			}
+			break;
+		}
+		case "ssn": {
+			invalid = Prompts.invalidOpen + Prompts.ssnPrompt + Prompts.invalidClose;
+			if(!Validator.custSsnValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} else {
+				output.setOutputString(input); 
+			}
+			break;
+		}
+		case "ccn": {
+			invalid = Prompts.invalidOpen + Prompts.getCcnPrompt + Prompts.invalidClose;
+			if(!Validator.ccnValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} else {
+				output.setOutputString(input);
+			}
+			break;
+		}
+		case "column": {
+			invalid = Prompts.invalidOpen + Prompts.columnPrompt + Prompts.invalidClose;
+			if(!Validator.columnValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} else {
+				output.setOutputString(input);
+			}
+			break;
+		}
+		case "newStringVal": {
+			invalid = Prompts.invalidOpen + Prompts.newStringValPrompt + Prompts.invalidClose;
+			if(!Validator.newStringValValidCheck(input, invalid)) {
+				getStringInput(type, input, output);
+			} else {
+				output.setOutputString(input);
+			}
+			break;
+		}
+//		case "": {
+//			invalid = 
+//			if() {
+//				getStringInput(type, input, output);
+//			} else {
+//				output.setOutputString(input);
+//			}
+//		}
 		
-		//test values to get results. can be removed for "live" use
-		System.out.println(t);	
-		
-		System.out.println(b);
+		default: {
+			getStringInput(type, input, output);
+		}
+		}
 	}
+	public static void getSplitInput(String type, String[] input, Output output) {
+		input = scanner.next().split("/");
+		String invalid = "";
+		if(input[0].equals("EXIT")) { //may not work?
+			ChooseRunner.select(scanner);
+		} 
+		switch(type) {
+		case "dateMonth":{
+			invalid = Prompts.invalidOpen + Prompts.dateMonthPrompt + Prompts.invalidClose;
+			if(!Validator.dateMonthValidCheck(input, invalid)) {
+				getSplitInput(type, input, output);
+			} else {
+				output.setOutputDateSplit(input);
+			}
+			break;
+		}
+		default: {
+			getSplitInput(type, input, output);
+		}
+		}
+	}
+	public static void getIntInput(String type, int input, Output output) {
+		System.out.println(input + " was input before scanner.nextInt");
+		double buffer = scanner.nextDouble();
+		if(buffer>Integer.MAX_VALUE) {
+			System.out.println("Number too large, please enter something less than " + Integer.MAX_VALUE);
+			getIntInput(type, input, output);
+		}
+		input = (int)buffer;
+		System.out.println(input + " was input after scanner.nextInt");
+		String invalid = "";
+		if(input==0) {
+			ChooseRunner.select(scanner);
+		}
+		switch(type) {
+		case "month": {
+			invalid = Prompts.invalidOpen + Prompts.monthPrompt + Prompts.invalidClose;
+			if(!Validator.monthValidCheck(input, invalid)) {
+				getIntInput(type, input, output);
+			} else {
+				output.setOutputInt(input);
+			}
+			break;
+		}
+		case "year": {
+			invalid = Prompts.invalidOpen + Prompts.yearPrompt + Prompts.invalidClose;
+			if(!Validator.yearValidCheck(input, invalid)) {
+				System.out.println(input + "  input in if(!Validator.yearValidCheck(output.getOutputInt(), invalid))");
+				getIntInput(type, input, output);
+			} else {
+				System.out.println(input + " was input in else of if(!Validator.yearValidCheck(output.getOutputInt(), invalid)");
+				output.setOutputInt(input);
+			}
+			break;
+		}
+		case "newIntVal": {
+			invalid = Prompts.invalidOpen + Prompts.newIntValPrompt + Prompts.invalidClose;
+			if(!Validator.newIntValValidCheck(input, invalid)) {
+				getIntInput(type, input, output);
+			} else {
+				output.setOutputInt(input);
+			}
+			break;
+		}
+//		case "": {
+//		invalid = 
+//		if(!) {
+//			getIntInput(type, input, output);
+//		} else {
+//			output.setOutputInt(input);
+//		}
+//	}
+		default: {
+			getIntInput(type, input, output);
+			}
+		}
+	}
+
 }

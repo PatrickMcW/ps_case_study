@@ -85,6 +85,8 @@ public class CustomerDAO extends AbstractDAO {
 		return cust;
 	}
 	
+	//i could probably just overload a getCustomer method, having one that takes ssn only, and another that takes ssn+ccn, but not today. 
+	
 	public MonthInvoice getBillByMonthAndYearForCcn(int m, int y, String ccn) {
 		// @int month, @int year, @string ccn
 		MonthInvoice bill = null;
@@ -102,7 +104,9 @@ public class CustomerDAO extends AbstractDAO {
 				String fName 	= rs.getString(2);
 				String lName 	= rs.getString(3);
 				int id 			= rs.getInt(4);
-				bill = new MonthInvoice(balance, fName, lName, id);
+//				//async complications?
+//				List<Transaction> lineItems = getCcnTransactionListByMonthAndYear(m, y, ccn);
+				bill = new MonthInvoice(balance, fName, lName, id/*, lineItems*/);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -111,6 +115,7 @@ public class CustomerDAO extends AbstractDAO {
 		
 		return bill;
 	}
+	
 	
 	public List<CustTransBetweenDates> getCustTransBetweenDatesBySsn(int ssn, String dateOne, String dateTwo) {
 		List<CustTransBetweenDates> list = new ArrayList<CustTransBetweenDates>();
@@ -153,8 +158,9 @@ public class CustomerDAO extends AbstractDAO {
 
 		String sqlStart = Queries.UPDATE_START; //"UPDATE cdw_sapp_customer SET " //cName
 		String sqlEnd = Queries.UPDATE_END; // = ? WHERE ssn = ? AND CREDIT_CARD_NO = 
-		String sql = sqlStart+cName+sqlEnd;
-		System.out.println(sql + " was sql");
+		String sql = sqlStart+cName+sqlEnd; 
+		//cName has to pass Validator.columnValidCheck() to get used as argument, so safe from injection
+		
 		establishConnection();
 		
 		try {
@@ -163,12 +169,8 @@ public class CustomerDAO extends AbstractDAO {
 			
 			//newVal can be 2 types, this if-else sets appropriately
 			if(newVal.getOutputString() instanceof String) {
-				System.out.println("was inside if newVal.getOutputString() instanceof String");
-				System.out.println("string of: "+ newVal.getOutputString());
 				stmt.setString(1, newVal.getOutputString());
 			} else {
-				System.out.println("was inside else of if");
-				System.out.println("int of: "+ newVal.getOutputInt());
 				stmt.setInt(1, newVal.getOutputInt()); //even though less int cases, can't instanceof int easily
 			}
 			
