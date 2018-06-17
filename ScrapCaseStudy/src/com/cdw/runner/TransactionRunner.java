@@ -4,78 +4,120 @@ import java.util.Scanner;
 
 import com.cdw.dao.TransactionDAO;
 import com.cdw.model.Transaction;
-//import com.cdw.model.Transaction;
+import com.cdw.resources.Formats;
+import com.cdw.resources.Output;
 import com.cdw.resources.Prompter;
+import com.cdw.resources.WriteToFile;
 
 public class TransactionRunner {
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner (System.in);
+	public static void Run(Scanner scanner) {
 		System.out.println("Which transaction report would you like to run?");
-		System.out.println("1. Transactions by customer, for a given zip code, month and year");
-		System.out.println("2. Transaction number and value for a given type");
-		System.out.println("3. Trasaction number and value for a given state");
+		System.out.println("1. Transactions for a given zip code, month and year.");
+		System.out.println("2. Transaction number and value for a given type.");
+		System.out.println("3. Transaction number and value for a given state.");
+		System.out.println("0 to exit Transaction category");
+		select(scanner);
+	}
+	
+	public static void select(Scanner scanner) {
 		int input = scanner.nextInt();
-		switch (input) {
-//		1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
-			case 1:
-				transactionsForZipByMonthAndYear();
-				break;
-//		2) To display the number and total values of transactions for a given type. 
-			case 2: 
-//				System.out.println("case 2");
-				transactionNumberAndValueByType();
-				break;
-			case 3:
-				transactionNumberAndValueByState();
-				break;
-			default:
-				System.out.println("Somehow reached default case in transaction runner switch");
+		while(input!=0) {
+			switch (input) {
+				case 1: {					
+					transactionsForZipByMonthAndYear(scanner);
+					return;
+				}
+				case 2: {					
+					transactionCountAndValueByType(scanner);
+					return;
+				}
+				case 3: {					
+					transactionNumberAndValueByState(scanner);
+					return;
+				}
+				default: {					
+					System.out.println("Somehow reached default case in transaction runner switch");
+					input = 0;
+				}
+			}
+			System.out.println();
 		}
-
-		
-		scanner.close();
+		System.out.println();
+		System.out.println("You have exited the Transaction category");
+		ChooseRunner.select(scanner);
 	}
 	
 //	1) To display the transactions made by customers living in a given zip code for a given month and year. Order by day in descending order. 
-	public static void transactionsForZipByMonthAndYear() {
+	public static void transactionsForZipByMonthAndYear(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
-//		int z = zipPrompt(scanner);
-//		System.out.println(Prompter.staging("zip")); //seems to be return null?
-		int z = Prompter.staging("zip").outputInt;
-//		int m = monthPrompt(scanner);
-		int m = Prompter.staging("month").outputInt;
-//		int y = yearPrompt(scanner);
-		int y = Prompter.staging("year").outputInt;
+		Output output=new Output();
+		int z,m,y;
 		
+		Prompter.prompting("zip", output);
+		z= Integer.parseInt(output.getOutputString() );
+		output.reset();
 		
+		Prompter.prompting("month", output);
+		m= output.getOutputInt();
+		output.reset();
+		
+		Prompter.prompting("year", output);
+		y = output.getOutputInt();
+		output.reset();
+		
+//		System.out.println(z + " was z");
+//		System.out.println(m + " was m");
+//		System.out.println(y + " was y");
+		
+		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
+		System.out.println();
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {
-			System.out.println(t);
-			t.toString();
-//			System.out.println("blabla");
+			if(write) {
+				WriteToFile.writeToLoc("transByZipMonthYear", t.toFile()); //no message indicating file location for user. TODO: add message in future version??
+			}
+			
+			System.out.print(t);
 		}
-		
-		
-		
 	}
 ////	2) To display the number and total values of transactions for a given type. 
-	public static void transactionNumberAndValueByType() {
-//		System.out.println("transactionNumerAndValueByType called");
+	public static void transactionCountAndValueByType(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
-//		String transaction_type = typePrompt(scanner);
-		String transaction_type = Prompter.staging("type").outputString;
-//		System.out.println(transaction_type);
+		Output output=new Output();
+
+		String transaction_type;
+		Prompter.prompting("type", output);
+		transaction_type = output.getOutputString();
+		output.reset();
 		
+		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "Type","Value($)","# of Transactions");
+		System.out.println();
 		System.out.println(
 				tDao.getTransactionTotalValForType(transaction_type)
 				);
+		if(write) {
+			WriteToFile.writeToLoc("transCountAndValByType", tDao.getTransactionTotalValForType(transaction_type).toFile());
+		}
 		
 	}
 ////	3) To display the number and total values of transactions for branches in a given state 
-	public static void transactionNumberAndValueByState() {
+	public static void transactionNumberAndValueByState(Scanner scanner) {
+		boolean write = WriteToFile.writeFileQuestion(scanner);
 		TransactionDAO tDao = new TransactionDAO();
-//		String state_abbr = statePrompt(scanner);
-		String state_abbr = Prompter.staging("state").outputString;
-		System.out.println(tDao.getStateTransactionCountAndVal(state_abbr));
+		Output output = new Output();
+
+		String state_abbr;
+		Prompter.prompting("state", output);
+		state_abbr = output.getOutputString();
 		
+		System.out.printf(Formats.typeOrState+Formats.valueAndCountHeader, "State","Value($)","# of Transactions");
+		System.out.println();
+		System.out.println(
+				tDao.getStateTransactionCountAndVal(state_abbr)
+				);
+		if(write) {
+			WriteToFile.writeToLoc("transCountAndValByState", tDao.getStateTransactionCountAndVal(state_abbr).toFile());
+		}
 	}
 }

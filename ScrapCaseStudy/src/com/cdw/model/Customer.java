@@ -1,5 +1,7 @@
 package com.cdw.model;
 
+import com.cdw.resources.Formats;
+
 public class Customer {
 	//fields
 	private String fName;
@@ -17,7 +19,7 @@ public class Customer {
 	private String custEmail;
 
 	
-	//construct
+	//constructors
 	public Customer() {};
 
 	public Customer(String fName, String mName, String lName, int ssn, String ccn, String aptN, String streetN,
@@ -37,7 +39,7 @@ public class Customer {
 		this.custPhone = custPhone;
 		this.custEmail = custEmail;
 	}
-
+	//don't need copy constructor?
 
 	//get/set
 	public String getfName() {return fName;}
@@ -88,13 +90,15 @@ public class Customer {
 
 	public void setCustEmail(String custEmail) {this.custEmail = custEmail;};
 	
-	
 	@Override
-	public String toString() {
-		return "Customer [fName=" + fName + ", mName=" + mName + ", lName=" + lName + ", ssn=" + ssn + ", ccn=" + ccn
-				+ ", aptN=" + aptN + ",\n streetN=" + streetN + ", custCity=" + custCity + ", custState=" + custState
-				+ ", custCountry=" + custCountry + ",\n custZip=" + custZip + ", custPhone=" + custPhone + ", custEmail="
-				+ custEmail + "]";
+	public String toString() {	
+		return String.format(Formats.customerLayout, 
+				fName, mName,lName,ssn,ccn,aptN,streetN,custCity,custState,custCountry,custZip,custPhone,custEmail);
+
+	}
+	
+	public String toFile() {
+		return fName + "," + mName + "," + lName + "," + ssn + "," + ccn + "," + aptN + "," + streetN + "," + custCity + "," + custState + "," + custCountry + "," + custZip + "," + custPhone + "," + custEmail;
 	}
 
 }

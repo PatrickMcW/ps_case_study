@@ -1,18 +1,10 @@
 package com.cdw.model;
 
+import com.cdw.resources.Formats;
+
 public class Transaction {
 	//the credit card database seems to be closest to this since it
 	//contains "transaction_type and _value" fields.
-	
-//	TRANSACTION_ID int(9) PK 
-//	DAY int(2) 
-//	MONTH int(2) 
-//	YEAR int(4) 
-//	CREDIT_CARD_NO varchar(16) 
-//	CUST_SSN int(9) 
-//	BRANCH_CODE int(9) 
-//	TRANSACTION_TYPE varchar(30) 
-//	TRANSACTION_VALUE decimal(20,3)
 	
 	private int t_id;
 	private int d;
@@ -78,10 +70,9 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "Transaction [t_id=" + t_id + ", d=" + d + ", m=" + m + ", y=" + y + ", ccn=" + ccn + ", c_ssn=" + c_ssn
-				+ ", branch=" + branch + ", transaction_type=" + transaction_type + ", transaction_value="
-				+ transaction_value + "]"; //printing customer SSN is 1000000% totally secure and not bad. ... ...
-	};
-	
-	
+		return String.format(Formats.transactionLayout + Formats.ssn +" %n", t_id, d,m,y, ccn, branch, transaction_type, transaction_value,c_ssn);
+	}
+	public String toFile() {
+		return t_id + "," + d + "," + m + "," + y + "," + ccn + "," + c_ssn + "," + branch + "," + transaction_type + "," + transaction_value ;
+	}
 }

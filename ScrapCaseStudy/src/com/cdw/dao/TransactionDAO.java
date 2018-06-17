@@ -3,7 +3,6 @@ package com.cdw.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-//import java.util.Arrays;
 import java.util.List;
 
 import com.cdw.model.Transaction;
@@ -13,17 +12,7 @@ import com.cdw.resources.TranTypeValCount;
 
 public class TransactionDAO extends AbstractDAO{
 
-	
-	public static List<Transaction> getAllTransactions(){
-		List<Transaction> list = null;
-		
-		
-		
-		return list;
-	}
-	public Transaction formTransFromResults(ResultSet rs) {
-		//The ResultSet interface provides getter methods (getBoolean, getLong, and so on) 
-		// for retrieving column values from the current row.
+	public static Transaction formTransFromResults(ResultSet rs) {
 		Transaction trans = null;	
 		 try { 
 			 int t_id 					= rs.getInt(1);
@@ -32,10 +21,10 @@ public class TransactionDAO extends AbstractDAO{
 			 int y 						= rs.getInt(4);
 			 String ccn					= rs.getString(5);
 			 int c_ssn					= rs.getInt(6);
-			 
 			 int branch					= rs.getInt(7);
 			 String transaction_type	= rs.getString(8);
 			 double transaction_value	= rs.getDouble(9);
+			 
 			 trans = new Transaction(t_id, d, m, y, ccn, c_ssn, branch, transaction_type, transaction_value);
 		 } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -46,7 +35,7 @@ public class TransactionDAO extends AbstractDAO{
 	
 	public Transaction getTransactionByTId(int id) {
 		Transaction trans = null;
-		String sql = Queries.GET_TRANSACTION_BY_T_ID; //not obvious what you need here without looking at the Queries class
+		String sql = Queries.GET_TRANSACTION_BY_T_ID;
 		establishConnection();
 		//		PreparedStatement
 		try {
@@ -59,8 +48,31 @@ public class TransactionDAO extends AbstractDAO{
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return trans;
+	}
+	public List<Transaction> getCcnTransactionListByMonthAndYear(int m, int y, String ccn){
+		List<Transaction> monthlyTransactions = new ArrayList<Transaction>();
+		String sql = Queries.GET_TRANSACTION_LIST_BY_M_Y_CCN;
+		establishConnection();
+		
+		try {
+			stmt=conn.prepareStatement(sql);
+			stmt.setInt(1, m);
+			stmt.setInt(2, y);
+			stmt.setString(3, ccn);
+			rs=stmt.executeQuery();
+			while(rs.next()) {
+				Transaction trans = formTransFromResults(rs);
+				monthlyTransactions.add(trans);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return monthlyTransactions;
 	}
 	
 //	1) To display the transactions made by customers living in a given zipcode for a given month and year. 
@@ -82,7 +94,6 @@ public class TransactionDAO extends AbstractDAO{
 			while( rs.next() ) {
 				Transaction trans = formTransFromResults(rs);
 				list.add(trans); 
-
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -90,16 +101,8 @@ public class TransactionDAO extends AbstractDAO{
 
 		return list;
 	}
+	
 //	2) To display the number and total values of transactions for a given type. 
-//	public enum T_Type{
-//		Education,
-//		Entertainment,
-//		Grocery,
-//		Gas,
-//		Bills,
-//		Test,
-//		Healthcare
-//	} //java does not have square bracket var notation, so this won't work.
 	public TranTypeValCount getTransactionTotalValForType(String transaction_type){
 		TranTypeValCount result = null;		
 		String sql = Queries.GET_TRANSACTION_TOTAL_VALUE_BY_TYPE;
@@ -113,8 +116,6 @@ public class TransactionDAO extends AbstractDAO{
 			rs = stmt.executeQuery();
 			
 			while( rs.next() ) {
-				//full transaction lines are not the result here. 
-				// Type, Count, Total Value are column names/order
 				String type = rs.getString(1);
 				int count 	= rs.getInt(2);
 				double val 	= rs.getDouble(3);
@@ -130,7 +131,6 @@ public class TransactionDAO extends AbstractDAO{
 //	3) To display the number and total values of transactions for branches in a given state 
 	public StateTranCountVal getStateTransactionCountAndVal(String state_abbr) {
 		StateTranCountVal result = null;
-//		List<StateTranCountVal> state = null;
 		String sql = Queries.GET_STATE_TRANSACTION_COUNT_VAL_BY_STATE;
 		establishConnection();		
 		try {

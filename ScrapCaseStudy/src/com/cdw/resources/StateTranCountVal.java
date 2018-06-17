@@ -1,9 +1,9 @@
 package com.cdw.resources;
 
 public class StateTranCountVal {
-	private String state;
-	private int count;
-	private double val;
+	private String 	state;
+	private int 	count;
+	private double 	val;
 	public StateTranCountVal(String state, int count, double val) {
 		super();
 		this.state = state;
@@ -28,11 +28,14 @@ public class StateTranCountVal {
 	public void setVal(double val) {
 		this.val = val;
 	}
+
 	@Override
 	public String toString() {
-		return "StateTranCountVal [state=" + state + ", count=" + count + ", val=" + val + "]";
+		return String.format(Formats.typeOrState+Formats.valueAndCount, state, val, count);
+
 	}
-	
-	
+	public String toFile() {
+		return state + "," + val + "," + count;
+	}
 
 }

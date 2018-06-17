@@ -1,9 +1,9 @@
 package com.cdw.resources;
 
 public class TranTypeValCount {
-	private String type ;
-	private double val 	;
-	private int count 	;
+	private String 	type;
+	private double 	val;
+	private int 	count;
 	
 	public TranTypeValCount(String type, int count, double val) {
 		super();
@@ -29,9 +29,13 @@ public class TranTypeValCount {
 	public void setVal(double val) {
 		this.val = val;
 	}
+
 	@Override
 	public String toString() {
-		return "TranTypeValCount [type=" + type + ", val=" + val + ", count=" + count + "]";
+		return String.format(Formats.typeOrState+Formats.valueAndCount, type, val, count);
+	}
+	public String toFile() {
+		return type + "," + val + "," + count;
 	}
 	
 }
