@@ -45,7 +45,8 @@ public class Queries {
 			" STREET_NAME, CUST_CITY, CUST_STATE, CUST_COUNTRY, CUST_ZIP, CUST_PHONE, \r\n" + 
 			" CUST_EMAIL FROM CDW_SAPP_CUSTOMER WHERE ssn = ?";
 	
-	//get cust by ssn and ccn
+	//get cust by ssn and ccn. primary key of this table is a combination of these fields, using only ssn
+	// does not guarantee uniqueness
 	//@int ssn @string ccn
 	public final static String GET_CUST_BY_SSN_AND_CCN = "SELECT FIRST_NAME, MIDDLE_NAME, LAST_NAME, SSN, CREDIT_CARD_NO, APT_NO,\r\n" + 
 			" STREET_NAME, CUST_CITY, CUST_STATE, CUST_COUNTRY, CUST_ZIP, CUST_PHONE, \r\n" + 
@@ -53,8 +54,10 @@ public class Queries {
 
 	//2) To modify the existing account details of a customer 
 	//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
-//	public final static String UPDATE_CUST_BY_SSN = "UPDATE cdw_sapp_customer SET ? = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
+//	public final static String UPDATE_CUST_BY_SSN = "UPDATE cdw_sapp_customer SET ${column_name} = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
+	// what would be a ? for ${column_name} above is not allowed as a column name cannot be set as a parameter for prepared statements
 	public final static String UPDATE_START = "UPDATE cdw_sapp_customer SET ";
+	// a variable is provided in the construction of the sql string to set the column name. only specific entries are allowed for that variable
 	public final static String UPDATE_END = " = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?";
 	
 	//3) To generate monthly bill for a credit card number for a given month and year. 

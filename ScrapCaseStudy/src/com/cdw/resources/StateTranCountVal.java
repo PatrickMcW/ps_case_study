@@ -1,15 +1,20 @@
 package com.cdw.resources;
 
 public class StateTranCountVal {
+	//fields
 	private String 	state;
 	private int 	count;
 	private double 	val;
+	
+	//constructor
 	public StateTranCountVal(String state, int count, double val) {
 		super();
 		this.state = state;
 		this.count = count;
 		this.val = val;
 	}
+	
+	//getters/setters
 	public String getState() {
 		return state;
 	}
@@ -29,6 +34,7 @@ public class StateTranCountVal {
 		this.val = val;
 	}
 
+	//prints
 	@Override
 	public String toString() {
 		return String.format(Formats.typeOrState+Formats.valueAndCount, state, val, count);

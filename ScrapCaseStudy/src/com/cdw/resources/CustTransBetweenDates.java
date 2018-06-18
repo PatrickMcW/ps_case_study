@@ -3,9 +3,12 @@ package com.cdw.resources;
 import com.cdw.model.Transaction;
 
 public class CustTransBetweenDates extends Transaction {
+	//fields
 	private String fName;
 	private String mName;
 	private String lName;
+	
+	//constructor
 	public CustTransBetweenDates(String fName, String mName, String lName, int t_id, int d, int m, int y, String ccn, int branch,
 			String transaction_type, double transaction_value) {
 		super.setT_id(t_id);
@@ -20,6 +23,8 @@ public class CustTransBetweenDates extends Transaction {
 		this.mName = mName;
 		this.lName = lName;
 	}
+	
+	//getters/setters
 	public String getfName() {
 		return fName;
 	}
@@ -40,6 +45,7 @@ public class CustTransBetweenDates extends Transaction {
 		this.lName = lName;
 	}
 
+	//prints
 	@Override
 	public String toString() {
 		return String.format(Formats.custTransBetweenDatesLayout, fName, mName, lName, super.getT_id(), super.getD(), super.getM(), super.getY(), super.getCcn(), super.getBranch(), super.getTransaction_type(), super.getTransaction_value()  );

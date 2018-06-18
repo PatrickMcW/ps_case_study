@@ -3,19 +3,22 @@ package com.cdw.resources;
 
 
 public class MonthInvoice {
+	//fields
 	private double balance;
 	private String fName;
 	private String lName;
 	private int id;
-//	private List<Transaction> lineItems;
+	
+	//constructor
 	public MonthInvoice(double balance, String fName, String lName, int id/*, List<Transaction> lineItems*/) {
 		super();
 		this.balance = balance;
 		this.fName = fName;
 		this.lName = lName;
 		this.id = id;
-//		this.lineItems = lineItems;
 	}
+	
+	//getters/setters
 	public double getBalance() {
 		return balance;
 	}
@@ -41,13 +44,7 @@ public class MonthInvoice {
 		this.id = id;
 	}
 	
-
-//	public List<Transaction> getLineItems() {
-//		return lineItems;
-//	}
-//	public void setLineItems(List<Transaction> lineItems) {
-//		this.lineItems = lineItems;
-//	}
+	//prints
 	@Override
 	public String toString() {
 		return String.format(Formats.monthBillLayout, balance, fName, lName, id);

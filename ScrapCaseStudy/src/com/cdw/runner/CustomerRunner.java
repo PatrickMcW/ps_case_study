@@ -105,7 +105,6 @@ public class CustomerRunner {
 		
 		//get unique customer+ccn record
 		//display record info,
-		;
 		System.out.printf(Formats.customerLayout, 
 				"First Name", "Middle Name","Last Name","SSN","Credit Card No.", 
 				"Apt No", "Street", "City","State","Country","Zip","Phone","Email");
@@ -127,13 +126,11 @@ public class CustomerRunner {
 		String[] useInts = new String[] {"SSN", "CUST_PHONE"};
 		
 		if(Arrays.asList(useInts).contains(cName)) {
-//			newVal = new Output(Prompter.staging("newIntVal").getOutputInt());
 			Prompter.prompting("newIntVal", output);
 			newVal = new Output(output);
 			output.reset();
 			
 		} else {
-//			newVal = new Output(Prompter.staging("newStringVal").getOutputString());
 			Prompter.prompting("newStringVal", output);
 			newVal = new Output(output);
 			output.reset();
@@ -212,18 +209,20 @@ public class CustomerRunner {
 		
 		int ssn, y;
 		String[] dateSplit;
-		//dateOne prompt
-		System.out.println("First Date");	
+		
 		
 		
 		Prompter.prompting("ssn", output);
 		ssn = Integer.parseInt(output.getOutputString());
 		output= new Output();
 		
+		
 		Prompter.prompting("year", output);
 		y = output.getOutputInt();
 		output.reset();
 		
+		//dateOne prompt
+		System.out.println("First Date");	
 		Prompter.prompting("dateMonth", output);
 		dateSplit = output.getOutputDateSplit();
 		//dateSplit[0] is day, dateSplit[1] is month	//using var for readability

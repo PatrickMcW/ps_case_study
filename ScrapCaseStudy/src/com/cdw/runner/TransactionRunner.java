@@ -66,10 +66,6 @@ public class TransactionRunner {
 		y = output.getOutputInt();
 		output.reset();
 		
-//		System.out.println(z + " was z");
-//		System.out.println(m + " was m");
-//		System.out.println(y + " was y");
-		
 		System.out.printf(Formats.transactionLayoutHeader+Formats.ssn+" %n", "Transaction ID","Day","Month","Year","Credit Card No.", /*"Customer ID",*/ "Branch Code","Type","Value($)", "Customer ID");
 		System.out.println();
 		for(Transaction t: tDao.getTransByZipMonthYear(z, m, y)) {

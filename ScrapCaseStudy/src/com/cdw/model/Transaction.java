@@ -3,9 +3,7 @@ package com.cdw.model;
 import com.cdw.resources.Formats;
 
 public class Transaction {
-	//the credit card database seems to be closest to this since it
-	//contains "transaction_type and _value" fields.
-	
+	//fields
 	private int t_id;
 	private int d;
 	private int m;
@@ -16,6 +14,7 @@ public class Transaction {
 	private String transaction_type;
 	private double transaction_value;
 	
+	//constructors
 	public Transaction(int t_id, int d, int m, int y, String ccn, int c_ssn, int branch, String transaction_type,
 			double transaction_value) {
 		super();
@@ -31,7 +30,8 @@ public class Transaction {
 	}
 
 	public Transaction() {}
-
+	
+	//getters/setters
 	public int getT_id() {return t_id;}
 
 	public void setT_id(int t_id) {this.t_id = t_id;}
@@ -68,6 +68,7 @@ public class Transaction {
 
 	public void setTransaction_value(double transaction_value) {this.transaction_value = transaction_value;}
 
+	//prints
 	@Override
 	public String toString() {
 		return String.format(Formats.transactionLayout + Formats.ssn +" %n", t_id, d,m,y, ccn, branch, transaction_type, transaction_value,c_ssn);

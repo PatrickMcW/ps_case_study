@@ -90,6 +90,8 @@ public class Customer {
 
 	public void setCustEmail(String custEmail) {this.custEmail = custEmail;};
 	
+	
+	//prints
 	@Override
 	public String toString() {	
 		return String.format(Formats.customerLayout, 

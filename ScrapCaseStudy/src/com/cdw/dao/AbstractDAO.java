@@ -32,11 +32,9 @@ public abstract class AbstractDAO {
 			try {
 				conn = DriverManager.getConnection(url,user,password);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch(IOException e){
 			e.printStackTrace();
@@ -53,7 +51,6 @@ public abstract class AbstractDAO {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

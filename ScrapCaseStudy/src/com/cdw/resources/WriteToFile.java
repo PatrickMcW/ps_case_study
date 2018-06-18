@@ -25,11 +25,11 @@ public class WriteToFile {
 			writer.println(printable);
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//indicate to user where file is?
 		//it is in default (src) directory
+		System.out.println("Files are saved in same directory as /src folder");
 	}
 	public static void overWrite(String loc) {
 		try {
@@ -37,7 +37,6 @@ public class WriteToFile {
 			writer.write("");
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -54,14 +54,11 @@ public class CustomerDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 			while( rs.next() ) {
 				Customer cust = formCustFromResults(rs);
-//				System.out.println(cust);
 				list.add(cust);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-//		System.out.println(list);
 		return list;
 	}
 	public Customer getCustomerBySsnAndCcn(int ssn, String ccn) {
@@ -78,15 +75,12 @@ public class CustomerDAO extends AbstractDAO {
 				cust = formCustFromResults(rs);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return cust;
 	}
-	
-	//i could probably just overload a getCustomer method, having one that takes ssn only, and another that takes ssn+ccn, but not today. 
-	
+		
 	public MonthInvoice getBillByMonthAndYearForCcn(int m, int y, String ccn) {
 		// @int month, @int year, @string ccn
 		MonthInvoice bill = null;
@@ -104,12 +98,9 @@ public class CustomerDAO extends AbstractDAO {
 				String fName 	= rs.getString(2);
 				String lName 	= rs.getString(3);
 				int id 			= rs.getInt(4);
-//				//async complications?
-//				List<Transaction> lineItems = getCcnTransactionListByMonthAndYear(m, y, ccn);
 				bill = new MonthInvoice(balance, fName, lName, id/*, lineItems*/);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -157,18 +148,19 @@ public class CustomerDAO extends AbstractDAO {
 	public void updateCustomerBySsnAndCcn(String cName, Output newVal, int ssn, String ccn) {
 
 		String sqlStart = Queries.UPDATE_START; //"UPDATE cdw_sapp_customer SET " //cName
-		String sqlEnd = Queries.UPDATE_END; // = ? WHERE ssn = ? AND CREDIT_CARD_NO = 
-		String sql = sqlStart+cName+sqlEnd; 
+		String sqlEnd = Queries.UPDATE_END; //" = ? WHERE ssn = ? AND CREDIT_CARD_NO = ?"
+		String sql = sqlStart+cName+sqlEnd; // column name set here so that "... SET ${cName} = ? ..." creates full 
+		// update syntax without a million update queries for each specific column
 		//cName has to pass Validator.columnValidCheck() to get used as argument, so safe from injection
 		
 		establishConnection();
 		
 		try {
 			stmt=conn.prepareStatement(sql);
-		//  @string column_name, @string/@int (depending) new_value, @int ssn, @String ccn
+		//  @string column_name, @string/@int (depending) newVal, @int ssn, @String ccn
 			
-			//newVal can be 2 types, this if-else sets appropriately
-			if(newVal.getOutputString() instanceof String) {
+			//newVal can be 2 types, this if-else sets the type accordingly
+			if(newVal.getOutputString() instanceof String) { //
 				stmt.setString(1, newVal.getOutputString());
 			} else {
 				stmt.setInt(1, newVal.getOutputInt()); //even though less int cases, can't instanceof int easily
