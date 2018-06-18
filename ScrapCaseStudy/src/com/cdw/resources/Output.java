@@ -29,15 +29,12 @@ public class Output {
 	}
 	public Output(String stringIn) {
 		this.outputString = stringIn;
-		if(stringIn!=null) {
-			if(stringIn.length()==5) {
-				String[] arr = outputString.split("/");
-				if(arr.length==2) {
-					setOutputDateSplit(arr);
-				}
+		if(stringIn!=null && stringIn.length()==5) {			
+			String[] arr = outputString.split("/");
+			if(arr.length==2) {
+				setOutputDateSplit(arr);				
 			}
 		}
-		//can probably condense this by &&ing stringIn!=null && stringIn.length()==5
 	}
 	public Output(int intIn) {
 		this.outputInt = intIn;

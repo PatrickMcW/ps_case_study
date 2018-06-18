@@ -27,7 +27,6 @@ public class TransactionDAO extends AbstractDAO{
 			 
 			 trans = new Transaction(t_id, d, m, y, ccn, c_ssn, branch, transaction_type, transaction_value);
 		 } catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return trans;
@@ -47,7 +46,6 @@ public class TransactionDAO extends AbstractDAO{
 				trans = formTransFromResults(rs);			
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return trans;
@@ -69,7 +67,6 @@ public class TransactionDAO extends AbstractDAO{
 				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return monthlyTransactions;
@@ -96,7 +93,6 @@ public class TransactionDAO extends AbstractDAO{
 				list.add(trans); 
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 		}
 
 		return list;
@@ -122,7 +118,6 @@ public class TransactionDAO extends AbstractDAO{
 				result = new TranTypeValCount(type, count, val);					
 			}		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -144,7 +139,6 @@ public class TransactionDAO extends AbstractDAO{
 				result = new StateTranCountVal(state, count, val);
 			}	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

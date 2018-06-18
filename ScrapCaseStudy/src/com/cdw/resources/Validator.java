@@ -36,14 +36,11 @@ public class Validator {
 			System.out.println(zIn);
 			return false;
 		}	
-		System.out.println(zIn.length());
-		System.out.println("valid");
 		return true; //should only be reached if the above if the zIn length is 5
 	}
 	
 	public static boolean monthValidCheck(int mIn, String invalid) {
 		if( mIn>=1 && mIn<=12 ) {
-			System.out.println("valid month");
 			return true;
 		}
 		System.out.println(invalid);
@@ -51,7 +48,6 @@ public class Validator {
 	}
 	
 	public static boolean yearValidCheck(int yIn, String invalid) {
-		System.out.println(yIn + " was yin in yearValidCheck");
 		if( yIn!=2018 ) {
 			System.out.println(yIn);
 			System.out.println(invalid);
@@ -65,9 +61,7 @@ public class Validator {
 	
 	public static boolean typeValidCheck(String sIn, String invalid) {
 		String[] valids = new String[]  { "Education","Entertainment","Grocery","Gas",
-				"Bills","Test","Healthcare" };
-		System.out.println(sIn + " was sIn");
-		
+				"Bills","Test","Healthcare" };	
 		if(!Arrays.asList(valids).contains(sIn)) {
 			//if the transaction_type is not a valid type, reject it.
 			System.out.println(invalid);
@@ -116,7 +110,6 @@ public class Validator {
 			return true; //valid date if day is 28 or less as all months have that
 		}
 		
-		System.out.println("end of dateMonthValidCheck(String dm, String invalid)");
 		return false;
 	}
 	
@@ -126,7 +119,6 @@ public class Validator {
 				"CUST_STATE", "CUST_COUNTRY", "CUST_ZIP", "CUST_PHONE", "CUST_EMAIL"};
 		
 		if(Arrays.asList(valids).contains(col_name)) {
-			System.out.println("columnValidCheck pass");
 			return true; //this may be redundant, but we'll see if ELEPHANTS breaks this again
 
 		} else {
@@ -145,7 +137,6 @@ public class Validator {
 				}
 			}
 			System.out.println();
-			System.out.println("columnValidCheck reject");
 			return false;
 		}
 	}
